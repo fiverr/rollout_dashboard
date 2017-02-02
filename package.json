@@ -1,0 +1,44 @@
+{
+  "name": "redux-webpack-chrome-extention-boilerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:prod": "webpack --config webpack/webpack.config.production.js  && node app.js",
+    "start:dev": "node webpack/webpack.server.dev.js",
+    "build": "webpack --config webpack/webpack.config.dev.js --watch",
+    "build:prod": "webpack --config webpack/webpack.config.production.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "css-loader": "^0.26.1",
+    "immutable": "^3.8.1",
+    "material-ui": "^0.16.6",
+    "moment": "^2.17.1",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "react-highlight": "^0.9.0",
+    "react-redux": "^5.0.2",
+    "react-tap-event-plugin": "^2.0.1",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2",
+    "webpack-hot-middleware": "^2.13.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "copy-webpack-plugin": "^4.0.1",
+    "node-sass": "^4.1.1",
+    "react-hot-loader": "^1.3.1",
+    "sass-loader": "^4.1.1",
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2"
+  }
+}
