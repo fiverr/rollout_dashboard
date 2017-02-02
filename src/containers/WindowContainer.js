@@ -1,11 +1,14 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from '../actions'
-import Window from '../components/Window'
+import Window from '../components/Window/Window'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-      features: state.get('features')
+      features: state.get('features'),
+      deleteDialog: state.get('deleteDialog'),
+      createDialog: state.get('createDialog')
+
     }
 };
 

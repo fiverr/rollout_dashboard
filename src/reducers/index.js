@@ -1,25 +1,44 @@
 import Immutable from 'immutable';
-import {ACCESS_KEY_ENTERED_ACTION} from '../actions/index';
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = Immutable.Map()
                               .set('fetching', false)
-                              .set('features', []);
-                        
+                              .set('features', [])
+                              .set('dialogs', []);
+
 const reducers = (state = initialState , action) => {
   switch (action.type) {
     case actionTypes.FETCHING_START_ACTION: {
       return state.set('fetching', true);
-      break;
     }
+
     case actionTypes.FETCHING_END_ACTION: {
       return state.set('fetching', false);
-      break;
     }
+
     case actionTypes.FETCHED_FEATURES: {
-      return state.set('features', action.features);
-      break;
+      return state.set('features', Immutable.fromJS(action.features));
     }
+
+    case actionTypes.OPEN_DELETE_DIALOG:
+      return state.set('deleteDialog', Immutable.fromJS({
+        featureName: action.featureName
+      }));
+    case actionTypes.CLOSE_DELETE_DIALOG:
+      return state.delete('deleteDialog');
+
+    case actionTypes.FEATURE_REMOVED:
+      const featureName = action.featureName;
+      return state.update('features', (feature) => feature.filterNot(feature => feature.get('name') === featureName));
+
+    case actionTypes.OPEN_CREATE_DIALOG:
+      const feature = action.feature;
+      return state.set('createDialog',Immutable.fromJS({
+        feature
+      }));
+    case actionTypes.CLOSE_CREATE_DIALOG:
+      return state.delete('createDialog');
+
     default: {
       return state
     }
