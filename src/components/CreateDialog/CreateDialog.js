@@ -5,7 +5,11 @@ import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
 import moment from 'moment';
+import Chip from 'material-ui/Chip';
+import Divider from 'material-ui/Divider';
 import './CreateDialog.scss';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+
 
 const CreateDialog = ({onApproval, onClose, feature}) => {
 
@@ -35,6 +39,8 @@ const CreateDialog = ({onApproval, onClose, feature}) => {
         modal={false}
         open={true}
         onRequestClose={onClose}
+                    autoScrollBodyContent={true}
+
     >
         <p> Editing {feature.get('name')}. </p>
 
@@ -64,7 +70,7 @@ const CreateDialog = ({onApproval, onClose, feature}) => {
         <div className="right box">
             <TextField
                 className="field"
-                value={feature.get('description')}
+                defaultValue={feature.get('description')}
                 floatingLabelText="Description:"
                 floatingLabelFixed={true}
             />
@@ -77,9 +83,32 @@ const CreateDialog = ({onApproval, onClose, feature}) => {
 
             <TextField
                 className="field"
-                hintText="Hint Text"
-                errorText="The error text can be as long as you want, it will wrap."
+                floatingLabelText="Author name:"
+                floatingLabelFixed={true}
             />
+            <TextField
+                className="field"
+                floatingLabelText="Author mail:"
+                floatingLabelFixed={true}
+            />
+        </div>
+
+
+            <div className="chips-container">
+                <h1> Users: </h1>
+
+                {feature.get('users').map((user)=> {
+                    return (
+                        <Chip
+                            className="user"
+                            key={user}
+                            onRequestDelete={() => {}}
+                        >
+                            {user}
+                        </Chip>
+                    )
+
+                })}
         </div>
 
     </Dialog>)

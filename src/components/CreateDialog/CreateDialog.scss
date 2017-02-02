@@ -16,4 +16,13 @@
     .right {
         float: right;
     }
+
+    .chips-container{
+        clear: both;
+        .user {
+            margin-right: 5px !important;
+            margin-bottom: 6px !important;
+            float: left;
+        }
+    }
 }
