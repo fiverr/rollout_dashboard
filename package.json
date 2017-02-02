@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:prod": "webpack --config webpack/webpack.config.production.js  && node app.js",
+    "start:prod": "webpack --config webpack/webpack.config.production.js  && pm2 start app.js --name rollout-dashboard -f",
     "start:dev": "node webpack/webpack.server.dev.js",
     "build": "webpack --config webpack/webpack.config.dev.js --watch",
     "build:prod": "webpack --config webpack/webpack.config.production.js"
@@ -17,6 +17,7 @@
     "immutable": "^3.8.1",
     "material-ui": "^0.16.6",
     "moment": "^2.17.1",
+    "pm2": "^2.3.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-highlight": "^0.9.0",
