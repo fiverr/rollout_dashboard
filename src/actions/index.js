@@ -41,16 +41,16 @@ const deleteFeature = (featureName) => {
     }
 };
 
-const openCreateDialog = (feature) => {
+const openEditDialog = (feature) => {
     return {
-        type: actionTypes.OPEN_CREATE_DIALOG,
+        type: actionTypes.OPEN_EDIT_DIALOG,
         feature
     }
 };
 
-const closeCreateDialog = () => {
+const closeEditDialog = () => {
     return {
-        type: actionTypes.CLOSE_CREATE_DIALOG
+        type: actionTypes.CLOSE_EDIT_DIALOG
     }
 };
 
@@ -69,18 +69,52 @@ const updateFeature = (feature) => {
             const feature = json.data;
             dispatch({type: actionTypes.UPDATE_FEATURE, feature});
             dispatch({type: actionTypes.FETCHING_END_ACTION});
-            dispatch({type: actionTypes.CLOSE_CREATE_DIALOG});
+            dispatch(closeEditDialog());
         })
     }
 };
 
+const openCreateDialog = () => {
+    return {
+        type: actionTypes.OPEN_CREATE_DIALOG
+    }
+};
+
+
+const closeCreateDialog = () => {
+    return {
+        type: actionTypes.CLOSE_CREATE_DIALOG
+    }
+};
+
+const createFeature = (feature) => {
+    return (dispatch, getState) => {
+        dispatch({type: actionTypes.FETCHING_START_ACTION});
+        return fetch(`${ROLLOUT_SERVICE_URL}/features/${feature.name}`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(feature)
+        })
+            .then((response) => response.json())
+            .then(json =>  {
+                const feature = json.data;
+                dispatch({type: actionTypes.CREATED_FEATURE, feature});
+                dispatch(closeCreateDialog());
+            })
+    }
+}
 
 export {
     getFeatures,
     openDeleteDialog,
     closeDeleteDialog,
+    openEditDialog,
+    closeEditDialog,
+    deleteFeature,
+    updateFeature,
     openCreateDialog,
     closeCreateDialog,
-    deleteFeature,
-    updateFeature
+    createFeature
 }

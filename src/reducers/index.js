@@ -31,13 +31,19 @@ const reducers = (state = initialState , action) => {
       const featureName = action.featureName;
       return state.update('features', (feature) => feature.filterNot(feature => feature.get('name') === featureName));
 
-    case actionTypes.OPEN_CREATE_DIALOG:
+    case actionTypes.OPEN_EDIT_DIALOG:
       const feature = action.feature;
-      return state.set('createDialog',Immutable.fromJS({
+      return state.set('editDialog',Immutable.fromJS({
         feature
       }));
+    case actionTypes.CLOSE_EDIT_DIALOG:
+      return state.delete('editDialog');
+    case actionTypes.OPEN_CREATE_DIALOG:
+      return state.set('createDialog', true);
     case actionTypes.CLOSE_CREATE_DIALOG:
       return state.delete('createDialog');
+    case actionTypes.CREATED_FEATURE:
+      return state.update('features', features => features.push(Immutable.fromJS(action.feature)));
 
     case actionTypes.UPDATE_FEATURE:
       const updatedFeature = action.feature;

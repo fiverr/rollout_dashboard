@@ -1,3 +1,22 @@
+body {
+    background-color: #303030;
+}
+
+.logo {
+    width: 300px;
+    margin: 30px;
+}
+
 .rollout{
     color: #ababaf !important
+}
+
+.btn-add-feature {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+}
+
+.description {
+    white-space: pre-line !important;
 }

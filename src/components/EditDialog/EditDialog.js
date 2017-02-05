@@ -6,19 +6,18 @@ import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
 import moment from 'moment';
 import Chip from 'material-ui/Chip';
-import PercentageSelect from '../Inputs/PercentageSelect';
-import './CreateDialog.scss';
+import './EditDialog.scss';
 
 
-
-class CreateDialog extends React.Component {
+class EditDialog extends React.Component {
 
   constructor (props) {
       super(props);
-      this.state = {
-          users: [],
-          errors: {}
-      };
+
+      let state = props.feature.toJS();
+      state = Object.assign({}, state, { last_author: '', last_author_mail: '', errors: {} });
+
+      this.state =  state;
       this.removeUser = this.removeUser.bind(this);
       this.addUser = this.addUser.bind(this);
       this.updateInput = this.updateInput.bind(this);
@@ -45,29 +44,20 @@ class CreateDialog extends React.Component {
     validate() {
         const errors = {};
 
-        if(!this.state.author) {
-            errors['author'] = 'This field is required';
+        if(!this.state.last_author) {
+            errors['last_author'] = 'This field is required';
         }
 
+        let authorMail = this.state.last_author_mail;
+
+        if(!authorMail) {
+            errors['last_author_mail'] = 'This field is required';
+        } else if (!authorMail.match(/[a-zA-Z0-9._]{3,}@[a-zA-Z0-9._]{3,}\.[a-zA-Z]+/i)) {
+            errors['last_author_mail'] = 'Nice try. Please enter a valid email address.';
+        }
         if(!this.state.description) {
             errors['description'] = 'This field is required';
         }
-
-        let authorMail = this.state.author_mail;
-
-        if(!authorMail) {
-            errors['author_mail'] = 'This field is required';
-        } else if (!authorMail.match(/[a-zA-Z0-9._]{3,}@[a-zA-Z0-9._]{3,}\.[a-zA-Z]+/i)) {
-            errors['author_mail'] = 'Nice try. Please enter a valid email address.';
-        }
-
-        let featureName = this.state.name;
-        if(!featureName) {
-            errors['name'] = 'This field is required';
-        } else if(!featureName.match(new RegExp(`[a-z_]{${featureName.length}}`))){
-            errors['name'] = 'This name must follow this pattern "[a-z_]{value.length}"';
-        }
-
         this.setState({errors});
         return !Object.keys(errors).length;
     }
@@ -76,9 +66,16 @@ class CreateDialog extends React.Component {
 
       const {
           onApproval,
-          onClose
+          onClose,
+          feature
       } = this .props;
 
+      let users = this.state.users;
+
+      let items = [];
+      for (let i = 0; i <= 100; i ++) {
+          items.push(<MenuItem key={i}  value={i} primaryText={`${i}%`} />)
+      }
 
       const actions = [
 
@@ -108,7 +105,7 @@ class CreateDialog extends React.Component {
                       autoScrollBodyContent={true}
 
       >
-          <p> Creating a new feature </p>
+          <p> Editing {feature.get('name')}. </p>
 
           <div className="left box">
               <TextField
@@ -116,38 +113,20 @@ class CreateDialog extends React.Component {
                   value={this.state.name}
                   name="name"
                   floatingLabelText="Feature Name:"
-                  errorText={this.state.errors['name']}
                   floatingLabelFixed={true}
-                  onChange={ (_,value) => {
-                      this.updateInput('name', value)
-                  }}
+                  disabled={true}
 
               />
               <TextField
                   className="field"
-                  name="author"
-                  value={this.state.author}
-                  floatingLabelText="Author:"
-                  errorText={this.state.errors['author']}
+                  value={this.state.created_by}
+                  floatingLabelText="Created By:"
                   floatingLabelFixed={true}
-                  onChange={ (_,value) => {
-                      this.updateInput('author', value)
-                  }}
+                  disabled={true}
               />
               <TextField
                   className="field"
-                  value={this.state.author_mail}
-                  name="author_mail"
-                  floatingLabelText="Author Mail:"
-                  errorText={this.state.errors['author_mail']}
-                  floatingLabelFixed={true}
-                  onChange={ (_,value) => {
-                      this.updateInput('author_mail', value)
-                  }}
-              />
-              <TextField
-                  className="field"
-                  value={moment().format('YYYY-MM-DD')}
+                  value={moment(this.state.created_at).format('YYYY-MM-DD')}
                   floatingLabelText="Created At:"
                   floatingLabelFixed={true}
                   disabled={true}
@@ -159,6 +138,7 @@ class CreateDialog extends React.Component {
                   defaultValue={this.state.description}
                   floatingLabelText="Description:"
                   errorText={this.state.errors['description']}
+
                   floatingLabelFixed={true}
                   multiLine={true}
                   rows={2}
@@ -167,11 +147,39 @@ class CreateDialog extends React.Component {
                   }}
               />
 
-              <PercentageSelect currentValue={this.state.percentage}  onChange={ (_, value) => {
-                  this.updateInput('percentage', value)
-              }} />
+              <SelectField
+                  value={this.state.percentage}
+                  maxHeight={200}
+                  name="percentage"
+                  onChange={ (_, value) => {
+                      this.updateInput('percentage', value)
+                  }}>
+                  {items}
 
+              </SelectField>
+
+              <TextField
+                  className="field"
+                  floatingLabelText="Author name:"
+                  name="last_author"
+                  errorText={this.state.errors['last_author']}
+                  floatingLabelFixed={true}
+                  onChange={ (_, value) => {
+                      this.updateInput('last_author', value)
+                  }}
+              />
+              <TextField
+                  className="field"
+                  floatingLabelText="Author mail:"
+                  floatingLabelFixed={true}
+                  name="last_author_mail"
+                  errorText={this.state.errors['last_author_mail']}
+                  onChange={ (_, value) => {
+                      this.updateInput('last_author_mail', value)
+                  }}
+              />
           </div>
+
 
           <div className="chips-container">
               <h1> Users: </h1>
@@ -185,7 +193,7 @@ class CreateDialog extends React.Component {
                       this.addUser(event.target.value);
                   }}
               />
-              {this.state.users.map((user)=> {
+              {users.map((user)=> {
                   return (
                       <Chip
                           className="user"
@@ -197,6 +205,7 @@ class CreateDialog extends React.Component {
                           {user}
                       </Chip>
                   )
+
               })}
           </div>
 
@@ -206,4 +215,4 @@ class CreateDialog extends React.Component {
 
 }
 
-export default CreateDialog;
+export default EditDialog;

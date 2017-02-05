@@ -7,6 +7,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
       features: state.get('features'),
       deleteDialog: state.get('deleteDialog'),
+      editDialog: state.get('editDialog'),
       createDialog: state.get('createDialog')
 
     }

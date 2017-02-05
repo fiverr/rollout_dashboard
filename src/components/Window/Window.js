@@ -9,8 +9,13 @@ import FontIcon from 'material-ui/FontIcon';
 import moment from 'moment'
 import RaisedButton from 'material-ui/RaisedButton';
 import DeleteDialog from '../DeleteDialog/DeleteDialog';
+import EditDialog from '../EditDialog/EditDialog';
 import CreateDialog from '../CreateDialog/CreateDialog';
 import {redA700, grey50, deepOrange700, green500} from 'material-ui/styles/colors';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+
+
 import './Window.scss';
 
 
@@ -37,7 +42,11 @@ class Window extends React.Component {
             createDialog,
             closeCreateDialog,
             openCreateDialog,
-            updateFeature
+            updateFeature,
+            editDialog,
+            openEditDialog,
+            closeEditDialog,
+            createFeature
         } = this.props;
 
         let features = this.props.features;
@@ -49,16 +58,20 @@ class Window extends React.Component {
 
             return (
             <div>
-                <h1> Rollout Dashboard!</h1>
+                <img className="logo" src="./rollout.png" alt="Rollout dashboard" />
+                <FloatingActionButton className='btn-add-feature' onClick={openCreateDialog}>
+                    <ContentAdd />
+                </FloatingActionButton>
                     <Table className="list-rollouts">
                     <TableHeader displaySelectAll={false} adjustForCheckbox={false} displayRowCheckbox={false}>
                         <TableRow className="headlines" >
                             <TableHeaderColumn style={{color: deepOrange700}}>Num</TableHeaderColumn>
                             <TableHeaderColumn style={{color: deepOrange700}}>Feature Name</TableHeaderColumn>
+                            <TableHeaderColumn style={{color: deepOrange700}}>Description</TableHeaderColumn>
                             <TableHeaderColumn style={{color: deepOrange700}}>Created by</TableHeaderColumn>
                             <TableHeaderColumn style={{color: deepOrange700}}>Users</TableHeaderColumn>
-                            <TableHeaderColumn style={{color: deepOrange700}}>Last Update At</TableHeaderColumn>
                             <TableHeaderColumn style={{color: deepOrange700}}>Percentage</TableHeaderColumn>
+                            <TableHeaderColumn style={{color: deepOrange700}}>Last Update At</TableHeaderColumn>
                             <TableHeaderColumn style={{color: deepOrange700}}>Actions</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
@@ -67,7 +80,8 @@ class Window extends React.Component {
                             return (<TableRow className="rollout" key={feature.get('name')}>
                                 <TableRowColumn>{index + 1}</TableRowColumn>
                                 <TableRowColumn>{feature.get('name')}</TableRowColumn>
-                                <TableRowColumn>{feature.get('last_author') + feature.get('last_author_mail') }</TableRowColumn>
+                                <TableRowColumn className="description">{feature.get('description')}</TableRowColumn>
+                                <TableRowColumn>{feature.get('last_author')} <br /> {feature.get('last_author_mail') }</TableRowColumn>
                 
                             <TableRowColumn>{
 
@@ -87,12 +101,15 @@ class Window extends React.Component {
 
                             
                                 }</TableRowColumn>
-                                <TableRowColumn>{moment(feature.get('history').last().get('updated_at')).fromNow()}</TableRowColumn>
-                            
+
                                 <TableRowColumn>
                                    <span> {feature.get('percentage')}</span>
                                 </TableRowColumn>
-                                <TableRowColumn>
+
+                                    <TableRowColumn>{moment(feature.get('history').last().get('updated_at')).fromNow()}</TableRowColumn>
+
+
+                                    <TableRowColumn>
                                        <IconMenu
                                          maxHeight={300}
                                          width={100}
@@ -104,7 +121,7 @@ class Window extends React.Component {
                                             }}  primaryText="DELETE" />
                                             <MenuItem primaryText="EDIT"
                                                       onClick={() => {
-                                                          openCreateDialog(feature);
+                                                          openEditDialog(feature);
                                                       }}
                                             />
                                         </IconMenu>
@@ -116,7 +133,8 @@ class Window extends React.Component {
                 </Table>
 
                 { deleteDialog && <DeleteDialog featureName={deleteDialog.get('featureName')} onClose={closeDeleteDialog} onApproval={deleteFeature} />}
-                { createDialog && <CreateDialog feature={createDialog.get('feature')} onClose={closeCreateDialog} onApproval={updateFeature} />}
+                { editDialog && <EditDialog feature={editDialog.get('feature')} onClose={closeEditDialog} onApproval={updateFeature} />}
+                { createDialog && <CreateDialog onClose={closeCreateDialog} onApproval={createFeature} />}
             </div>
         
         )
