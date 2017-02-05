@@ -52,6 +52,12 @@ const reducers = (state = initialState , action) => {
         return features.update(featureIndex, () => Immutable.fromJS(updatedFeature));
       });
 
+    case actionTypes.SEND_SNACK_MESSAGE:
+      return state.set('snakeMessage', action.message);
+
+    case actionTypes.CLEAR_SNACK_MESSAGE:
+      return state.delete('snakeMessage');
+
     default: {
       return state
     }

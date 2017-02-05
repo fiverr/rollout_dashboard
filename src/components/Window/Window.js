@@ -5,6 +5,7 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import TextField from 'material-ui/TextField';
+import Snackbar from 'material-ui/Snackbar';
 import moment from 'moment'
 import DeleteDialog from '../DeleteDialog/DeleteDialog';
 import EditDialog from '../EditDialog/EditDialog';
@@ -43,7 +44,9 @@ class Window extends React.Component {
             editDialog,
             openEditDialog,
             closeEditDialog,
-            createFeature
+            createFeature,
+            snakeMessage,
+            clearSnakeMessage
         } = this.props;
 
         let features = this.props.features;
@@ -167,14 +170,11 @@ class Window extends React.Component {
                     </TableBody>
                 </Table>
 
-                { deleteDialog &&
-                <DeleteDialog featureName={deleteDialog.get('featureName')} onClose={closeDeleteDialog}
-                              onApproval={deleteFeature}/>}
-                { editDialog &&
-                <EditDialog feature={editDialog.get('feature')} onClose={closeEditDialog} onApproval={updateFeature}/>}
+                { deleteDialog && <DeleteDialog featureName={deleteDialog.get('featureName')} onClose={closeDeleteDialog} onApproval={deleteFeature}/>}
+                { editDialog && <EditDialog feature={editDialog.get('feature')} onClose={closeEditDialog} onApproval={updateFeature}/>}
                 { createDialog && <CreateDialog onClose={closeCreateDialog} onApproval={createFeature}/>}
+                { snakeMessage  && <Snackbar open={true} message={snakeMessage} autoHideDuration={5000} onRequestClose={clearSnakeMessage} /> }
             </div>
-
         )
     }
 }

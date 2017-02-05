@@ -4,13 +4,28 @@ const ROLLOUT_SERVICE_URL = `${ROLLOUT_SERVICE_HOST}:${ROLLOUT_SERVICE_PORT}/api
 
 const getFeatures = () => {
     return (dispatch, getState) => {
-        dispatch({type: actionTypes.FETCHING_START_ACTION})
+        dispatch({type: actionTypes.FETCHING_START_ACTION});
         return fetch(`${ROLLOUT_SERVICE_URL}/features`)
             .then(response => response.json())
             .then(json => {
                 const features = json.data;
-                dispatch({type: actionTypes.FETCHING_END_ACTION})
-                dispatch({type: actionTypes.FETCHED_FEATURES, features})
+                features.map(f => {
+                    return Object.assign({},{
+                        history: [],
+                        description: '',
+                        last_author: '',
+                        last_author_mail: '',
+                        users: [],
+                        created_at: '',
+                        created_by: ''
+                    }, f);
+                });
+                dispatch({type: actionTypes.FETCHING_END_ACTION});
+                dispatch({type: actionTypes.FETCHED_FEATURES, features});
+                dispatch(sendSnakeMessage(`Fetched ${features.length} features.`));
+            })
+            .catch(e => {
+                dispatch(sendSnakeMessage(`An Error occurred. Please try again.`))
             })
     }
 };
@@ -36,6 +51,10 @@ const deleteFeature = (featureName) => {
              })
             .then(() => {
                 dispatch({type: actionTypes.FEATURE_REMOVED, featureName});
+                dispatch(sendSnakeMessage(`The feature ${featureName} has been deleted.`))
+            })
+            .catch(e => dispatch(sendSnakeMessage(`An Error occurred. Please try again.`)))
+            .then(() => {
                 dispatch({type: actionTypes.CLOSE_DELETE_DIALOG});
             })
     }
@@ -69,8 +88,14 @@ const updateFeature = (feature) => {
             const feature = json.data;
             dispatch({type: actionTypes.UPDATE_FEATURE, feature});
             dispatch({type: actionTypes.FETCHING_END_ACTION});
+            dispatch(sendSnakeMessage(`The feature ${feature.name} has been updated.`))
+        })
+        .catch(e => dispatch(sendSnakeMessage(`An Error Occurred, Please try again.`)))
+        .then(() => {
             dispatch(closeEditDialog());
         })
+
+
     }
 };
 
@@ -101,8 +126,25 @@ const createFeature = (feature) => {
             .then(json =>  {
                 const feature = json.data;
                 dispatch({type: actionTypes.CREATED_FEATURE, feature});
+                dispatch(sendSnakeMessage(`The feature ${feature.name} has been created.`));
+            })
+            .catch(e => dispatch(sendSnakeMessage(`An Error occurred.`)))
+            .then(() => {
                 dispatch(closeCreateDialog());
             })
+    }
+};
+
+const sendSnakeMessage = (message) => {
+    return {
+        type: actionTypes.SEND_SNACK_MESSAGE,
+        message
+    }
+};
+
+const clearSnakeMessage = () => {
+    return {
+        type: actionTypes.CLEAR_SNACK_MESSAGE
     }
 };
 
@@ -116,5 +158,7 @@ export {
     updateFeature,
     openCreateDialog,
     closeCreateDialog,
-    createFeature
+    createFeature,
+    sendSnakeMessage,
+    clearSnakeMessage
 }
