@@ -28,6 +28,10 @@ module.exports = {
             new CopyWebpackPlugin([{
              from: './assets', to: distPath
             }]),
+            new webpack.DefinePlugin({
+                ROLLOUT_HOST: 'http://localhost',
+                ROLLOUT_PORT:  4444
+            }),
     ],
     module: {
         loaders: [

@@ -1,4 +1,4 @@
-const webpack = require('webpack')
+const webpack = require('webpack');
 const path = require('path');
 const distPath = path.join(__dirname, '/../', 'dist' );
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -19,17 +19,20 @@ module.exports = {
             new CopyWebpackPlugin([{
                 from: './assets', to: distPath
             }]),
-        function(){
-            this.plugin("done", function(stats)
-            {
-                if (stats.compilation.errors && stats.compilation.errors.length)
+            function(){
+                this.plugin("done", function(stats)
                 {
-                    console.log(stats.compilation.errors);
-                    process.exit(1);
-                }
-                // ...
-            });
-        }
+                    if (stats.compilation.errors && stats.compilation.errors.length)
+                    {
+                        console.log(stats.compilation.errors);
+                        process.exit(1);
+                    }
+                });
+             },
+            new webpack.DefinePlugin({
+                'ROLLOUT_HOST': JSON.stringify(process.env.ROLLOUT_HOST),
+                'ROLLOUT_PORT': JSON.stringify(process.env.ROLLOUT_PORT)
+            }),
     ],
     module: {
         loaders: [
