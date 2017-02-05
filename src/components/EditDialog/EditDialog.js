@@ -86,7 +86,8 @@ class EditDialog extends React.Component {
               style={{color: 'green'}}
               onTouchTap={() => {
                 const isValid = this.validate();
-                if(!isValid) {return; }
+                if(!isValid) { return; }
+                if(!confirm(`Are you sure you want to update the feature ${this.state.name}?`)) { return; }
                 onApproval(this.state)}
               }
           />
