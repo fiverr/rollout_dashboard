@@ -17,12 +17,10 @@
         float: right;
     }
 
-    .chips-container{
-        clear: both;
-        .user {
-            margin-right: 5px !important;
-            margin-bottom: 6px !important;
-            float: left;
-        }
+    .description {
+        clear:both;
+        margin-bottom: 15px;
     }
+
+
 }

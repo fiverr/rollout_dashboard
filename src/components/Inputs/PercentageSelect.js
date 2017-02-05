@@ -14,6 +14,7 @@ const PercentageSelect = ({currentValue, onChange}) => {
             value={currentValue || 0}
             maxHeight={200}
             name="percentage"
+            floatingLabelText="Rollout Percentage:"
             onChange={onChange}>
             {options}
         </SelectField>

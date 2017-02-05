@@ -2,11 +2,9 @@ import React from 'react'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import MenuItem from 'material-ui/MenuItem';
-import SelectField from 'material-ui/SelectField';
 import moment from 'moment';
-import Chip from 'material-ui/Chip';
 import PercentageSelect from '../Inputs/PercentageSelect';
+import Users from '../Inputs/Users/Users'
 import './CreateDialog.scss';
 
 
@@ -64,8 +62,8 @@ class CreateDialog extends React.Component {
         let featureName = this.state.name;
         if(!featureName) {
             errors['name'] = 'This field is required';
-        } else if(!featureName.match(new RegExp(`[a-z_]{${featureName.length}}`))){
-            errors['name'] = 'This name must follow this pattern "[a-z_]{value.length}"';
+        } else if(!featureName.match(/^[a-z_]+$/)){
+            errors['name'] = 'This name must follow this pattern "^[a-z_]+$"';
         }
 
         this.setState({errors});
@@ -79,35 +77,24 @@ class CreateDialog extends React.Component {
           onClose
       } = this .props;
 
+      const dialogActions = [
 
-      const actions = [
-
-          <FlatButton
-              label="Cancel"
-              primary={true}
-              style={{color: 'red'}}
-              onTouchTap={onClose}
-          />,
-          <FlatButton
-              label="Confirm"
-              primary={true}
-              style={{color: 'green'}}
-              onTouchTap={() => {
-                const isValid = this.validate();
-                if(!isValid) {return; }
-                onApproval(this.state)}
-              }
-          />,
+          <FlatButton label="Cancel" primary={true} style={{color: 'red'}} onTouchTap={onClose}/>,
+          <FlatButton label="Confirm" primary={true} style={{color: 'green'}}
+                      onTouchTap={() => {
+                          const isValid = this.validate();
+                          if (!isValid) { return; }
+                          onApproval(this.state)}
+              }/>,
       ];
 
       return (<Dialog className="dialog-create"
-                      actions={actions}
+                      actions={dialogActions}
                       modal={false}
                       open={true}
                       onRequestClose={onClose}
-                      autoScrollBodyContent={true}
+                      autoScrollBodyContent={true}>
 
-      >
           <p> Creating a new feature </p>
 
           <div className="left box">
@@ -120,9 +107,8 @@ class CreateDialog extends React.Component {
                   floatingLabelFixed={true}
                   onChange={ (_,value) => {
                       this.updateInput('name', value)
-                  }}
+                  }}/>
 
-              />
               <TextField
                   className="field"
                   name="author"
@@ -134,6 +120,7 @@ class CreateDialog extends React.Component {
                       this.updateInput('author', value)
                   }}
               />
+
               <TextField
                   className="field"
                   value={this.state.author_mail}
@@ -143,16 +130,16 @@ class CreateDialog extends React.Component {
                   floatingLabelFixed={true}
                   onChange={ (_,value) => {
                       this.updateInput('author_mail', value)
-                  }}
-              />
+                  }}/>
+
               <TextField
                   className="field"
                   value={moment().format('YYYY-MM-DD')}
                   floatingLabelText="Created At:"
                   floatingLabelFixed={true}
-                  disabled={true}
-              />
+                  disabled={true}/>
           </div>
+
           <div className="right box">
               <TextField
                   className="field"
@@ -164,45 +151,16 @@ class CreateDialog extends React.Component {
                   rows={2}
                   onChange={ (_,value) => {
                       this.updateInput('description', value)
-                  }}
-              />
+                  }}/>
 
-              <PercentageSelect currentValue={this.state.percentage}  onChange={ (_, value) => {
-                  this.updateInput('percentage', value)
-              }} />
-
+              <PercentageSelect currentValue={this.state.percentage}
+                                onChange={ (_, value) => { this.updateInput('percentage', value) }} />
           </div>
 
-          <div className="chips-container">
-              <h1> Users: </h1>
-              <TextField
-                  className="add-users"
-                  hintText="Enter userID and press enter"
-                  floatingLabelText="UserID:"
-                  floatingLabelFixed={true}
-                  onKeyDown={(event) => {
-                      if(event.keyCode !== 13) { return; }
-                      this.addUser(event.target.value);
-                  }}
-              />
-              {this.state.users.map((user)=> {
-                  return (
-                      <Chip
-                          className="user"
-                          key={user}
-                          onRequestDelete={() => {
-                              this.removeUser(user)
-                          }}
-                      >
-                          {user}
-                      </Chip>
-                  )
-              })}
-          </div>
+          <Users users={this.state.users} onAdd={this.addUser} onDelete={this.removeUser}  />
 
       </Dialog>)
   }
-
 
 }
 

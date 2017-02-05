@@ -4,8 +4,9 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
+import Users from '../Inputs/Users/Users';
+import PercentageSelect from '../Inputs/PercentageSelect';
 import moment from 'moment';
-import Chip from 'material-ui/Chip';
 import './EditDialog.scss';
 
 
@@ -70,14 +71,8 @@ class EditDialog extends React.Component {
           feature
       } = this .props;
 
-      let users = this.state.users;
 
-      let items = [];
-      for (let i = 0; i <= 100; i ++) {
-          items.push(<MenuItem key={i}  value={i} primaryText={`${i}%`} />)
-      }
-
-      const actions = [
+      const dialogActions = [
 
           <FlatButton
               label="Cancel"
@@ -94,17 +89,16 @@ class EditDialog extends React.Component {
                 if(!isValid) {return; }
                 onApproval(this.state)}
               }
-          />,
+          />
       ];
 
       return (<Dialog className="dialog-create"
-                      actions={actions}
+                      actions={dialogActions}
                       modal={false}
                       open={true}
                       onRequestClose={onClose}
-                      autoScrollBodyContent={true}
+                      autoScrollBodyContent={true}>
 
-      >
           <p> Editing {feature.get('name')}. </p>
 
           <div className="left box">
@@ -114,9 +108,8 @@ class EditDialog extends React.Component {
                   name="name"
                   floatingLabelText="Feature Name:"
                   floatingLabelFixed={true}
-                  disabled={true}
+                  disabled={true}/>
 
-              />
               <TextField
                   className="field"
                   value={this.state.created_by}
@@ -124,6 +117,7 @@ class EditDialog extends React.Component {
                   floatingLabelFixed={true}
                   disabled={true}
               />
+
               <TextField
                   className="field"
                   value={moment(this.state.created_at).format('YYYY-MM-DD')}
@@ -133,30 +127,8 @@ class EditDialog extends React.Component {
               />
           </div>
           <div className="right box">
-              <TextField
-                  className="field"
-                  defaultValue={this.state.description}
-                  floatingLabelText="Description:"
-                  errorText={this.state.errors['description']}
-
-                  floatingLabelFixed={true}
-                  multiLine={true}
-                  rows={2}
-                  onChange={ (_,value) => {
-                      this.updateInput('description', value)
-                  }}
-              />
-
-              <SelectField
-                  value={this.state.percentage}
-                  maxHeight={200}
-                  name="percentage"
-                  onChange={ (_, value) => {
-                      this.updateInput('percentage', value)
-                  }}>
-                  {items}
-
-              </SelectField>
+              <PercentageSelect currentValue={this.state.percentage}
+                                onChange={ (_, value) => { this.updateInput('percentage', value) }} />
 
               <TextField
                   className="field"
@@ -168,6 +140,7 @@ class EditDialog extends React.Component {
                       this.updateInput('last_author', value)
                   }}
               />
+
               <TextField
                   className="field"
                   floatingLabelText="Author mail:"
@@ -180,34 +153,21 @@ class EditDialog extends React.Component {
               />
           </div>
 
+          <TextField
+              className="description"
+              defaultValue={this.state.description}
+              floatingLabelText="Description:"
+              errorText={this.state.errors['description']}
+              floatingLabelFixed={true}
+              multiLine={true}
+              fullWidth={true}
+              rows={2}
+              onChange={ (_,value) => {
+                  this.updateInput('description', value)
+              }}
+          />
 
-          <div className="chips-container">
-              <h1> Users: </h1>
-              <TextField
-                  className="add-users"
-                  hintText="Enter userID and press enter"
-                  floatingLabelText="UserID:"
-                  floatingLabelFixed={true}
-                  onKeyDown={(event) => {
-                      if(event.keyCode !== 13) { return; }
-                      this.addUser(event.target.value);
-                  }}
-              />
-              {users.map((user)=> {
-                  return (
-                      <Chip
-                          className="user"
-                          key={user}
-                          onRequestDelete={() => {
-                              this.removeUser(user)
-                          }}
-                      >
-                          {user}
-                      </Chip>
-                  )
-
-              })}
-          </div>
+          <Users users={this.state.users} onAdd={this.addUser} onDelete={this.removeUser} />
 
       </Dialog>)
   }

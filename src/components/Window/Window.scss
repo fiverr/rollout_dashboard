@@ -7,6 +7,10 @@ body {
     margin: 30px;
 }
 
+.num {
+    width: 50px;
+}
+
 .rollout{
     color: #ababaf !important
 }
@@ -19,4 +23,9 @@ body {
 
 .description {
     white-space: pre-line !important;
+}
+
+.percentage {
+    font-size: 20px;
+    text-align: center;
 }
