@@ -29,8 +29,8 @@ module.exports = {
              from: './assets', to: distPath
             }]),
             new webpack.DefinePlugin({
-                ROLLOUT_HOST: 'http://localhost',
-                ROLLOUT_PORT:  4444
+                ROLLOUT_SERVICE_HOST: JSON.stringify('http://localhost'),
+                ROLLOUT_SERVICE_PORT: JSON.stringify(9999)
             }),
     ],
     module: {

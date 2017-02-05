@@ -30,8 +30,8 @@ module.exports = {
                 });
              },
             new webpack.DefinePlugin({
-                'ROLLOUT_HOST': JSON.stringify(process.env.ROLLOUT_HOST),
-                'ROLLOUT_PORT': JSON.stringify(process.env.ROLLOUT_PORT)
+                'ROLLOUT_SERVICE_HOST': JSON.stringify(process.env.ROLLOUT_SERVICE_HOST),
+                'ROLLOUT_SERVICE_PORT': JSON.stringify(process.env.ROLLOUT_SERVICE_PORT)
             }),
     ],
     module: {

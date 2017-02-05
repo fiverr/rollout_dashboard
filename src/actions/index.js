@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes';
 
-const ROLLOUT_SERVICE_URL = `${ROLLOUT_HOST}:${ROLLOUT_PORT}/api/v1`;
+const ROLLOUT_SERVICE_URL = `${ROLLOUT_SERVICE_HOST}:${ROLLOUT_SERVICE_PORT}/api/v1`;
 
 const getFeatures = () => {
     return (dispatch, getState) => {
@@ -104,7 +104,7 @@ const createFeature = (feature) => {
                 dispatch(closeCreateDialog());
             })
     }
-}
+};
 
 export {
     getFeatures,

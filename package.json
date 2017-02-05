@@ -1,11 +1,10 @@
 {
-  "name": "Rollout Dashboard",
+  "name": "rollout_dashboard",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    // ROLLOUT_HOST="http://localhost" ROLLOUT_PORT=1212  npm run  start:prod
     "start:prod": "webpack --config webpack/webpack.config.production.js  && pm2 kill && pm2 start app.js --name rollout-dashboard",
     "start:dev": "node webpack/webpack.server.dev.js",
     "build": "webpack --config webpack/webpack.config.dev.js --watch",
@@ -43,3 +42,4 @@
     "webpack-dev-server": "^1.16.2"
   }
 }
+
