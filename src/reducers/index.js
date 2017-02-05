@@ -39,6 +39,13 @@ const reducers = (state = initialState , action) => {
     case actionTypes.CLOSE_CREATE_DIALOG:
       return state.delete('createDialog');
 
+    case actionTypes.UPDATE_FEATURE:
+      const updatedFeature = action.feature;
+      return state.update('features', features => {
+        const featureIndex = features.findIndex((feature) => feature.name === updatedFeature.name);
+        return features.update(featureIndex, () => Immutable.fromJS(updatedFeature));
+      });
+
     default: {
       return state
     }

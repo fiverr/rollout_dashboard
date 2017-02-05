@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes';
 
-const ROLLOUT_SERVICE_URL = 'http://localhost:9999/api/v1/'
+const ROLLOUT_SERVICE_URL = 'http://localhost:9999/api/v1'
 
 const getFeatures = () => {
     return (dispatch, getState) => {
@@ -48,10 +48,39 @@ const openCreateDialog = (feature) => {
     }
 };
 
+const closeCreateDialog = () => {
+    return {
+        type: actionTypes.CLOSE_CREATE_DIALOG
+    }
+};
+
+const updateFeature = (feature) => {
+    return (dispatch, getState) => {
+        dispatch({type: actionTypes.FETCHING_START_ACTION});
+        return fetch(`${ROLLOUT_SERVICE_URL}/features/${feature.name}`,{
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(feature)
+        })
+        .then((response) => response.json())
+        .then(json =>  {
+            const feature = json.data;
+            dispatch({type: actionTypes.UPDATE_FEATURE, feature});
+            dispatch({type: actionTypes.FETCHING_END_ACTION});
+            dispatch({type: actionTypes.CLOSE_CREATE_DIALOG});
+        })
+    }
+};
+
+
 export {
     getFeatures,
     openDeleteDialog,
     closeDeleteDialog,
     openCreateDialog,
-    deleteFeature
+    closeCreateDialog,
+    deleteFeature,
+    updateFeature
 }

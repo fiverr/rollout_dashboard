@@ -24,26 +24,30 @@ class Window extends React.Component {
         }
     }
 
-
-
     componentDidMount() {
         this.props.getFeatures();
     }
 
-
-    
-
     render() {
-        const { features,
-                deleteDialog,
+        const {
+            deleteDialog,
             openDeleteDialog,
             closeDeleteDialog,
             deleteFeature,
             createDialog,
-            openCreateDialog
+            closeCreateDialog,
+            openCreateDialog,
+            updateFeature
         } = this.props;
 
-        return (
+        let features = this.props.features;
+
+        features = features.sort((a,b) => {
+            return moment(a.get('history').last().get('updated_at'))
+                .isBefore(b.get('history').last().get('updated_at')) ? 1 : -1;
+        })
+
+            return (
             <div>
                 <h1> Rollout Dashboard!</h1>
                     <Table className="list-rollouts">
@@ -74,7 +78,7 @@ class Window extends React.Component {
                                         iconButtonElement={<IconButton iconStyle={{color: green500}}>   <FontIcon className="material-icons">supervisor_account</FontIcon></IconButton>}
                                         >
                                                     {
-                                                        feature.get('users').length ?
+                                                        feature.get('users').count ?
                                                         feature.get('users').map(user => <MenuItem value={1} primaryText={user} />) :
                                                         <MenuItem primaryText={"No users"} />
                                                         }
@@ -83,7 +87,7 @@ class Window extends React.Component {
 
                             
                                 }</TableRowColumn>
-                                <TableRowColumn>{moment(feature.get('history').last()).get('updated_at').fromNow()}</TableRowColumn>
+                                <TableRowColumn>{moment(feature.get('history').last().get('updated_at')).fromNow()}</TableRowColumn>
                             
                                 <TableRowColumn>
                                    <span> {feature.get('percentage')}</span>
@@ -112,7 +116,7 @@ class Window extends React.Component {
                 </Table>
 
                 { deleteDialog && <DeleteDialog featureName={deleteDialog.get('featureName')} onClose={closeDeleteDialog} onApproval={deleteFeature} />}
-                { createDialog && <CreateDialog feature={createDialog.get('feature')} onClose={closeDeleteDialog} onApproval={deleteFeature} />}
+                { createDialog && <CreateDialog feature={createDialog.get('feature')} onClose={closeCreateDialog} onApproval={updateFeature} />}
             </div>
         
         )
