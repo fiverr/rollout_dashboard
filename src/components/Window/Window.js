@@ -52,8 +52,13 @@ class Window extends React.Component {
         let features = this.props.features;
 
         features = features.sort((a, b) => {
-            return moment(a.get('history').last().get('updated_at'))
-                .isBefore(b.get('history').last().get('updated_at')) ? 1 : -1;
+            const lastRecordA = a.get('history').last();
+            const lastRecordB = b.get('history').last();
+
+            if(!lastRecordB || !lastRecordB) { return 0}
+
+            return moment(lastRecordA)
+                .isBefore(lastRecordB) ? 1 : -1;
         });
 
         if(this.state.filter) {
@@ -93,6 +98,7 @@ class Window extends React.Component {
                             <TableHeaderColumn className="description" style={{color: deepOrange700}}>Description</TableHeaderColumn>
                             <TableHeaderColumn style={{color: deepOrange700}}>Created by</TableHeaderColumn>
                             <TableHeaderColumn style={{color: deepOrange700}}>Users</TableHeaderColumn>
+                            <TableHeaderColumn style={{color: deepOrange700}}>History</TableHeaderColumn>
                             <TableHeaderColumn style={{color: deepOrange700}}>Percentage</TableHeaderColumn>
                             <TableHeaderColumn style={{color: deepOrange700}}>Last Update By</TableHeaderColumn>
                             <TableHeaderColumn style={{color: deepOrange700}}>Last Update At</TableHeaderColumn>
@@ -101,6 +107,9 @@ class Window extends React.Component {
                     </TableHeader>
                     <TableBody stripedRows={false} displayRowCheckbox={false}>
                         {features.map((feature, index) => {
+
+                            const lastRecord = feature.get('history').last();
+
                             return (<TableRow className="rollout" key={feature.get('name')}>
                                     <TableRowColumn className="num">{index + 1}</TableRowColumn>
                                     <TableRowColumn>{feature.get('name')}</TableRowColumn>
@@ -121,23 +130,40 @@ class Window extends React.Component {
                                     </TableRowColumn>
                                     <TableRowColumn>{feature.get('created_by')}</TableRowColumn>
 
-                                    <TableRowColumn>{
-
-                                        <IconMenu
+                                    <TableRowColumn>
+                                        {<IconMenu
                                             maxHeight={300}
                                             width={100}
                                             useLayerForClickAway={true}
                                             iconButtonElement={<IconButton iconStyle={{color: green500}}> <FontIcon
-                                                className="material-icons">supervisor_account</FontIcon></IconButton>} >
-                                            {
+                                                className="material-icons">supervisor_account</FontIcon></IconButton>}>
+                                                {
                                                 feature.get('users').count ?
                                                     feature.get('users').map(user => <MenuItem key={user} value={1}
                                                                                                primaryText={user}/>) :
                                                     <MenuItem primaryText={"No users"}/>
-                                            }
-                                        </IconMenu>
+                                                }
+                                        </IconMenu>}
+                                    </TableRowColumn>
 
-                                    }</TableRowColumn>
+                                    <TableRowColumn>
+                                        {<IconMenu
+                                            maxHeight={300}
+                                            width={500}
+                                            useLayerForClickAway={true}
+                                            iconButtonElement={<IconButton iconStyle={{color: 'yellow'}}> <FontIcon
+                                                className="material-icons">history</FontIcon></IconButton>}>
+                                                 { feature.get('history').reverse().map(record =>
+                                                     <MenuItem primaryText={
+                                                         <div className="history">
+                                                             <small>{record.get('last_author')}</small>
+                                                             <small>{record.get('percentage')}%</small>
+                                                             <small>{moment(record.get('updated_at')).fromNow()}</small>
+                                                         </div>
+                                                     } />) }
+
+                                        </IconMenu>}
+                                    </TableRowColumn>
 
                                     <TableRowColumn>
                                         <strong className="percentage"> {feature.get('percentage') + '%'}</strong>
@@ -150,7 +176,7 @@ class Window extends React.Component {
                                         {feature.get('last_author_mail') }
                                     </TableRowColumn>
 
-                                    <TableRowColumn>{moment(feature.get('history').last().get('updated_at')).fromNow()}</TableRowColumn>
+                                    <TableRowColumn>{lastRecord && moment(lastRecord.get('updated_at')).fromNow()}</TableRowColumn>
 
                                     <TableRowColumn>
                                         <IconMenu
