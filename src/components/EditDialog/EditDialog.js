@@ -116,7 +116,9 @@ class EditDialog extends React.Component {
                   value={this.state.created_by}
                   floatingLabelText="Created By:"
                   floatingLabelFixed={true}
-                  disabled={true}
+                  onChange={ (_,value) => {
+                      this.updateInput('created_by', value)
+                  }}
               />
 
               <TextField

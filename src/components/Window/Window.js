@@ -90,10 +90,11 @@ class Window extends React.Component {
                         <TableRow className="headlines">
                             <TableHeaderColumn className="num" style={{color: deepOrange700}}>Num</TableHeaderColumn>
                             <TableHeaderColumn style={{color: deepOrange700}}>Feature Name</TableHeaderColumn>
-                            <TableHeaderColumn style={{color: deepOrange700}}>Description</TableHeaderColumn>
+                            <TableHeaderColumn className="description" style={{color: deepOrange700}}>Description</TableHeaderColumn>
                             <TableHeaderColumn style={{color: deepOrange700}}>Created by</TableHeaderColumn>
                             <TableHeaderColumn style={{color: deepOrange700}}>Users</TableHeaderColumn>
                             <TableHeaderColumn style={{color: deepOrange700}}>Percentage</TableHeaderColumn>
+                            <TableHeaderColumn style={{color: deepOrange700}}>Last Update By</TableHeaderColumn>
                             <TableHeaderColumn style={{color: deepOrange700}}>Last Update At</TableHeaderColumn>
                             <TableHeaderColumn style={{color: deepOrange700}}>Actions</TableHeaderColumn>
                         </TableRow>
@@ -103,7 +104,7 @@ class Window extends React.Component {
                             return (<TableRow className="rollout" key={feature.get('name')}>
                                     <TableRowColumn className="num">{index + 1}</TableRowColumn>
                                     <TableRowColumn>{feature.get('name')}</TableRowColumn>
-                                    <TableRowColumn className="">
+                                    <TableRowColumn className="description">
 
                                         <Card>
                                             <CardHeader
@@ -118,8 +119,7 @@ class Window extends React.Component {
 
 
                                     </TableRowColumn>
-                                    <TableRowColumn>{feature.get('last_author')}
-                                        <br /> {feature.get('last_author_mail') }</TableRowColumn>
+                                    <TableRowColumn>{feature.get('created_by')}</TableRowColumn>
 
                                     <TableRowColumn>{
 
@@ -128,11 +128,10 @@ class Window extends React.Component {
                                             width={100}
                                             useLayerForClickAway={true}
                                             iconButtonElement={<IconButton iconStyle={{color: green500}}> <FontIcon
-                                                className="material-icons">supervisor_account</FontIcon></IconButton>}
-                                        >
+                                                className="material-icons">supervisor_account</FontIcon></IconButton>} >
                                             {
                                                 feature.get('users').count ?
-                                                    feature.get('users').map(user => <MenuItem value={1}
+                                                    feature.get('users').map(user => <MenuItem key={user} value={1}
                                                                                                primaryText={user}/>) :
                                                     <MenuItem primaryText={"No users"}/>
                                             }
@@ -144,8 +143,14 @@ class Window extends React.Component {
                                         <strong className="percentage"> {feature.get('percentage') + '%'}</strong>
                                     </TableRowColumn>
 
-                                    <TableRowColumn>{moment(feature.get('history').last().get('updated_at')).fromNow()}</TableRowColumn>
 
+                                    <TableRowColumn>
+                                        {feature.get('last_author')}
+                                        <br />
+                                        {feature.get('last_author_mail') }
+                                    </TableRowColumn>
+
+                                    <TableRowColumn>{moment(feature.get('history').last().get('updated_at')).fromNow()}</TableRowColumn>
 
                                     <TableRowColumn>
                                         <IconMenu
@@ -154,11 +159,22 @@ class Window extends React.Component {
                                             useLayerForClickAway={true}
                                             iconButtonElement={<IconButton> <FontIcon className="material-icons">settings</FontIcon></IconButton>}
                                         >
-                                            <MenuItem onClick={() => {
-                                                openDeleteDialog(feature.get('name'));
-                                            }} primaryText="DELETE"/>
+                                            <MenuItem
+                                                primaryText="DELETE"
+                                                onKeyDown={(event) => {
+                                                    if(event.keyCode != 13) { return; }
+                                                    openDeleteDialog(feature.get('name'));
+                                                  }}
+                                                onClick={() => {
+                                                    openDeleteDialog(feature.get('name'));
+                                                }}
+                                            />
                                             <MenuItem primaryText="EDIT"
                                                       onClick={() => {
+                                                          openEditDialog(feature);
+                                                      }}
+                                                      onKeyDown={(event) => {
+                                                          if(event.keyCode != 13) { return; }
                                                           openEditDialog(feature);
                                                       }}
                                             />
