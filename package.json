@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:prod": "webpack --config webpack/webpack.config.production.js  && pm2 kill && pm2 start app.js --name rollout-dashboard",
+    "start:prod": "node_modules/.bin/webpack --config webpack/webpack.config.production.js  && pm2 kill && pm2 start app.js --name rollout-dashboard",
     "start:dev": "node webpack/webpack.server.dev.js",
-    "build": "webpack --config webpack/webpack.config.dev.js --watch",
-    "build:prod": "webpack --config webpack/webpack.config.production.js"
+    "build": "node_modules/.bin/webpack --config webpack/webpack.config.dev.js --watch",
+    "build:prod": "node_modules/.bin/webpack --config webpack/webpack.config.production.js"
   },
   "license": "ISC",
   "dependencies": {
