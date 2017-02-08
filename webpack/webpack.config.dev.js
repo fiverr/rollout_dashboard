@@ -1,9 +1,8 @@
-const host = 'localhost';
-const port = '4444';
 const webpack = require('webpack')
 const path = require('path');
 const distPath = path.join(__dirname,'/../','dist' );
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const config = require('../config/app');
 
 module.exports = {
     devtool: 'source-map',
@@ -15,13 +14,13 @@ module.exports = {
           hot: true
     },
     entry: [
-        'webpack-hot-middleware/client?path=http://localhost:4444/__webpack_hmr',
+        'webpack-hot-middleware/client?path=http://localhost:' + config.port +'/__webpack_hmr',
         "./src/index.js"
     ],
     output: {
         path: distPath,
         filename: "bundle.js",
-        publicPath: 'http://' + host + ':' + port + "/"
+        publicPath: 'http://localhost:' + config.port + "/"
     },
     plugins: [
             new webpack.HotModuleReplacementPlugin(),
@@ -29,8 +28,8 @@ module.exports = {
              from: './assets', to: distPath
             }]),
             new webpack.DefinePlugin({
-                ROLLOUT_SERVICE_HOST: JSON.stringify('http://localhost'),
-                ROLLOUT_SERVICE_PORT: JSON.stringify(9999)
+                ROLLOUT_SERVICE_HOST: JSON.stringify(config.rolloutServiceHost),
+                ROLLOUT_SERVICE_PORT: JSON.stringify(config.rolloutServicePort)
             }),
     ],
     module: {

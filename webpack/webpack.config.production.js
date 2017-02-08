@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const distPath = path.join(__dirname, '/../', 'dist' );
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
+const config = require('../config/app');
 
 module.exports = {
     devtool: 'cheap-module-eval-source-map',
@@ -30,8 +30,8 @@ module.exports = {
                 });
              },
             new webpack.DefinePlugin({
-                'ROLLOUT_SERVICE_HOST': JSON.stringify(process.env.ROLLOUT_SERVICE_HOST),
-                'ROLLOUT_SERVICE_PORT': JSON.stringify(process.env.ROLLOUT_SERVICE_PORT)
+                'ROLLOUT_SERVICE_HOST': JSON.stringify(config.rolloutServiceHost),
+                'ROLLOUT_SERVICE_PORT': JSON.stringify(config.rolloutServicePort)
             }),
     ],
     module: {
