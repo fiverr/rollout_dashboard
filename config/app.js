@@ -9,7 +9,7 @@ const config =  {
   production: {
     rolloutServiceHost: 'http://rollout-srv.fivvr.com',
     rolloutServicePort: 80,
-    port: 80
+    port: 1234
   }
 };
 
