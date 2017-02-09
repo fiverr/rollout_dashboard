@@ -130,8 +130,8 @@ class Window extends React.Component {
 
                             return (<TableRow className="rollout" key={feature.get('name')}>
                                     <TableRowColumn className="num">{index + 1}</TableRowColumn>
-                                    <TableRowColumn className="name">{feature.get('name')}</TableRowColumn>
-                                    <TableRowColumn className="description">
+                                    <TableRowColumn className="name" title={feature.get('name')}>{feature.get('name')}</TableRowColumn>
+                                    <TableRowColumn className="description" title={feature.get('description')}>
 
                                         <Card>
                                             <CardHeader
@@ -146,7 +146,7 @@ class Window extends React.Component {
 
 
                                     </TableRowColumn>
-                                    <TableRowColumn>{feature.get('created_by')}</TableRowColumn>
+                                    <TableRowColumn title={feature.get('created_by')}>{feature.get('created_by')}</TableRowColumn>
 
                                     <TableRowColumn>
                                         {<IconMenu
@@ -188,7 +188,7 @@ class Window extends React.Component {
                                     </TableRowColumn>
 
 
-                                    <TableRowColumn>
+                                    <TableRowColumn title={feature.get('last_author')}>
                                         {feature.get('last_author')}
                                         <br />
                                         {feature.get('last_author_mail') }
