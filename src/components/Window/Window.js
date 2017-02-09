@@ -16,7 +16,6 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import './Window.scss';
 
-
 class Window extends React.Component {
 
     constructor(props) {
@@ -28,6 +27,39 @@ class Window extends React.Component {
 
     componentDidMount() {
         this.props.getFeatures();
+    }
+
+    sortedFeatures() {
+        const features = this.props.features;
+
+        return features.sort((a, b) => {
+            let lastRecordA = a.get('history').last();
+            let lastRecordB = b.get('history').last();
+
+            lastRecordA = lastRecordA &&  lastRecordA.get('updated_at');
+            lastRecordB = lastRecordB && lastRecordB.get('updated_at');
+
+            if(!lastRecordA && !lastRecordB) {
+                return 0
+            } else if (!lastRecordA) {
+                return 1;
+            } else if (!lastRecordB) {
+                return -1;
+            }
+
+            return  moment(lastRecordA).isBefore(lastRecordB) ? 1 : -1;
+        });
+    }
+
+    filterFeatures(features) {
+        return features.filter(f => {
+            const regex = new RegExp(this.state.filter, 'gi');
+            return (f.get('name') || '').match(regex) ||
+                (f.get('description') || '').match(regex) ||
+                (f.get('created_by') || '').match(regex) ||
+                (f.get('created_by_mail') || '').match(regex) ||
+                (f.get('percentage') || '').toString().match(regex);
+        })
     }
 
     render() {
@@ -49,28 +81,14 @@ class Window extends React.Component {
             clearSnakeMessage
         } = this.props;
 
-        let features = this.props.features;
+        let features = this.sortedFeatures();
 
-        // features = features.sort((a, b) => {
-        //     const lastRecordA = a.get('history').last();
-        //     const lastRecordB = b.get('history').last();
-        //
-        //     if(!lastRecordB || !lastRecordB) { return 0}
-        //
-        //     return moment(lastRecordA)
-        //         .isBefore(lastRecordB) ? 1 : -1;
-        // });
 
-        // if(this.state.filter) {
-        //     features = features.filter(f => {
-        //         const regex = new RegExp(this.state.filter, 'gi');
-        //         return (f.get('name') || '').match(regex) ||
-        //             (f.get('description') || '').match(regex) ||
-        //             (f.get('created_by') || '').match(regex) ||
-        //             (f.get('created_by_mail') || '').match(regex) ||
-        //             (f.get('percentage') || '').toString().match(regex);
-        //     }
-        // )}
+        if(this.state.filter) {
+            features = this.filterFeatures(features);
+        } else {
+            features = features.slice(0, 30);
+        }
 
         return (
             <div>
@@ -80,8 +98,8 @@ class Window extends React.Component {
                 </FloatingActionButton>
                 <TextField
                     className="filter"
-                    floatingLabelText="Filter Features:"
-                    hintText="Insert Query And Press Enter:"
+                    floatingLabelText="Filter Box:"
+                    hintText="Insert Regex"
                     floatingLabelFixed={true}
                     fullWidth={true}
                     onKeyDown={(event) => {
@@ -90,19 +108,19 @@ class Window extends React.Component {
                     }}
                 />
 
-                <Table className="list-rollouts" selectable={false}>
+                <Table className="rollouts" selectable={false}>
                     <TableHeader displaySelectAll={false} adjustForCheckbox={false} displayRowCheckbox={false}>
                         <TableRow className="headlines">
-                            <TableHeaderColumn className="num" style={{color: deepOrange700}}>Num</TableHeaderColumn>
-                            <TableHeaderColumn style={{color: deepOrange700}}>Feature Name</TableHeaderColumn>
-                            <TableHeaderColumn className="description" style={{color: deepOrange700}}>Description</TableHeaderColumn>
-                            <TableHeaderColumn style={{color: deepOrange700}}>Created by</TableHeaderColumn>
-                            <TableHeaderColumn style={{color: deepOrange700}}>Users</TableHeaderColumn>
-                            <TableHeaderColumn style={{color: deepOrange700}}>History</TableHeaderColumn>
-                            <TableHeaderColumn style={{color: deepOrange700}}>Percentage</TableHeaderColumn>
-                            <TableHeaderColumn style={{color: deepOrange700}}>Last Update By</TableHeaderColumn>
-                            <TableHeaderColumn style={{color: deepOrange700}}>Last Update At</TableHeaderColumn>
-                            <TableHeaderColumn style={{color: deepOrange700}}>Actions</TableHeaderColumn>
+                            <TableHeaderColumn className="num" style={{color: '#0097a7'}}>Num</TableHeaderColumn>
+                            <TableHeaderColumn style={{color: '#0097a7'}}>Feature Name</TableHeaderColumn>
+                            <TableHeaderColumn className="description" style={{color: '#0097a7'}}>Description</TableHeaderColumn>
+                            <TableHeaderColumn style={{color: '#0097a7'}}>Created by</TableHeaderColumn>
+                            <TableHeaderColumn style={{color: '#0097a7'}}>Users</TableHeaderColumn>
+                            <TableHeaderColumn style={{color: '#0097a7'}}>History</TableHeaderColumn>
+                            <TableHeaderColumn style={{color: '#0097a7'}}>Percentage</TableHeaderColumn>
+                            <TableHeaderColumn style={{color: '#0097a7'}}>Last Update By</TableHeaderColumn>
+                            <TableHeaderColumn style={{color: '#0097a7'}}>Last Update At</TableHeaderColumn>
+                            <TableHeaderColumn style={{color: '#0097a7'}}>Actions</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody stripedRows={false} displayRowCheckbox={false}>

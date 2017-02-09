@@ -2,40 +2,45 @@ body {
     background-color: #303030;
 }
 
-.logo {
-    width: 300px;
-    margin: 30px;
-}
-
-.num {
-    width: 50px;
-}
-
-.rollout{
-    color: #ababaf !important
-}
-
 .btn-add-feature {
     position: absolute;
     right: 30px;
     top: 30px;
 }
 
-.description {
-    white-space: pre-line !important;
-    width: 280px;
+.logo {
+    width: 300px;
+    margin: 30px;
 }
 
-.percentage {
-    font-size: 20px;
-    text-align: center;
-}
+.rollouts {
 
-.history {
-    display: flex;
-    justify-content: space-around;
+    .num {
+        width: 50px;
+    }
 
-    small {
-        width: 33%;
+    .headlines {
+        th {
+            font-weight: 600 !important;
+            font-size: 18px !important;
+        }
+    }
+    .description {
+        white-space: pre-line !important;
+        width: 280px;
+    }
+
+    .percentage {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .history {
+        display: flex;
+        justify-content: space-around;
+
+        small {
+            width: 33%;
+        }
     }
 }
