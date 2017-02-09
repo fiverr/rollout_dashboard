@@ -16,13 +16,17 @@ body {
 .rollouts {
 
     .num {
-        width: 50px;
+        width: 30px;
+    }
+
+    .name {
+        width: 100px;
     }
 
     .headlines {
         th {
             font-weight: 600 !important;
-            font-size: 18px !important;
+            font-size: 13px !important;
         }
     }
     .description {

@@ -58,7 +58,7 @@ class Window extends React.Component {
                 (f.get('description') || '').match(regex) ||
                 (f.get('created_by') || '').match(regex) ||
                 (f.get('created_by_mail') || '').match(regex) ||
-                (f.get('percentage') || '').toString().match(regex);
+                (f.get('percentage') != undefined ? f.get('percentage') : '').toString().match(regex);
         })
     }
 
@@ -112,7 +112,7 @@ class Window extends React.Component {
                     <TableHeader displaySelectAll={false} adjustForCheckbox={false} displayRowCheckbox={false}>
                         <TableRow className="headlines">
                             <TableHeaderColumn className="num" style={{color: '#0097a7'}}>Num</TableHeaderColumn>
-                            <TableHeaderColumn style={{color: '#0097a7'}}>Feature Name</TableHeaderColumn>
+                            <TableHeaderColumn style={{color: '#0097a7'}} className="name">Feature Name</TableHeaderColumn>
                             <TableHeaderColumn className="description" style={{color: '#0097a7'}}>Description</TableHeaderColumn>
                             <TableHeaderColumn style={{color: '#0097a7'}}>Created by</TableHeaderColumn>
                             <TableHeaderColumn style={{color: '#0097a7'}}>Users</TableHeaderColumn>
@@ -130,7 +130,7 @@ class Window extends React.Component {
 
                             return (<TableRow className="rollout" key={feature.get('name')}>
                                     <TableRowColumn className="num">{index + 1}</TableRowColumn>
-                                    <TableRowColumn>{feature.get('name')}</TableRowColumn>
+                                    <TableRowColumn className="name">{feature.get('name')}</TableRowColumn>
                                     <TableRowColumn className="description">
 
                                         <Card>
