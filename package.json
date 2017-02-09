@@ -29,7 +29,9 @@
     "style-loader": "^0.13.1",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2",
-    "webpack-hot-middleware": "^2.13.2"
+    "webpack-hot-middleware": "^2.13.2",
+    "shipit-deploy": "2.2",
+    "shipit-shared": "4.4.1"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",
