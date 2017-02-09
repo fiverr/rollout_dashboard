@@ -34,7 +34,10 @@ module.exports = {
              },
             new webpack.DefinePlugin({
                 'ROLLOUT_SERVICE_HOST': JSON.stringify(config.rolloutServiceHost),
-                'ROLLOUT_SERVICE_PORT': JSON.stringify(config.rolloutServicePort)
+                'ROLLOUT_SERVICE_PORT': JSON.stringify(config.rolloutServicePort),
+                'process.env': {
+                    NODE_ENV: JSON.stringify('production')
+                }
             }),
     ],
     module: {

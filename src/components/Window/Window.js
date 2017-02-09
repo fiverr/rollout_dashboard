@@ -10,7 +10,7 @@ import moment from 'moment'
 import DeleteDialog from '../DeleteDialog/DeleteDialog';
 import EditDialog from '../EditDialog/EditDialog';
 import CreateDialog from '../CreateDialog/CreateDialog';
-import {redA700, grey50, deepOrange700, green500} from 'material-ui/styles/colors';
+import {deepOrange700, green500} from 'material-ui/styles/colors';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
@@ -51,26 +51,26 @@ class Window extends React.Component {
 
         let features = this.props.features;
 
-        features = features.sort((a, b) => {
-            const lastRecordA = a.get('history').last();
-            const lastRecordB = b.get('history').last();
+        // features = features.sort((a, b) => {
+        //     const lastRecordA = a.get('history').last();
+        //     const lastRecordB = b.get('history').last();
+        //
+        //     if(!lastRecordB || !lastRecordB) { return 0}
+        //
+        //     return moment(lastRecordA)
+        //         .isBefore(lastRecordB) ? 1 : -1;
+        // });
 
-            if(!lastRecordB || !lastRecordB) { return 0}
-
-            return moment(lastRecordA)
-                .isBefore(lastRecordB) ? 1 : -1;
-        });
-
-        if(this.state.filter) {
-            features = features.filter(f => {
-                const regex = new RegExp(this.state.filter, 'gi');
-                return (f.get('name') || '').match(regex) ||
-                    (f.get('description') || '').match(regex) ||
-                    (f.get('created_by') || '').match(regex) ||
-                    (f.get('created_by_mail') || '').match(regex) ||
-                    (f.get('percentage') || '').toString().match(regex);
-            }
-        )}
+        // if(this.state.filter) {
+        //     features = features.filter(f => {
+        //         const regex = new RegExp(this.state.filter, 'gi');
+        //         return (f.get('name') || '').match(regex) ||
+        //             (f.get('description') || '').match(regex) ||
+        //             (f.get('created_by') || '').match(regex) ||
+        //             (f.get('created_by_mail') || '').match(regex) ||
+        //             (f.get('percentage') || '').toString().match(regex);
+        //     }
+        // )}
 
         return (
             <div>
