@@ -5,7 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const config = require('../config/app');
 
 module.exports = {
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'source-map',
     context: __dirname+ '/..',
     progress: true,
     entry: [
@@ -15,7 +15,10 @@ module.exports = {
         path: distPath,
         filename: "bundle.js"
     },
-        plugins: [
+        plugins:[
+            new webpack.optimize.OccurrenceOrderPlugin(),
+            new webpack.optimize.UglifyJsPlugin(),
+            new webpack.optimize.DedupePlugin(),
             new CopyWebpackPlugin([{
                 from: './assets', to: distPath
             }]),
