@@ -34,13 +34,13 @@ body {
         font-size: 20px;
         text-align: center;
     }
+}
 
-    .history {
-        display: flex;
-        justify-content: space-around;
+.history {
+    display: flex;
+    justify-content: space-around;
 
-        small {
-            width: 33%;
-        }
+    small {
+        width: 33%;
     }
 }

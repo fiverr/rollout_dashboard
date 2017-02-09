@@ -123,7 +123,7 @@ class EditDialog extends React.Component {
 
               <TextField
                   className="field"
-                  value={moment(this.state.created_at).format('YYYY-MM-DD')}
+                  value={moment(this.state.created_at || Date.now()).format('YYYY-MM-DD')}
                   floatingLabelText="Created At:"
                   floatingLabelFixed={true}
                   disabled={true}
