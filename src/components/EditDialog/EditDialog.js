@@ -167,12 +167,12 @@ class EditDialog extends React.Component {
           <TextField
               className="description"
               defaultValue={this.state.description}
-              floatingLabelText="Description:"
+              floatingLabelText="Feature Description:"
               errorText={this.state.errors['description']}
               floatingLabelFixed={true}
               multiLine={true}
               fullWidth={true}
-              rows={2}
+              rows={1}
               onChange={ (_,value) => {
                   this.updateInput('description', value)
               }}
