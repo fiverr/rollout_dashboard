@@ -87,7 +87,7 @@ class Window extends React.Component {
         if(this.state.filter) {
             features = this.filterFeatures(features);
         } else {
-            features = features.slice(0, 30);
+            features = features.slice(0, 20);
         }
 
         return (
@@ -153,7 +153,7 @@ class Window extends React.Component {
                                             maxHeight={300}
                                             width={100}
                                             useLayerForClickAway={true}
-                                            iconButtonElement={<IconButton iconStyle={{color: green500}}> <FontIcon
+                                            iconButtonElement={<IconButton disabled={!feature.get('users').count()} iconStyle={{color: green500}}> <FontIcon
                                                 className="material-icons">supervisor_account</FontIcon></IconButton>}>
                                                 {
                                                 feature.get('users').count ?
@@ -169,7 +169,7 @@ class Window extends React.Component {
                                             maxHeight={300}
                                             width={500}
                                             useLayerForClickAway={true}
-                                            iconButtonElement={<IconButton iconStyle={{color: 'yellow'}}> <FontIcon
+                                            iconButtonElement={<IconButton disabled={!feature.get('history').count()} iconStyle={{color: 'yellow'}}> <FontIcon
                                                 className="material-icons">history</FontIcon></IconButton>}>
                                                  { feature.get('history').reverse().map(record =>
                                                      <MenuItem primaryText={
