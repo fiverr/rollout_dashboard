@@ -16,7 +16,7 @@ class EditDialog extends React.Component {
       super(props);
 
       let state = props.feature.toJS();
-      state = Object.assign({}, state, { last_author: '', last_author_mail: '', errors: {} });
+      state = Object.assign({}, state, { last_author: '', last_author_mail: '', errors: {}, editCreatedBy: !!state.created_by});
 
       this.state =  state;
       this.removeUser = this.removeUser.bind(this);
@@ -123,7 +123,7 @@ class EditDialog extends React.Component {
                   floatingLabelText="Created By:"
                   errorText={this.state.errors['created_by']}
                   floatingLabelFixed={true}
-                  disabled={!!this.state.created_by}
+                  disabled={this.state.editCreatedBy}
                   onChange={ (_,value) => {
                       this.updateInput('created_by', value)
                   }}
