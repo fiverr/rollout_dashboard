@@ -49,6 +49,10 @@ class EditDialog extends React.Component {
             errors['last_author'] = 'This field is required';
         }
 
+        if(!this.state.created_by) {
+            errors['created_by'] = "This field is required cause you didn't create the feature via rollout-dashboard";
+        }
+
         let authorMail = this.state.last_author_mail;
 
         if(!authorMail) {
@@ -56,9 +60,11 @@ class EditDialog extends React.Component {
         } else if (!authorMail.match(/[a-zA-Z0-9._]{3,}@[a-zA-Z0-9._]{3,}\.[a-zA-Z]+/i)) {
             errors['last_author_mail'] = 'Nice try. Please enter a valid email address.';
         }
+
         if(!this.state.description) {
             errors['description'] = 'This field is required';
         }
+
         this.setState({errors});
         return !Object.keys(errors).length;
     }
@@ -115,7 +121,9 @@ class EditDialog extends React.Component {
                   className="field"
                   value={this.state.created_by}
                   floatingLabelText="Created By:"
+                  errorText={this.state.errors['created_by']}
                   floatingLabelFixed={true}
+                  disabled={!!this.state.created_by}
                   onChange={ (_,value) => {
                       this.updateInput('created_by', value)
                   }}
