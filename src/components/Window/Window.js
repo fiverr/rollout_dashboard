@@ -10,10 +10,9 @@ import moment from 'moment'
 import DeleteDialog from '../DeleteDialog/DeleteDialog';
 import EditDialog from '../EditDialog/EditDialog';
 import CreateDialog from '../CreateDialog/CreateDialog';
-import {deepOrange700, green500} from 'material-ui/styles/colors';
+import {green500} from 'material-ui/styles/colors';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
 import './Window.scss';
 
 class Window extends React.Component {
@@ -98,8 +97,8 @@ class Window extends React.Component {
                 </FloatingActionButton>
                 <TextField
                     className="filter"
-                    floatingLabelText="Filter Box:"
-                    hintText="Insert Regex"
+                    floatingLabelText="Search Box:"
+                    hintText="Search a rollout by a Regex, to see all the features enter - .*"
                     floatingLabelFixed={true}
                     fullWidth={true}
                     onKeyDown={(event) => {
@@ -132,19 +131,7 @@ class Window extends React.Component {
                                     <TableRowColumn className="num">{index + 1}</TableRowColumn>
                                     <TableRowColumn className="name" title={feature.get('name')}>{feature.get('name')}</TableRowColumn>
                                     <TableRowColumn className="description" title={feature.get('description')}>
-
-                                        <Card>
-                                            <CardHeader
-                                                subtitle={'Show Description'}
-                                                actAsExpander={true}
-                                                showExpandableButton={true}
-                                            />
-                                            <CardText expandable={true} style={{whiteSpace: 'pre-line'}}>
-                                                <p>{feature.get('description')} </p>
-                                            </CardText>
-                                        </Card>
-
-
+                                        <FontIcon title={feature.get('description')} className="material-icons description-tooltip">description</FontIcon>
                                     </TableRowColumn>
                                     <TableRowColumn title={feature.get('created_by')}>{feature.get('created_by')}</TableRowColumn>
 

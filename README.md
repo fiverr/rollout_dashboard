@@ -13,6 +13,7 @@ It allows you to perform CRUD operations and send them to [Rollout-Service](http
  
 ## Technology stack:
 We used React + Redux stack.
+
 Webpack used for bundling.
 
 ## Preview: 
