@@ -26,6 +26,7 @@ class Window extends React.Component {
 
     componentDidMount() {
         this.props.getFeatures();
+        this.refs.search.focus();
     }
 
     sortedFeatures() {
@@ -97,6 +98,7 @@ class Window extends React.Component {
                 </FloatingActionButton>
                 <TextField
                     className="filter"
+                    ref="search"
                     floatingLabelText="Search Box:"
                     hintText="Search a rollout by a Regex, to see all the features enter - .*"
                     floatingLabelFixed={true}
