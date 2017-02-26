@@ -37,4 +37,4 @@ Start it by running `npm run start:dev`
 
 ## What's the 'history' field?
 
-The history field is a list of the last 50 changes of the percentage value.
+The history field is a list of the last 50 percentage changes.
