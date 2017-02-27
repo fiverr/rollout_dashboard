@@ -8,7 +8,7 @@ const config =  {
   },
   production: {
     rolloutServiceHost: 'https://rollout-srv.fiverr-gw.com',
-    rolloutServicePort: 80,
+    rolloutServicePort: 443,
     port: 1234
   }
 };
