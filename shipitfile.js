@@ -32,6 +32,10 @@ shipit.blTask('startAppProduction', function () {
         shipit.remote(underRelease("./control.sh restart production"));
   });
 
+shipit.blTask('buildConfigFile', function () {
+    shipit.remote(underRelease('consul-template -template "./config/app.js:./config/app.js" -once'));
+});
+
 shipit.blTask('buildConfigFiles', function () {
     shipit.remote(underRelease("./build_config_files.sh " + shipit.config.deployTo));
     shipit.emit('configFilesBuilt');
@@ -41,6 +45,7 @@ shipit.blTask('buildConfigFiles', function () {
     shipit.start('buildConfigFiles');
     shipit.on("configFilesBuilt", function() {
       shipit.start('startAppProduction');
+      shipit.start('buildConfigFile');
     })
    });
 
