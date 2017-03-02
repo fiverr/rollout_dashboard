@@ -76,12 +76,19 @@ const closeEditDialog = () => {
 const updateFeature = (feature) => {
     return (dispatch, getState) => {
         dispatch({type: actionTypes.FETCHING_START_ACTION});
-        return fetch(`${ROLLOUT_SERVICE_URL}/features/${feature.name}`,{
+        const store = getState();
+        const data = Object.assign({}, feature, {
+            last_author: store.getIn(['googleAuth','name']),
+            last_author_mail: store.getIn(['googleAuth','mail']),
+            ID: store.getIn(['googleAuth','ID'])
+        });
+
+        return fetch(`${ROLLOUT_SERVICE_URL}/features/${data.name}`,{
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(feature)
+            body: JSON.stringify(data)
         })
         .then((response) => response.json())
         .then(json =>  {
@@ -99,6 +106,7 @@ const updateFeature = (feature) => {
     }
 };
 
+
 const openCreateDialog = () => {
     return {
         type: actionTypes.OPEN_CREATE_DIALOG
@@ -114,13 +122,21 @@ const closeCreateDialog = () => {
 
 const createFeature = (feature) => {
     return (dispatch, getState) => {
+
+        const store = getState();
+        const data = Object.assign({}, feature, {
+            author: store.getIn(['googleAuth','name']),
+            author_mail: store.getIn(['googleAuth','mail']),
+            ID: store.getIn(['googleAuth','ID'])
+        });
+
         dispatch({type: actionTypes.FETCHING_START_ACTION});
-        return fetch(`${ROLLOUT_SERVICE_URL}/features/${feature.name}`,{
+        return fetch(`${ROLLOUT_SERVICE_URL}/features/${data.name}`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(feature)
+            body: JSON.stringify(data)
         })
             .then((response) => response.json())
             .then(json =>  {
@@ -148,6 +164,15 @@ const clearSnakeMessage = () => {
     }
 };
 
+const googleAuthentication = (ID ,name, mail) => {
+    return {
+        type: actionTypes.GOOGLE_AUTH,
+        name,
+        mail,
+        ID
+    }
+};
+
 export {
     getFeatures,
     openDeleteDialog,
@@ -160,5 +185,6 @@ export {
     closeCreateDialog,
     createFeature,
     sendSnakeMessage,
-    clearSnakeMessage
+    clearSnakeMessage,
+    googleAuthentication
 }

@@ -3,8 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = Immutable.Map()
                               .set('fetching', false)
-                              .set('features', [])
-                              .set('dialogs', []);
+                              .set('features', []);
 
 const reducers = (state = initialState , action) => {
   switch (action.type) {
@@ -24,6 +23,7 @@ const reducers = (state = initialState , action) => {
       return state.set('deleteDialog', Immutable.fromJS({
         featureName: action.featureName
       }));
+
     case actionTypes.CLOSE_DELETE_DIALOG:
       return state.delete('deleteDialog');
 
@@ -36,12 +36,16 @@ const reducers = (state = initialState , action) => {
       return state.set('editDialog',Immutable.fromJS({
         feature
       }));
+
     case actionTypes.CLOSE_EDIT_DIALOG:
       return state.delete('editDialog');
+
     case actionTypes.OPEN_CREATE_DIALOG:
       return state.set('createDialog', true);
+
     case actionTypes.CLOSE_CREATE_DIALOG:
       return state.delete('createDialog');
+
     case actionTypes.CREATED_FEATURE:
       return state.update('features', features => features.push(Immutable.fromJS(action.feature)));
 
@@ -57,6 +61,13 @@ const reducers = (state = initialState , action) => {
 
     case actionTypes.CLEAR_SNACK_MESSAGE:
       return state.delete('snakeMessage');
+
+    case actionTypes.GOOGLE_AUTH:
+      return state.set('googleAuth', Immutable.fromJS({
+        id: action.ID,
+        name: action.name,
+        mail: action.mail
+      }));
 
     default: {
       return state

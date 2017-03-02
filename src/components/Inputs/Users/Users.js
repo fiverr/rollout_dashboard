@@ -8,11 +8,11 @@ const Users = ({users, onAdd, onDelete}) => {
 
     return(
         <div className="chips-container">
-            <h1> Users: </h1>
             <TextField
                 className="add-users"
                 fullWidth={true}
-                floatingLabelText="Enter user ID and press enter:"
+                floatingLabelText="Users:"
+                hintText="Enter user ID and press enter:"
                 floatingLabelFixed={true}
                 onKeyDown={(event) => {
                     if(event.keyCode !== 13) { return; }

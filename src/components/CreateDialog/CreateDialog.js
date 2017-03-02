@@ -43,20 +43,8 @@ class CreateDialog extends React.Component {
     validate() {
         const errors = {};
 
-        if(!this.state.author) {
-            errors['author'] = 'This field is required';
-        }
-
         if(!this.state.description) {
             errors['description'] = 'This field is required';
-        }
-
-        let authorMail = this.state.author_mail;
-
-        if(!authorMail) {
-            errors['author_mail'] = 'This field is required';
-        } else if (!authorMail.match(/[a-zA-Z0-9._]{3,}@[a-zA-Z0-9._]{3,}\.[a-zA-Z]+/i)) {
-            errors['author_mail'] = 'Nice try. Please enter a valid email address.';
         }
 
         let featureName = this.state.name;
@@ -111,29 +99,6 @@ class CreateDialog extends React.Component {
 
               <TextField
                   className="field"
-                  name="author"
-                  value={this.state.author}
-                  floatingLabelText="Author:"
-                  errorText={this.state.errors['author']}
-                  floatingLabelFixed={true}
-                  onChange={ (_,value) => {
-                      this.updateInput('author', value)
-                  }}
-              />
-
-              <TextField
-                  className="field"
-                  value={this.state.author_mail}
-                  name="author_mail"
-                  floatingLabelText="Author Mail:"
-                  errorText={this.state.errors['author_mail']}
-                  floatingLabelFixed={true}
-                  onChange={ (_,value) => {
-                      this.updateInput('author_mail', value)
-                  }}/>
-
-              <TextField
-                  className="field"
                   value={moment().format('YYYY-MM-DD')}
                   floatingLabelText="Created At:"
                   floatingLabelFixed={true}
@@ -147,8 +112,6 @@ class CreateDialog extends React.Component {
                   floatingLabelText="Description:"
                   errorText={this.state.errors['description']}
                   floatingLabelFixed={true}
-                  multiLine={true}
-                  rows={2}
                   onChange={ (_,value) => {
                       this.updateInput('description', value)
                   }}/>

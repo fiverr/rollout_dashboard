@@ -9,7 +9,8 @@ const mapStateToProps = (state, ownProps) => {
       deleteDialog: state.get('deleteDialog'),
       editDialog: state.get('editDialog'),
       createDialog: state.get('createDialog'),
-      snakeMessage: state.get('snakeMessage')
+      snakeMessage: state.get('snakeMessage'),
+      googleAuth: state.get('googleAuth')
     }
 };
 

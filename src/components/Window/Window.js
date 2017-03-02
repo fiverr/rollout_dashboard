@@ -13,6 +13,7 @@ import CreateDialog from '../CreateDialog/CreateDialog';
 import {green500} from 'material-ui/styles/colors';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import AuthDialog from '../AuthDialog/AuthDialog';
 import './Window.scss';
 
 class Window extends React.Component {
@@ -26,7 +27,7 @@ class Window extends React.Component {
 
     componentDidMount() {
         this.props.getFeatures();
-        this.refs.search.focus();
+        this.refs.search && this.refs.search.focus();
     }
 
     sortedFeatures() {
@@ -78,7 +79,9 @@ class Window extends React.Component {
             closeEditDialog,
             createFeature,
             snakeMessage,
-            clearSnakeMessage
+            clearSnakeMessage,
+            googleAuth,
+            googleAuthentication
         } = this.props;
 
         let features = this.sortedFeatures();
@@ -88,6 +91,10 @@ class Window extends React.Component {
             features = this.filterFeatures(features);
         } else {
             features = features.slice(0, 20);
+        }
+
+        if(!googleAuth) {
+            return (<AuthDialog saveAuthenticationData={googleAuthentication} />)
         }
 
         return (
