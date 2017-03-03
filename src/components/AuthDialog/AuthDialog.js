@@ -35,8 +35,7 @@ class AuthDialog extends React.Component {
 
   statusChanged() {
       const user = this.GoogleAuth.currentUser.get();
-      const basicProfile = user.getBasicProfile();
-      this.props.saveAuthenticationData(basicProfile.getId(),`${basicProfile.getGivenName()} ${basicProfile.getFamilyName()}`,basicProfile.getEmail())
+      this.props.saveAuthenticationData(user.getAuthResponse().id_token)
   }
 
   render() {

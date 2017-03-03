@@ -48,7 +48,9 @@ const deleteFeature = (featureName) => {
         dispatch({type: actionTypes.FETCHING_START_ACTION});
         return fetch(`${ROLLOUT_SERVICE_URL}/features/${featureName}`,{
             method: 'DELETE',
-             })
+            body: {
+                id_token: getState().getIn(['googleAuth','id_token'])
+            }})
             .then(() => {
                 dispatch({type: actionTypes.FEATURE_REMOVED, featureName});
                 dispatch(sendSnakeMessage(`The feature ${featureName} has been deleted.`))
@@ -78,9 +80,7 @@ const updateFeature = (feature) => {
         dispatch({type: actionTypes.FETCHING_START_ACTION});
         const store = getState();
         const data = Object.assign({}, feature, {
-            last_author: store.getIn(['googleAuth','name']),
-            last_author_mail: store.getIn(['googleAuth','mail']),
-            ID: store.getIn(['googleAuth','ID'])
+            id_token: store.getIn(['googleAuth','id_token'])
         });
 
         return fetch(`${ROLLOUT_SERVICE_URL}/features/${data.name}`,{
@@ -125,9 +125,7 @@ const createFeature = (feature) => {
 
         const store = getState();
         const data = Object.assign({}, feature, {
-            author: store.getIn(['googleAuth','name']),
-            author_mail: store.getIn(['googleAuth','mail']),
-            ID: store.getIn(['googleAuth','ID'])
+            id_token: store.getIn(['googleAuth','id_token'])
         });
 
         dispatch({type: actionTypes.FETCHING_START_ACTION});
@@ -164,12 +162,10 @@ const clearSnakeMessage = () => {
     }
 };
 
-const googleAuthentication = (ID ,name, mail) => {
+const googleAuthentication = (id_token) => {
     return {
         type: actionTypes.GOOGLE_AUTH,
-        name,
-        mail,
-        ID
+        id_token
     }
 };
 

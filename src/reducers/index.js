@@ -64,9 +64,7 @@ const reducers = (state = initialState , action) => {
 
     case actionTypes.GOOGLE_AUTH:
       return state.set('googleAuth', Immutable.fromJS({
-        id: action.ID,
-        name: action.name,
-        mail: action.mail
+        id_token: action.id_token
       }));
 
     default: {
