@@ -21,7 +21,7 @@ class AuthDialog extends React.Component {
             'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
         }).then(() => {
             this.GoogleAuth = gapi.auth2.getAuthInstance();
-            this.GoogleAuth.isSignedIn.listen(this.statusChanged)
+            this.GoogleAuth.isSignedIn.listen(this.statusChanged.bind(this));
             this.connect();
         });
     }
