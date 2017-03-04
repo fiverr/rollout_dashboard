@@ -31,7 +31,10 @@ Then, we're saving the features to Redux store, only rendering the first 20. (so
 To see all the features, just type in the search box `.*`.
 
 ## Preview: 
-<img width="1280" alt="screen shot 2017-02-11 at 10 53 29 pm" src="https://cloud.githubusercontent.com/assets/8016250/22857588/4fc5a084-f0b0-11e6-99fb-4beda0ab44d5.png">
+![1](https://cloud.githubusercontent.com/assets/8016250/23580653/50d2e48c-010e-11e7-8532-68092b5df230.gif)
+
+![2](https://cloud.githubusercontent.com/assets/8016250/23580715/561b54c8-010f-11e7-8ae1-77bfdc692260.gif)
+
 
 # FAQ
 
