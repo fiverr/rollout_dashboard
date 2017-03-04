@@ -10,7 +10,10 @@ It allows you to perform CRUD operations and send them to [Rollout-Service](http
  - Delete, Create, Edit actions.
  - Validations, error messages and confirm message.
  - New fields - author, author mail, history, last update and description.
- 
+ - Security: 
+    - You must connect via google in order to access the application.
+    - The token gets validate on [Rollout-Service](https://github.com/fiverr/rollout_service)
+    
 ## Technology stack:
 - React for view layer
 - Redux for state management 
@@ -38,3 +41,9 @@ Start it by running `npm run start:dev`
 ## What's the 'history' field?
 
 The history field is a list of the last 50 percentage changes.
+
+##  how do I restrict the google authentication to a specific domain.
+
+This feature is already supported!
+
+You can easily do that by editing the `config` file in [Rollout-Service](https://github.com/fiverr/rollout_service)
