@@ -153,7 +153,7 @@ class Window extends React.Component {
                                                 className="material-icons">supervisor_account</FontIcon></IconButton>}>
                                                 {
                                                 feature.get('users').count ?
-                                                    feature.get('users').map(user => <MenuItem key={user} value={1}
+                                                    feature.get('users').map(user => <MenuItem key={`${feature.get('name')}_${user}`} value={1}
                                                                                                primaryText={user}/>) :
                                                     <MenuItem primaryText={"No users"}/>
                                                 }
@@ -168,7 +168,7 @@ class Window extends React.Component {
                                             iconButtonElement={<IconButton disabled={!feature.get('history').count()} iconStyle={{color: 'yellow'}}> <FontIcon
                                                 className="material-icons">history</FontIcon></IconButton>}>
                                                  { feature.get('history').reverse().map(record =>
-                                                     <MenuItem primaryText={
+                                                     <MenuItem key={record.get('updated_at')} primaryText={
                                                          <div className="history">
                                                              <small>{record.get('last_author')}</small>
                                                              <small>{record.get('percentage')}%</small>

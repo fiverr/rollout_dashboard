@@ -48,9 +48,12 @@ const deleteFeature = (featureName) => {
         dispatch({type: actionTypes.FETCHING_START_ACTION});
         return fetch(`${ROLLOUT_SERVICE_URL}/features/${featureName}`,{
             method: 'DELETE',
-            body: {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
                 id_token: getState().getIn(['googleAuth','id_token'])
-            }})
+            })})
             .then(() => {
                 dispatch({type: actionTypes.FEATURE_REMOVED, featureName});
                 dispatch(sendSnakeMessage(`The feature ${featureName} has been deleted.`))
