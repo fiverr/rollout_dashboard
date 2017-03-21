@@ -19,6 +19,7 @@
     "material-ui": "^0.16.6",
     "moment": "^2.17.1",
     "pm2": "^2.3.0",
+    "rc": "^1.1.7",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-highlight": "^0.9.0",
@@ -26,12 +27,12 @@
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
+    "shipit-deploy": "2.2",
+    "shipit-shared": "4.4.1",
     "style-loader": "^0.13.1",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2",
-    "webpack-hot-middleware": "^2.13.2",
-    "shipit-deploy": "2.2",
-    "shipit-shared": "4.4.1"
+    "webpack-hot-middleware": "^2.13.2"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",

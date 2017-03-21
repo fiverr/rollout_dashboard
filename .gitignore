@@ -3,3 +3,4 @@ dist/*
 npm-debug.*
 .idea/*
 config/*
+.*rc
