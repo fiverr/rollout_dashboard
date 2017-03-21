@@ -220,6 +220,7 @@ class Features extends React.Component {
                                 cell={({rowIndex}) => {
 
                                     const lastRecord = features.getIn([rowIndex, 'history']).last();
+                                    if(!lastRecord) { return; }
 
                                     return (
                                         <Cell className="standard-text">
@@ -236,6 +237,8 @@ class Features extends React.Component {
                                 header={<Cell className="standard-text">Updated At</Cell>}
                                 cell={({rowIndex}) => {
                                     const lastRecord = features.getIn([rowIndex, 'history']).last();
+                                    if(!lastRecord) { return; }
+
                                     return (
                                         <Cell className="standard-text">
                                             { lastRecord && moment(lastRecord.get('updated_at')).fromNow()}
