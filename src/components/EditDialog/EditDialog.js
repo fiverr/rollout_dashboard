@@ -45,10 +45,6 @@ class EditDialog extends React.Component {
     validate() {
         const errors = {};
 
-        if(!this.state.created_by) {
-            errors['created_by'] = "This field is required cause you didn't create the feature via rollout-dashboard";
-        }
-
         if(!this.state.description) {
             errors['description'] = 'This field is required';
         }
