@@ -12,13 +12,14 @@ It allows you to perform CRUD operations and send them to [Rollout-Service](http
  - New fields - author, author mail, history, last update and description.
  - Security: 
     - You must connect via google in order to access the application.
+    - You can restrict the authentication only to specific google apps domain.
     - The token gets validate on [Rollout-Service](https://github.com/fiverr/rollout_service)
     
 ## Technology stack:
 - React for view layer
 - Redux for state management 
 - Webpack for bundling
-- Express service for serving the static assets
+- Node Express service for serving the static assets
 
 ## How it works?
 
@@ -45,8 +46,23 @@ Start it by running `npm run start:dev`
 
 The history field is a list of the last 50 percentage changes.
 
-##  how do I restrict the google authentication to a specific domain.
+## How do I restrict the google authentication to a specific domain.
 
 This feature is already supported!
 
 You can easily do that by editing the `config` file in [Rollout-Service](https://github.com/fiverr/rollout_service)
+
+## Where do I get google auth credentials?
+
+You can generate the credentials at [google console](https://console.cloud.google.com/).
+
+You'll need to place `clientId` and  `apiKey` in the configuration file `config/app.js`.
+
+For development environment, add the credentials in `.gauthrc` file in the root folder.
+
+## I want to use Rollout-Dashboard without google auth, is it supported?
+
+Currently this feature is not supported. 
+
+Add an [issue](https://github.com/fiverr/rollout_dashboard/issues) on that and we'll refer that.
+
