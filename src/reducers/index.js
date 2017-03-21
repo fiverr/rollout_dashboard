@@ -3,7 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = Immutable.Map()
                               .set('fetching', false)
-                              .set('features', []);
+                              .set('features', Immutable.List());
 
 const reducers = (state = initialState , action) => {
   switch (action.type) {
