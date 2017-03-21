@@ -1,5 +1,7 @@
+html,
 body {
-    background-color: #303030;
+    padding: 0;
+    margin: 0;
 }
 
 .btn-add-feature {
@@ -13,31 +15,19 @@ body {
     margin: 30px;
 }
 
-.rollouts {
+.features > div {
+     margin: 0 auto;
+}
 
-    .num {
-        width: 30px;
-    }
 
-    .name {
-        width: 220px;
-    }
+.standard-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    line-height: 130%;
+}
 
-    .headlines {
-        th {
-            font-weight: 600 !important;
-            font-size: 13px !important;
-        }
-    }
-    .description {
-        white-space: pre-line !important;
-        width: 120px;
-    }
-
-    .percentage {
-        font-size: 20px;
-        text-align: center;
-    }
+.description {
+    text-overflow: clip;
 }
 
 .history {
@@ -49,10 +39,11 @@ body {
     }
 }
 
-.description-tooltip {
-  cursor: pointer;
+.percentage {
+    font-size: 21px;
+    line-height: 150%;
 }
 
-.filter {
-    margin-bottom: 40px;
+.description-tooltip {
+  cursor: pointer;
 }

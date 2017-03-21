@@ -165,10 +165,11 @@ const clearSnakeMessage = () => {
     }
 };
 
-const googleAuthentication = (id_token) => {
+const googleAuthentication = (id_token, username) => {
     return {
         type: actionTypes.GOOGLE_AUTH,
-        id_token
+        id_token,
+        username
     }
 };
 
