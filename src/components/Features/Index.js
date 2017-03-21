@@ -216,11 +216,14 @@ class Features extends React.Component {
                                 width={200}
                                 header={<Cell className="standard-text">Updated By</Cell>}
                                 cell={({rowIndex}) => {
+
+                                    const lastRecord = features.getIn([rowIndex, 'history']).last();
+
                                     return (
                                         <Cell className="standard-text">
-                                            {features.getIn([rowIndex, 'author'])}
+                                            {lastRecord.get('author')}
                                             <br />
-                                            {features.getIn([rowIndex, 'author_mail'])}
+                                            {lastRecord.get('author_mail')}
                                         </Cell>
                                     )}
                                 }
