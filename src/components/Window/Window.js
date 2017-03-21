@@ -7,7 +7,7 @@ import CreateDialog from '../CreateDialog/CreateDialog';
 import AuthDialog from '../AuthDialog/AuthDialog';
 import './Window.scss';
 import 'fixed-data-table/dist/fixed-data-table.css';
-import Features from '../Features/';
+import Features from '../Features/Index';
 
 class Window extends React.Component {
 
