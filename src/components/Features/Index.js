@@ -147,6 +147,8 @@ class Features extends React.Component {
                                 cell={({rowIndex}) => (
                                     <Cell className="standard-text">
                                         {features.getIn([rowIndex, 'author'])}
+                                        <br />
+                                        {features.getIn([rowIndex, 'author_mail'])}
                                     </Cell>
                                 )}
                         />
