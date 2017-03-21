@@ -52,7 +52,7 @@ const reducers = (state = initialState , action) => {
     case actionTypes.UPDATE_FEATURE:
       const updatedFeature = action.feature;
       return state.update('features', features => {
-        const featureIndex = features.findIndex((feature) => feature.name === updatedFeature.name);
+        const featureIndex = features.findIndex((feature) => feature.get('name') === updatedFeature.name);
         return features.update(featureIndex, () => Immutable.fromJS(updatedFeature));
       });
 
