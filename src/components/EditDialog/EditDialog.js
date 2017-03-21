@@ -16,7 +16,7 @@ class EditDialog extends React.Component {
       super(props);
 
       let state = props.feature.toJS();
-      state = Object.assign({}, state, { last_author: '', last_author_mail: '', errors: {}, editCreatedBy: !!state.created_by});
+      state = Object.assign({}, state, { errors: {}});
 
       this.state =  state;
       this.removeUser = this.removeUser.bind(this);
@@ -107,14 +107,11 @@ class EditDialog extends React.Component {
 
               <TextField
                   className="field"
-                  value={this.state.created_by}
-                  floatingLabelText="Created By:"
-                  errorText={this.state.errors['created_by']}
+                  value={this.state.author}
+                  floatingLabelText="Author Name:"
+                  errorText={this.state.errors['author']}
                   floatingLabelFixed={true}
-                  disabled={this.state.editCreatedBy}
-                  onChange={ (_,value) => {
-                      this.updateInput('created_by', value)
-                  }}
+                  disabled={true}
               />
 
               <TextField
@@ -144,13 +141,8 @@ class EditDialog extends React.Component {
               <Users users={this.state.users} onAdd={this.addUser} onDelete={this.removeUser} />
           </div>
 
-
-
-
       </Dialog>)
   }
-
-
 }
 
 export default EditDialog;

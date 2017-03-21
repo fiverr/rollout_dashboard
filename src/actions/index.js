@@ -13,11 +13,10 @@ const getFeatures = () => {
                     return Object.assign({},{
                         history: [],
                         description: '',
-                        last_author: '',
-                        last_author_mail: '',
+                        author: '',
+                        author_mail: '',
                         users: [],
-                        created_at: '',
-                        created_by: ''
+                        created_at: ''
                     }, f);
                 });
                 dispatch({type: actionTypes.FETCHING_END_ACTION});

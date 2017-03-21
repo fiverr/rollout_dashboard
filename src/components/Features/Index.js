@@ -56,8 +56,8 @@ class Features extends React.Component {
             const regex = new RegExp(this.state.filter, 'gi');
             return (f.get('name') || '').match(regex) ||
                 (f.get('description') || '').match(regex) ||
-                (f.get('created_by') || '').match(regex) ||
-                (f.get('created_by_mail') || '').match(regex) ||
+                (f.get('author') || '').match(regex) ||
+                (f.get('author_mail') || '').match(regex) ||
                 (f.get('percentage') != undefined ? f.get('percentage') : '').toString().match(regex);
         })
     }
@@ -146,7 +146,7 @@ class Features extends React.Component {
                                 header={<Cell className="standard-text">Created By</Cell>}
                                 cell={({rowIndex}) => (
                                     <Cell className="standard-text">
-                                        {features.getIn([rowIndex, 'created_by'])}
+                                        {features.getIn([rowIndex, 'author'])}
                                     </Cell>
                                 )}
                         />
@@ -166,7 +166,7 @@ class Features extends React.Component {
                                             { features.getIn([rowIndex, 'history']).reverse().map(record =>
                                                 <MenuItem key={record.get('updated_at')} primaryText={
                                                     <div className="history">
-                                                        <small>{record.get('last_author')}</small>
+                                                        <small>{record.get('author')}</small>
                                                         <small>{record.get('percentage')}%</small>
                                                         <small>{moment(record.get('updated_at')).fromNow()}</small>
                                                     </div>
@@ -218,9 +218,9 @@ class Features extends React.Component {
                                 cell={({rowIndex}) => {
                                     return (
                                         <Cell className="standard-text">
-                                            {features.getIn([rowIndex, 'last_author'])}
+                                            {features.getIn([rowIndex, 'author'])}
                                             <br />
-                                            {features.getIn([rowIndex, 'last_author_mail'])}
+                                            {features.getIn([rowIndex, 'author_mail'])}
                                         </Cell>
                                     )}
                                 }
