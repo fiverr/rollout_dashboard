@@ -90,7 +90,7 @@ class EditDialog extends React.Component {
                       onRequestClose={onClose}
                       autoScrollBodyContent={true}>
 
-          <p> Editing {feature.get('name')}. </p>
+          <p> Editing <span className="highlight">{feature.get('name')}</span>. </p>
 
           <div className="left box">
               <TextField

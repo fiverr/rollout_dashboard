@@ -23,9 +23,8 @@ const DeleteDialog = ({onApproval, onClose, featureName}) => {
         actions={actions}
         modal={false}
         open={true}
-        onRequestClose={onClose}
-    >
-        Are you sure you want to delete {featureName} ?
+        onRequestClose={onClose}>
+        Are you sure you want to delete <span className="highlight">{featureName}</span> ?
     </Dialog>)
 
 }
