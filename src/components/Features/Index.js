@@ -8,6 +8,7 @@ import TextField from 'material-ui/TextField';
 import {green500 ,amber500, blueGrey500 } from 'material-ui/styles/colors';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import Logo from '../Logo/Index';
 import './Features.scss';
 import moment from 'moment'
 
@@ -82,7 +83,7 @@ class Features extends React.Component {
 
         return (
             <div>
-                <img className="logo" src="./rollout.png" alt="Rollout dashboard"/>
+                <Logo />
                 <FloatingActionButton className='btn-add-feature' onClick={openCreateDialog}>
                     <ContentAdd />
                 </FloatingActionButton>

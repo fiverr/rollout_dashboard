@@ -1,0 +1,26 @@
+
+.logo {
+    position: relative;
+    width: 330px;
+    margin: 30px;
+
+    img:not(.gear){
+        width: 300px;
+    }
+
+    .gear {
+        position: absolute;
+        width: 55px;
+        right: 110px;
+        top: 13px;
+        animation: rotate infinite ;
+        animation-duration: 5s;
+        animation-timing-function: linear;
+    }
+
+    @-webkit-keyframes rotate {
+    0%   {transform: rotate(0)}
+    50%   {transform: rotate(180deg)}
+    100% {transform: rotate(360deg)}
+    }
+}
