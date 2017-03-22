@@ -108,8 +108,8 @@ class Features extends React.Component {
                 <div className="features">
                     <Table rowHeight={50}
                            rowsCount={features.count()}
-                           width={window.innerWidth}
-                           height={window.innerHeight - 400}
+                           width={window.innerWidth - 20}
+                           height={window.innerHeight - 340}
                            overflowX={'auto'}
                            headerHeight={50}>
 
