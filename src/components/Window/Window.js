@@ -1,5 +1,4 @@
 import React from 'react'
-
 import Snackbar from 'material-ui/Snackbar';
 import DeleteDialog from '../DeleteDialog/DeleteDialog';
 import EditDialog from '../EditDialog/EditDialog';
@@ -8,6 +7,7 @@ import AuthDialog from '../AuthDialog/AuthDialog';
 import './Window.scss';
 import 'fixed-data-table/dist/fixed-data-table.css';
 import Features from '../Features/Index';
+import GithubContribute from '../GithubContribute/Index';
 
 class Window extends React.Component {
 
@@ -42,6 +42,7 @@ class Window extends React.Component {
 
         return (
             <div>
+                <GithubContribute />
                 <Features {...this.props} />
 
                 { deleteDialog && <DeleteDialog featureName={deleteDialog.get('featureName')} onClose={closeDeleteDialog} onApproval={deleteFeature}/>}
