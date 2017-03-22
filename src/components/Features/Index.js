@@ -76,10 +76,7 @@ class Features extends React.Component {
 
         if(this.state.filter) {
             features = this.filterFeatures(features);
-        } else {
-            features = features.slice(0, 20);
         }
-
 
         return (
             <div>
@@ -92,8 +89,6 @@ class Features extends React.Component {
                     <div className="standard-text">
                         Hello <strong>{googleAuth.get('username')}</strong>.
                         <ul>
-                            <li>On page load only the last 20 updated feature are being displayed.</li>
-                            <li>If you want to view all the feature - just type `.*` in the search box.</li>
                             <li>You can filter the features by name, description, created by and percentage fields.</li>
                         </ul>
                     </div>
@@ -113,28 +108,22 @@ class Features extends React.Component {
                 <div className="features">
                     <Table rowHeight={50}
                            rowsCount={features.count()}
-                           width={Math.max(window.innerWidth - 20, 2000)}
-                           height={window.innerHeight}
+                           width={window.innerWidth}
+                           height={window.innerHeight - 400}
                            overflowX={'auto'}
                            headerHeight={50}>
 
                         <Column fixed={true}
-                                width={80}
-                                header={<Cell className="standard-text">Index</Cell>}
-                                cell={({rowIndex}) => ( <Cell className="standard-text"> {rowIndex} </Cell> )}
-                        />
-
-                        <Column fixed={true}
-                                width={300}
+                                width={200}
                                 header={<Cell className="standard-text">Name</Cell>}
-                                flexGrow={2}
+                                flexGrow={3}
                                 cell={({rowIndex}) => ( <Cell className="standard-text"> {features.getIn([rowIndex, 'name'])} </Cell> )}
                         />
 
                         <Column fixed={true}
-                                width={400}
+                                width={200}
                                 header={<Cell className="standard-text">Description</Cell>}
-                                flexGrow={3}
+                                flexGrow={4}
                                 cell={({rowIndex}) => (
                                     <Cell className="description standard-text">
                                         {features.getIn([rowIndex, 'description'])}
@@ -143,7 +132,8 @@ class Features extends React.Component {
                         />
 
                         <Column fixed={true}
-                                width={250}
+                                width={150}
+                                flexGrow={2}
                                 header={<Cell className="standard-text">Created By</Cell>}
                                 cell={({rowIndex}) => (
                                     <Cell className="standard-text">
@@ -213,24 +203,6 @@ class Features extends React.Component {
                                         </strong>
                                     </Cell>
                                 )}
-                        />
-
-                        <Column fixed={true}
-                                width={200}
-                                header={<Cell className="standard-text">Updated By</Cell>}
-                                cell={({rowIndex}) => {
-
-                                    const lastRecord = features.getIn([rowIndex, 'history']).last();
-                                    if(!lastRecord) { return; }
-
-                                    return (
-                                        <Cell className="standard-text">
-                                            {lastRecord.get('author')}
-                                            <br />
-                                            {lastRecord.get('author_mail')}
-                                        </Cell>
-                                    )}
-                                }
                         />
 
                         <Column fixed={true}
