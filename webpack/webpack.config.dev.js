@@ -37,11 +37,11 @@ module.exports = {
     module: {
         loaders: [
             { 
-                 test: /\.tsx|\.ts?$/, loader: "awesome-typescript-loader" ,
+                  test: /\.tsx|\.ts?$/, loader: "ts-loader" ,
                   include: path.join(__dirname, '../','src')   
             },
             { 
-                 test: /\.js|\.jsx?$/,
+                  test: /\.js|\.jsx?$/, 
                   loaders: ['react-hot','babel-loader'],
                   include: path.join(__dirname, '../','src')   
             },
