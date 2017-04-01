@@ -5,6 +5,7 @@ import { createStore, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import rolloutDashboard from './reducers'
 import App from './components/App'
+// import { test } from './test'
 
 let store = createStore(
   rolloutDashboard, 
