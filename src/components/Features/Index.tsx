@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {Table, Column, Cell} from 'fixed-data-table';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -10,10 +10,19 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Logo from '../Logo/Index';
 import './Features.scss';
-import moment from 'moment'
+import * as moment from 'moment'
 
+interface FeaturesProps {
+    createDialog: (test:number) => void
+}
 
-class Features extends React.Component {
+interface FeaturesState {
+    markedSearchBox: boolean,
+    search?: string
+
+}
+
+class Features extends React.Component<FeaturesProps,FeaturesState> {
 
     constructor(props) {
         super(props);

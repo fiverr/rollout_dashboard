@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import Snackbar from 'material-ui/Snackbar';
 import DeleteDialog from '../DeleteDialog/DeleteDialog';
 import EditDialog from '../EditDialog/EditDialog';
@@ -9,7 +9,24 @@ import 'fixed-data-table/dist/fixed-data-table.css';
 import Features from '../Features/Index';
 import GithubContribute from '../GithubContribute/Index';
 
-class Window extends React.Component {
+// interface WindowProps {
+//     getFeatures: () => void,
+//     deleteDialog: (featureName : string) => void
+//     closeDeleteDialog: () => void,
+//     deleteFeature: (featureName : string) => void,
+//     createDialog: () => void,
+//     closeCreateDialog: () => void,
+//     updateFeature: (featureName : string, feature: {}) => {},
+//     editDialog: (featureName : string) => void,
+//     closeEditDialog: () => void,
+//     createFeature: () => void,
+//     snakeMessage: (message: string) => void,
+//     clearSnakeMessage: () => void,
+//     googleAuth: () => void,
+//     googleAuthentication: () => void,
+// }
+
+class Window extends React.Component{
 
 
     componentDidMount() {

@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import * as actions from '../actions'
 import Window from '../components/Window/Window'
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state: any) => {
   return {
       features: state.get('features'),
       deleteDialog: state.get('deleteDialog'),
@@ -14,7 +14,7 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators(actions, dispatch);
+const mapDispatchToProps = (dispatch: any, ownProps: any) => bindActionCreators(actions, dispatch);
 
 const WindowContainer = connect(
   mapStateToProps,

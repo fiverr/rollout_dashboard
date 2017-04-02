@@ -15,7 +15,7 @@ module.exports = {
     },
     entry: [
         'webpack-hot-middleware/client?path=http://localhost:' + config.port +'/__webpack_hmr',
-        "./src/index.js"
+        "./src/index.tsx"
     ],
     output: {
         path: distPath,

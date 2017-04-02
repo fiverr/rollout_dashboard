@@ -1,8 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-const PercentageSelect = ({currentValue, onChange}) => {
+const PercentageSelect = (props: {currentValue : number, onChange: () => void}) => {
 
     let options = [];
     for (let i = 0; i <= 100; i ++) {
@@ -11,11 +11,11 @@ const PercentageSelect = ({currentValue, onChange}) => {
 
     return(
         <SelectField
-            value={currentValue || 0}
+            value={props.currentValue || 0}
             maxHeight={200}
             name="percentage"
             floatingLabelText="Rollout Percentage:"
-            onChange={onChange}>
+            onChange={props.onChange}>
             {options}
         </SelectField>
     )

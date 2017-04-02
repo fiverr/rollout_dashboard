@@ -32,6 +32,8 @@
     "shipit-deploy": "2.2",
     "shipit-shared": "4.4.1",
     "style-loader": "^0.13.1",
+    "ts-loader": "^2.0.3",
+    "typescript": "^2.2.2",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2",
     "webpack-hot-middleware": "^1.13.2"

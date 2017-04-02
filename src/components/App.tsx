@@ -1,8 +1,7 @@
-import React from 'react'
+import * as React from 'react'
 import Window from '../containers/WindowContainer'
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import * as injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
 
 injectTapEventPlugin();
 

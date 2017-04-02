@@ -1,13 +1,19 @@
 import * as actionTypes from './actionTypes';
 
-const ROLLOUT_SERVICE_URL = `${ROLLOUT_SERVICE_HOST}:${ROLLOUT_SERVICE_PORT}/api/v1`;
+const ROLLOUT_SERVICE_URL = `${'ROLLOUT_SERVICE_HOST'}:${'ROLLOUT_SERVICE_PORT'}/api/v1`;
+
+interface Response {
+    data?: object,
+    message?: string
+}
 
 const getFeatures = () => {
-    return (dispatch, getState) => {
+    return (dispatch: any, getState: any) => {
         dispatch({type: actionTypes.FETCHING_START_ACTION});
         return fetch(`${ROLLOUT_SERVICE_URL}/features`)
             .then(response => response.json())
             .then(json => {
+                
                 const features = json.data;
                 features.map(f => {
                     return Object.assign({},{
@@ -122,7 +128,8 @@ const closeCreateDialog = () => {
     }
 };
 
-const createFeature = (feature) => {
+const createFeature = (payload: any) => {
+    const feature = Object.assign({},payload.inputs,payload.users);
     return (dispatch, getState) => {
 
         const store = getState();
@@ -151,7 +158,7 @@ const createFeature = (feature) => {
     }
 };
 
-const sendSnakeMessage = (message) => {
+const sendSnakeMessage = (message : string) => {
     return {
         type: actionTypes.SEND_SNACK_MESSAGE,
         message
@@ -164,7 +171,7 @@ const clearSnakeMessage = () => {
     }
 };
 
-const googleAuthentication = (id_token, username) => {
+const googleAuthentication = (id_token : string, username : string) => {
     return {
         type: actionTypes.GOOGLE_AUTH,
         id_token,
