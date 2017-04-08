@@ -14,8 +14,8 @@ module.exports = {
           hot: true
     },
     entry: [
-        'webpack-hot-middleware/client?path=http://localhost:' + config.port +'/__webpack_hmr',
-        "./src/index.tsx"
+        // 'webpack-hot-middleware/client?path=http://localhost:' + config.port +'/__webpack_hmr',
+        "./src/index"
     ],
     output: {
         path: distPath,
@@ -34,15 +34,13 @@ module.exports = {
                 'GOOGLE_AUTH_CLIENT_ID': JSON.stringify(config.googleAuth.clientId)
             }),
     ],
+    resolve: {
+        extensions: ['','.ts', '.tsx', '.js'] 
+    },
     module: {
         loaders: [
             { 
                   test: /\.tsx|\.ts?$/, loader: "ts-loader" ,
-                  include: path.join(__dirname, '../','src')   
-            },
-            { 
-                  test: /\.js|\.jsx?$/, 
-                  loaders: ['react-hot','babel-loader'],
                   include: path.join(__dirname, '../','src')   
             },
             {

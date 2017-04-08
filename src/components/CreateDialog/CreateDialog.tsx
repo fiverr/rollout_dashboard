@@ -12,8 +12,9 @@ interface Error {
 } 
 
 interface CreateDialogProps {
-    onApproval: (state: CreateDialogState) =>  void
-    onClose: ()=> void
+    createFeature: (state: CreateDialogState) =>  void;
+    closeCreateDialog: () => void;
+    isOpen: boolean;
 }
 
 interface StateInput {
@@ -28,36 +29,37 @@ interface CreateDialogState {
 
 class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState> {
 
-  constructor (props : any) {
+  constructor (props: any) {
       super(props);
       this.state = {
           users: [],
           errors: {},
           inputs: {}
       };
-
       this.removeUser = this.removeUser.bind(this);
       this.addUser = this.addUser.bind(this);
       this.updateInput = this.updateInput.bind(this);
   }
 
-    private removeUser(userID : number) : void {
+    private removeUser(userID : any) : void {
         const users  = this.state.users.filter(user => user !== userID );
         this.setState({users: users});
     }
 
-    addUser(userID : number) {
+    addUser(userID : any) {
         const users  = this.state.users;
         if(users.filter(user => user == userID ).length) { return; }
         users.push(userID);
         this.setState({users})
     }
 
-    updateInput(inputName : string, inputValue : string) {        
+    updateInput(inputName: string, inputValue : string) {   
+        const input = {}  
+        input[inputName] = inputValue
+
+        const inputs = Object.assign({}, this.state.inputs, input)
         this.setState({
-            inputs: {
-                inputName: inputValue
-            }
+            inputs
         });
     }
 
@@ -82,18 +84,23 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
   render() {
 
       const {
-          onApproval,
-          onClose
+          createFeature,
+          closeCreateDialog,
+          isOpen
       } = this.props;
 
+      if(!isOpen) {
+          return null;
+      }
+      
       const dialogActions = [
 
-          <FlatButton label="Cancel" primary={true} style={{color: 'red'}} onTouchTap={onClose}/>,
+          <FlatButton label="Cancel" primary={true} style={{color: 'red'}} onTouchTap={closeCreateDialog}/>,
           <FlatButton label="Confirm" primary={true} style={{color: 'green'}}
                       onTouchTap={() => {
                           const isValid = this.validate();
                           if (!isValid) { return; }
-                          onApproval(this.state)}
+                          createFeature(this.state)}
               }/>,
       ];
 
@@ -101,7 +108,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                       actions={dialogActions}
                       modal={false}
                       open={true}
-                      onRequestClose={onClose}
+                      onRequestClose={closeCreateDialog}
                       autoScrollBodyContent={true}>
 
           <p> Creating a new feature </p>
@@ -137,7 +144,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                       this.updateInput('description', value)
                   }}/>
 
-              <PercentageSelect currentValue={this.state.inputs.percentage}
+              <PercentageSelect currentValue={parseInt(this.state.inputs.percentage)}
                                 onChange={ (_ : any, value : number) => { this.updateInput('percentage', value.toString()) }} />
           </div>
 

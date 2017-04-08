@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Window from '../containers/WindowContainer'
+import Window from '../containers/Window'
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as actions from '../actions'
+import * as actions from '../actions' 
 import Window from '../components/Window/Window'
 
 const mapStateToProps = (state: any) => {
@@ -14,11 +14,12 @@ const mapStateToProps = (state: any) => {
     }
 };
 
-const mapDispatchToProps = (dispatch: any, ownProps: any) => bindActionCreators(actions, dispatch);
+const mapDispatchToProps = (dispatch: any, ownProps: any) => bindActionCreators((actions as any), dispatch);
 
 const WindowContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Window);
+)((Window as any));
 
 export default WindowContainer;
+

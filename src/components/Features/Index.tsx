@@ -13,18 +13,23 @@ import './Features.scss';
 import * as moment from 'moment'
 
 interface FeaturesProps {
-    createDialog: (test:number) => void
+    createDialog:  any,
+    features: any,
+    openDeleteDialog : any,
+    openCreateDialog: any,
+    openEditDialog: any
+    googleAuth: any
 }
 
 interface FeaturesState {
     markedSearchBox: boolean,
-    search?: string
-
+    search?: string,
+    filter?: any
 }
 
 class Features extends React.Component<FeaturesProps,FeaturesState> {
 
-    constructor(props) {
+    constructor(props: any) {
         super(props);
         this.state = {
             search: null,
@@ -33,7 +38,7 @@ class Features extends React.Component<FeaturesProps,FeaturesState> {
     }
 
     componentDidMount() {
-        this.refs.search && this.refs.search.focus();
+        // this.refs.search && this.refs.search.focus();
         setTimeout(function() {
             this.setState({markedSearchBox : false})
         }.bind(this),0)
@@ -42,7 +47,7 @@ class Features extends React.Component<FeaturesProps,FeaturesState> {
     sortedFeatures() {
         const features = this.props.features;
 
-        return features.sort((a, b) => {
+        return features.sort((a: any, b: any) => {
             let lastRecordA = a.get('history').last();
             let lastRecordB = b.get('history').last();
 
@@ -61,8 +66,8 @@ class Features extends React.Component<FeaturesProps,FeaturesState> {
         });
     }
 
-    filterFeatures(features) {
-        return features.filter(f => {
+    filterFeatures(features: any) {
+        return features.filter((f: any) => {
             const regex = new RegExp(this.state.filter, 'gi');
             return (f.get('name') || '').match(regex) ||
                 (f.get('description') || '').match(regex) ||

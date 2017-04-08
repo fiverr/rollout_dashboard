@@ -2,12 +2,14 @@
     "compilerOptions": {
         "outDir": "./dist/",
         "sourceMap": true,
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "module": "commonjs",
-        "target": "es5",
+        "target": "es6",
         "jsx": "react",
         "skipLibCheck": true,
-        "allowJs": true
+        "suppressImplicitAnyIndexErrors": true,
+        "allowJs": true,
+        "noUnusedLocals": true
     },
     "include": [
         "./src/"

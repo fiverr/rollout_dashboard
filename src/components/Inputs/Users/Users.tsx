@@ -22,12 +22,12 @@ const Users = (props: UsersProps) => {
                 onKeyDown={(event) => {
                     if(event.keyCode !== 13) { return; }
                     if(!event.target.value.match(/^\d+$/)) { return; }
-                    this.props.onAdd(event.target.value);
+                    props.onAdd(event.target.value);
                     event.target.value = '';
                 }}
             />
-            {this.props.users.map((user)=> {
-                return (<Chip className="user" key={user} onRequestDelete={() => { this.props.onDelete(user) }}> {user} </Chip>)
+            {props.users.map((user: number)=> {
+                return (<Chip className="user" key={user} onRequestDelete={() => { props.onDelete(user) }}> {user} </Chip>)
             })}
         </div>
     )

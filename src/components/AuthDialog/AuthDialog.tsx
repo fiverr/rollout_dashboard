@@ -3,25 +3,27 @@ import Dialog from 'material-ui/Dialog';
 import './Auth-Dialog.scss';
 
 interface AuthDialogProps {
-    saveAuthenticationData: (idToken: string, username: string) => void
+    saveAuthenticationData: (idToken: string, username: string) => void,
 }
+
+declare var GOOGLE_AUTH_CLIENT_ID: string;
+declare var GOOGLE_AUTH_API_KEY: string;
 
 class AuthDialog extends React.Component<AuthDialogProps, {}> {
 
     public GoogleAuth: any;
 
     componentDidMount() {
-        window.gapi.load('client', this.initClient.bind(this));
-
+        (window as any).gapi.load('client', this.initClient.bind(this));
     }
 
     initClient() {
-        window.gapi.client.init({
-            'apiKey': 'GOOGLE_AUTH_API_KEY',
-            'clientId': 'GOOGLE_AUTH_CLIENT_ID',
+         (window as any).gapi.client.init({
+            'apiKey': GOOGLE_AUTH_API_KEY,
+            'clientId': GOOGLE_AUTH_CLIENT_ID,
             'scope': 'email profile'
         }).then(() => {
-            this.GoogleAuth = window.gapi.auth2.getAuthInstance();
+            this.GoogleAuth =  (window as any).gapi.auth2.getAuthInstance();
             this.GoogleAuth.isSignedIn.listen(this.statusChanged.bind(this));
             this.connect();
         });
