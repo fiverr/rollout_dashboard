@@ -3,17 +3,16 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 interface DeleteDialogProps {
-    deleteFeature: (featureName: string) => void,
-    closeDeleteDialog: ()=> void,
-    featureName: string
-
+    deleteFeature: (featureName: string) => void;
+    closeDeleteDialog: ()=> void;
+    featureName: string;
 }
 
 const DeleteDialog = (props: DeleteDialogProps) => {
-    if(!props.featureName) {
+    if (!props.featureName) {
         return null;
     }
-
+    
     const actions = [
 
         <FlatButton

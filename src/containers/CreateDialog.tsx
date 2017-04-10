@@ -1,17 +1,15 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as actions from '../actions' 
+import { closeCreateDialog, createFeature } from '../actions' 
 import CreateDialog from '../components/CreateDialog/CreateDialog'
-
-
 
 const mapStateToProps = (state: any) => {
   return {
-      isOpen: state.get('createDialog'),
+      isOpen: state.get('createDialogVisible')
     }
 };
 
-const mapDispatchToProps = (dispatch: any, ownProps: any) => bindActionCreators((actions as any), dispatch);
+const mapDispatchToProps = (dispatch: any, ownProps: any) => bindActionCreators({ closeCreateDialog, createFeature }, dispatch);
 
 const CreateDialogContainer = connect(
   mapStateToProps,

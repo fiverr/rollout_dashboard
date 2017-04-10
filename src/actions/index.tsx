@@ -5,6 +5,16 @@ declare var ROLLOUT_SERVICE_PORT: string;
 
 const ROLLOUT_SERVICE_URL = `${ROLLOUT_SERVICE_HOST}:${ROLLOUT_SERVICE_PORT}/api/v1`;
 
+interface Action<T> {
+  readonly type: string;
+  readonly payload?: T;
+}
+
+interface ActionCreator<T> {
+  readonly type: string;
+  (payload: T): Action<T>;
+}
+
 const getFeatures = () => {
     return (dispatch: any, getState: any) => {
         dispatch({type: actionTypes.FETCHING_START_ACTION});
@@ -128,12 +138,14 @@ const openCreateDialog = () => {
         type: actionTypes.OPEN_CREATE_DIALOG
     }
 };
-
-
+//
 const closeCreateDialog = () => {
-    return {
+    const action: Action<any> = {
         type: actionTypes.CLOSE_CREATE_DIALOG
     }
+
+    return action
+    // 
 };
 
 const createFeature = (payload: any) => {
@@ -188,6 +200,8 @@ const googleAuthentication = (id_token : string, username : string) => {
 };
 
 export {
+    ActionCreator,
+    Action,
     getFeatures,
     saveUpdatedFeature,
     openDeleteDialog,

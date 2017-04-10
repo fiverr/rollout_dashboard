@@ -4,7 +4,7 @@ import MenuItem from 'material-ui/MenuItem';
 
 const PercentageSelect = (props: {currentValue : number, onChange:any}) => {
 
-    let options = [];
+    const options = [];
     for (let i = 0; i <= 100; i ++) {
         options.push(<MenuItem key={i}  value={i} primaryText={`${i}%`} />)
     }

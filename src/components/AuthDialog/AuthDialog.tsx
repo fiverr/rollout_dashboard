@@ -3,21 +3,32 @@ import Dialog from 'material-ui/Dialog';
 import './Auth-Dialog.scss';
 
 interface AuthDialogProps {
-    saveAuthenticationData: (idToken: string, username: string) => void,
+    saveAuthenticationData: (idToken: string, username: string) => void;
 }
 
-declare var GOOGLE_AUTH_CLIENT_ID: string;
-declare var GOOGLE_AUTH_API_KEY: string;
+declare const GOOGLE_AUTH_CLIENT_ID: string;
+declare const GOOGLE_AUTH_API_KEY: string;
 
 class AuthDialog extends React.Component<AuthDialogProps, {}> {
 
     public GoogleAuth: any;
 
-    componentDidMount() {
+    public componentDidMount() {
         (window as any).gapi.load('client', this.initClient.bind(this));
     }
 
-    initClient() {
+    public render() {
+        return (
+            <Dialog className="auth-dialog" modal={true} open={true}>
+                <p> Please authenticate yourself before continuing further </p>
+                <a href="#!" ref="login" className="btn-login" onClick={this.connect.bind(this)}>
+                    <i className="google"> </i>
+                    Continue with Google
+                </a>
+            </Dialog>)
+    }
+    
+    private initClient() {
          (window as any).gapi.client.init({
             'apiKey': GOOGLE_AUTH_API_KEY,
             'clientId': GOOGLE_AUTH_CLIENT_ID,
@@ -29,31 +40,18 @@ class AuthDialog extends React.Component<AuthDialogProps, {}> {
         });
     }
 
-  connect() {
+  private connect() {
       if (this.GoogleAuth.isSignedIn.get()) {
           this.statusChanged();
       } else {
           this.GoogleAuth.signIn();
       }
   }
-
-  statusChanged() {
+  private statusChanged() {
       const user = this.GoogleAuth.currentUser.get();
       const authResponse = user.getAuthResponse();
       this.props.saveAuthenticationData(authResponse.id_token, user.getBasicProfile().getName())
   }
-
-  render() {
-      return (
-      <Dialog className="auth-dialog" modal={true} open={true}>
-        <p> Please authenticate yourself before continuing further </p>
-        <a href="#!" ref="login" className="btn-login" onClick={this.connect.bind(this)}>
-            <i className="google"> </i>
-            Continue with Google
-        </a>
-      </Dialog>)
-  }
-
 }
 
 export default AuthDialog;

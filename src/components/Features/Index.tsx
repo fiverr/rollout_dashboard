@@ -9,8 +9,8 @@ import {green500 ,amber500, blueGrey500 } from 'material-ui/styles/colors';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Logo from '../Logo/Index';
-import './Features.scss';
 import * as moment from 'moment'
+import './Features.scss';
 
 interface FeaturesProps {
     createDialog:  any,
@@ -37,47 +37,7 @@ class Features extends React.Component<FeaturesProps,FeaturesState> {
         }
     }
 
-    componentDidMount() {
-        // this.refs.search && this.refs.search.focus();
-        setTimeout(function() {
-            this.setState({markedSearchBox : false})
-        }.bind(this),0)
-    }
-
-    sortedFeatures() {
-        const features = this.props.features;
-
-        return features.sort((a: any, b: any) => {
-            let lastRecordA = a.get('history').last();
-            let lastRecordB = b.get('history').last();
-
-            lastRecordA = lastRecordA &&  lastRecordA.get('updated_at');
-            lastRecordB = lastRecordB && lastRecordB.get('updated_at');
-
-            if(!lastRecordA && !lastRecordB) {
-                return 0
-            } else if (!lastRecordA) {
-                return 1;
-            } else if (!lastRecordB) {
-                return -1;
-            }
-
-            return  moment(lastRecordA).isBefore(lastRecordB) ? 1 : -1;
-        });
-    }
-
-    filterFeatures(features: any) {
-        return features.filter((f: any) => {
-            const regex = new RegExp(this.state.filter, 'gi');
-            return (f.get('name') || '').match(regex) ||
-                (f.get('description') || '').match(regex) ||
-                (f.get('author') || '').match(regex) ||
-                (f.get('author_mail') || '').match(regex) ||
-                (f.get('percentage') != undefined ? f.get('percentage') : '').toString().match(regex);
-        })
-    }
-
-    render() {
+    public render() {
 
         const {
             openDeleteDialog,
@@ -95,7 +55,7 @@ class Features extends React.Component<FeaturesProps,FeaturesState> {
         return (
             <div>
                 <Logo />
-                <FloatingActionButton className='btn-add-feature' onClick={openCreateDialog}>
+                <FloatingActionButton className="btn-add-feature" onClick={openCreateDialog}>
                     <ContentAdd />
                 </FloatingActionButton>
 
@@ -121,18 +81,17 @@ class Features extends React.Component<FeaturesProps,FeaturesState> {
 
                 <div className="features">
                     <Table rowHeight={50}
-                           rowsCount={features.count()}
-                           width={window.innerWidth - 20}
-                           height={window.innerHeight - 340}
-                           overflowX={'auto'}
-                           headerHeight={50}>
+                            rowsCount={features.count()}
+                            width={window.innerWidth - 20}
+                            height={window.innerHeight - 340}
+                            overflowX={'auto'}
+                            headerHeight={50}>
 
                         <Column fixed={true}
                                 width={200}
                                 header={<Cell className="standard-text">Name</Cell>}
                                 flexGrow={3}
-                                cell={({rowIndex}) => ( <Cell className="standard-text"> {features.getIn([rowIndex, 'name'])} </Cell> )}
-                        />
+                                cell={({rowIndex}) => ( <Cell className="standard-text"> {features.getIn([rowIndex, 'name'])} </Cell> )} />
 
                         <Column fixed={true}
                                 width={200}
@@ -142,8 +101,7 @@ class Features extends React.Component<FeaturesProps,FeaturesState> {
                                     <Cell className="description standard-text">
                                         {features.getIn([rowIndex, 'description'])}
                                     </Cell>
-                                )}
-                        />
+                                )}/>
 
                         <Column fixed={true}
                                 width={150}
@@ -155,8 +113,7 @@ class Features extends React.Component<FeaturesProps,FeaturesState> {
                                         <br />
                                         {features.getIn([rowIndex, 'author_mail'])}
                                     </Cell>
-                                )}
-                        />
+                                )}/>
 
                         <Column fixed={true}
                                 width={80}
@@ -169,7 +126,7 @@ class Features extends React.Component<FeaturesProps,FeaturesState> {
                                             width={500}
                                             useLayerForClickAway={true}
                                             iconButtonElement={<IconButton disabled={!features.getIn([rowIndex, 'history']).count()} iconStyle={{color: amber500}}> <FontIcon
-                                                className="material-icons">history</FontIcon></IconButton>}>
+                                            className="material-icons">history</FontIcon></IconButton>}>
                                             { features.getIn([rowIndex, 'history']).reverse().map(record =>
                                                 <MenuItem key={record.get('updated_at')} primaryText={
                                                     <div className="history">
@@ -181,8 +138,7 @@ class Features extends React.Component<FeaturesProps,FeaturesState> {
 
                                         </IconMenu>
                                     </Cell>
-                                )}
-                        />
+                                )}/>
 
                         <Column fixed={true}
                                 width={80}
@@ -198,13 +154,12 @@ class Features extends React.Component<FeaturesProps,FeaturesState> {
                                             {
                                                 features.getIn([rowIndex, 'users']).count() ?
                                                     features.getIn([rowIndex, 'users']).map(user => <MenuItem key={`${features.getIn([rowIndex, 'name'])}_${user}`} value={1}
-                                                                                                              primaryText={user}/>) :
+                                                                                                                primaryText={user}/>) :
                                                     <MenuItem primaryText={"No users"}/>
                                             }
                                         </IconMenu>}
                                     </Cell>
-                                )}
-                        />
+                                )} />
 
 
                         <Column fixed={true}
@@ -216,8 +171,7 @@ class Features extends React.Component<FeaturesProps,FeaturesState> {
                                             {features.getIn([rowIndex, 'percentage'])+ '%'}
                                         </strong>
                                     </Cell>
-                                )}
-                        />
+                                )}/>
 
                         <Column fixed={true}
                                 width={200}
@@ -247,13 +201,13 @@ class Features extends React.Component<FeaturesProps,FeaturesState> {
                                             iconButtonElement={<IconButton iconStyle={{color: blueGrey500}}> <FontIcon className="material-icons">settings</FontIcon></IconButton>}>
 
                                             <MenuItem primaryText="EDIT"
-                                                      onClick={() => {
-                                                          openEditDialog(features.getIn([rowIndex]));
-                                                      }}
-                                                      onKeyDown={(event) => {
-                                                          if(event.keyCode != 13) { return; }
-                                                          openEditDialog(features.getIn([rowIndex]));
-                                                      }} />
+                                                        onClick={() => {
+                                                            openEditDialog(features.getIn([rowIndex]));
+                                                        }}
+                                                        onKeyDown={(event) => {
+                                                            if(event.keyCode != 13) { return; }
+                                                            openEditDialog(features.getIn([rowIndex]));
+                                                        }} />
 
                                             <MenuItem
                                                 primaryText="DELETE"
@@ -265,13 +219,49 @@ class Features extends React.Component<FeaturesProps,FeaturesState> {
                                                     openDeleteDialog(featureName);
                                                 }} />
                                         </IconMenu>
-                                    </Cell>)
-                                }}/>
+                                    </Cell>) }}/>
                     </Table>
                 </div>
+            </div> )
+    }
+    public componentDidMount() {
+        // this.refs.search && this.refs.search.focus();
+        setTimeout(function() {
+            this.setState({markedSearchBox : false})
+        }.bind(this), 0);
+    }
 
-            </div>
-        )
+    private sortedFeatures() {
+        const features = this.props.features;
+
+        return features.sort((a: any, b: any) => {
+            let lastRecordA = a.get('history').last();
+            let lastRecordB = b.get('history').last();
+
+            lastRecordA = lastRecordA &&  lastRecordA.get('updated_at');
+            lastRecordB = lastRecordB && lastRecordB.get('updated_at');
+
+            if(!lastRecordA && !lastRecordB) {
+                return 0
+            } else if (!lastRecordA) {
+                return 1;
+            } else if (!lastRecordB) {
+                return -1;
+            }
+
+            return  moment(lastRecordA).isBefore(lastRecordB) ? 1 : -1;
+        });
+    }
+
+    private filterFeatures(features: any) {
+        return features.filter((f: any) => {
+            const regex = new RegExp(this.state.filter, 'gi');
+            return (f.get('name') || '').match(regex) ||
+                (f.get('description') || '').match(regex) ||
+                (f.get('author') || '').match(regex) ||
+                (f.get('author_mail') || '').match(regex) ||
+                (f.get('percentage') != undefined ? f.get('percentage') : '').toString().match(regex);
+        })
     }
 }
 

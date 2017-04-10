@@ -6,14 +6,15 @@ import * as moment from 'moment';
 import PercentageSelect from '../Inputs/PercentageSelect';
 import Users from '../Inputs/Users/Users'
 import './CreateDialog.scss';
+import {Action} from '../../actions/index'
 
 interface Error {
     [key: string]: string;
 } 
 
 interface CreateDialogProps {
-    createFeature: (state: CreateDialogState) =>  void;
-    closeCreateDialog: () => void;
+    createFeature: (payload: any) => (dispatch: any, getState: any) => Promise<any>
+    closeCreateDialog: () => Action<any>;
     isOpen: boolean;
 }
 
@@ -29,13 +30,9 @@ interface CreateDialogState {
 
 class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState> {
 
-  constructor (props: any) {
+  constructor(props: any) {
       super(props);
-      this.state = {
-          users: [],
-          errors: {},
-          inputs: {}
-      };
+      this.state = { users: [], errors: {}, inputs: {} };
       this.removeUser = this.removeUser.bind(this);
       this.addUser = this.addUser.bind(this);
       this.updateInput = this.updateInput.bind(this);

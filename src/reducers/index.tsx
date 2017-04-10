@@ -41,10 +41,10 @@ const reducers = (state = initialState , action) => {
       return state.delete('editDialog');
 
     case actionTypes.OPEN_CREATE_DIALOG:
-      return state.set('createDialog', true);
+      return state.set('createDialogVisible', true);
 
     case actionTypes.CLOSE_CREATE_DIALOG:
-      return state.delete('createDialog');
+      return state.delete('createDialogVisible');
 
     case actionTypes.CREATED_FEATURE:
       return state.update('features', (features: any) => features.push(Immutable.fromJS(action.feature)));
