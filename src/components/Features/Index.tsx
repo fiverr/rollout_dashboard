@@ -33,7 +33,7 @@ class Features extends React.Component<FeaturesProps,FeaturesState> {
         super(props);
         this.state = {
             search: null,
-            markedSearchBox: true
+            markedSearchBox: true,
         }
     }
 

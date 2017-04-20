@@ -14,7 +14,7 @@ module.exports = {
           hot: true
     },
     entry: [
-        // 'webpack-hot-middleware/client?path=http://localhost:' + config.port +'/__webpack_hmr',
+        'webpack-hot-middleware/client?path=http://localhost:' + config.port +'/__webpack_hmr',
         "./src/index"
     ],
     output: {

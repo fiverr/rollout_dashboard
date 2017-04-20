@@ -100,7 +100,6 @@ const closeEditDialog = () => {
     }
 };
 
-
 const saveUpdatedFeature = () => {
     return (dispatch: any, getState: any) => {
         dispatch({type: actionTypes.FETCHING_START_ACTION});

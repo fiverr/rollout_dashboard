@@ -23,9 +23,9 @@ interface StateInput {
 }
 
 interface CreateDialogState {
-    users?: Array<number>,
-    errors?: Error,
-    inputs: StateInput
+    users?: Array<number>;
+    errors?: Error;
+    inputs: StateInput;
 }
 
 class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState> {
