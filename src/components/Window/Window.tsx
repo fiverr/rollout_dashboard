@@ -7,7 +7,7 @@ import AuthDialog from '../AuthDialog/AuthDialog';
 import './Window.scss';
 import 'fixed-data-table/dist/fixed-data-table.css';
 import Features from '../../containers/Features';
-import GithubContribute from '../GithubContribute/Index';
+import GithubContribute from '../GithubContribute/';
 
 interface WindowProps {
     getFeatures: () => void;
