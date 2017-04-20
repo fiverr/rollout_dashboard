@@ -1,15 +1,28 @@
 import * as actionTypes from './actionTypes';
 
+declare var ROLLOUT_SERVICE_HOST: string;
+declare var ROLLOUT_SERVICE_PORT: string;
+
 const ROLLOUT_SERVICE_URL = `${ROLLOUT_SERVICE_HOST}:${ROLLOUT_SERVICE_PORT}/api/v1`;
 
+interface Action<T> {
+  readonly type: string;
+  readonly payload?: T;
+}
+
+interface ActionCreator<T> {
+  readonly type: string;
+  (payload: T): Action<T>;
+}
+
 const getFeatures = () => {
-    return (dispatch, getState) => {
+    return (dispatch: any, getState: any) => {
         dispatch({type: actionTypes.FETCHING_START_ACTION});
         return fetch(`${ROLLOUT_SERVICE_URL}/features`)
             .then(response => response.json())
-            .then(json => {
-                const features = json.data;
-                features.map(f => {
+            .then((json: any) => {
+                const features: any = json.data;
+                features.map((f: any) => {
                     return Object.assign({},{
                         history: [],
                         description: '',
@@ -29,7 +42,7 @@ const getFeatures = () => {
     }
 };
 
-const openDeleteDialog = (featureName) => {
+const openDeleteDialog = (featureName: string) => {
     return {
         type: actionTypes.OPEN_DELETE_DIALOG,
         featureName
@@ -42,8 +55,8 @@ const closeDeleteDialog = () => {
     }
 }
 
-const deleteFeature = (featureName) => {
-    return (dispatch, getState) => {
+const deleteFeature = (featureName :string) => {
+    return (dispatch: any, getState: any) => {
         dispatch({type: actionTypes.FETCHING_START_ACTION});
         return fetch(`${ROLLOUT_SERVICE_URL}/features/${featureName}`,{
             method: 'DELETE',
@@ -64,12 +77,22 @@ const deleteFeature = (featureName) => {
     }
 };
 
-const openEditDialog = (feature) => {
+const openEditDialog = (feature: any) => {
     return {
         type: actionTypes.OPEN_EDIT_DIALOG,
         feature
     }
 };
+
+const updateFeature = (field: string,value: any) => {
+   return (
+       {
+       type: actionTypes.UPDATE_FEATURE,
+       field,
+       value
+       }
+   )
+}
 
 const closeEditDialog = () => {
     return {
@@ -77,15 +100,16 @@ const closeEditDialog = () => {
     }
 };
 
-const updateFeature = (feature) => {
-    return (dispatch, getState) => {
+const saveUpdatedFeature = () => {
+    return (dispatch: any, getState: any) => {
         dispatch({type: actionTypes.FETCHING_START_ACTION});
         const store = getState();
-        const data = Object.assign({}, feature, {
+        const feature = store.getIn(['editDialog','feature']).toJS();;
+        const data = Object.assign({},feature , {
             id_token: store.getIn(['googleAuth','id_token'])
         });
 
-        return fetch(`${ROLLOUT_SERVICE_URL}/features/${data.name}`,{
+        return fetch(`${ROLLOUT_SERVICE_URL}/features/${feature.name}`,{
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -93,9 +117,9 @@ const updateFeature = (feature) => {
             body: JSON.stringify(data)
         })
         .then((response) => response.json())
-        .then(json =>  {
+        .then((json: any) =>  {
             const feature = json.data;
-            dispatch({type: actionTypes.UPDATE_FEATURE, feature});
+            dispatch({type: actionTypes.SAVE_UPDATED_FEATURE, feature});
             dispatch({type: actionTypes.FETCHING_END_ACTION});
             dispatch(sendSnakeMessage(`The feature ${feature.name} has been updated.`))
         })
@@ -108,22 +132,24 @@ const updateFeature = (feature) => {
     }
 };
 
-
 const openCreateDialog = () => {
     return {
         type: actionTypes.OPEN_CREATE_DIALOG
     }
 };
-
-
+//
 const closeCreateDialog = () => {
-    return {
+    const action: Action<any> = {
         type: actionTypes.CLOSE_CREATE_DIALOG
     }
+
+    return action
+    // 
 };
 
-const createFeature = (feature) => {
-    return (dispatch, getState) => {
+const createFeature = (payload: any) => {
+    const feature = Object.assign({},payload.inputs,payload.users);
+    return (dispatch : any, getState : any) => {
 
         const store = getState();
         const data = Object.assign({}, feature, {
@@ -139,8 +165,8 @@ const createFeature = (feature) => {
             body: JSON.stringify(data)
         })
             .then((response) => response.json())
-            .then(json =>  {
-                const feature = json.data;
+            .then((json: any) =>  {
+                const feature: any = json.data;
                 dispatch({type: actionTypes.CREATED_FEATURE, feature});
                 dispatch(sendSnakeMessage(`The feature ${feature.name} has been created.`));
             })
@@ -151,7 +177,7 @@ const createFeature = (feature) => {
     }
 };
 
-const sendSnakeMessage = (message) => {
+const sendSnakeMessage = (message : string) => {
     return {
         type: actionTypes.SEND_SNACK_MESSAGE,
         message
@@ -164,7 +190,7 @@ const clearSnakeMessage = () => {
     }
 };
 
-const googleAuthentication = (id_token, username) => {
+const googleAuthentication = (id_token : string, username : string) => {
     return {
         type: actionTypes.GOOGLE_AUTH,
         id_token,
@@ -173,7 +199,10 @@ const googleAuthentication = (id_token, username) => {
 };
 
 export {
+    ActionCreator,
+    Action,
     getFeatures,
+    saveUpdatedFeature,
     openDeleteDialog,
     closeDeleteDialog,
     openEditDialog,

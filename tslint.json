@@ -1,0 +1,8 @@
+{
+	"extends": "tslint:recommended",
+	"rules": {
+		"no-unused-expression": true,
+		"no-unused-variable": true,
+		"noUnusedLocals": true
+	}
+}

@@ -1,11 +1,16 @@
-import React from 'react';
+import * as React from 'react';
 import './Users.scss';
 import TextField from 'material-ui/TextField';
 import Chip from 'material-ui/Chip';
 
+interface UsersProps {
+    users: Array<number>
+    onAdd: (userID: number) => void
+    onDelete: (userID: number) => void
+}
 
-const Users = ({users, onAdd, onDelete}) => {
-
+const Users = (props: UsersProps) => {
+    
     return(
         <div className="chips-container">
             <TextField
@@ -17,12 +22,12 @@ const Users = ({users, onAdd, onDelete}) => {
                 onKeyDown={(event) => {
                     if(event.keyCode !== 13) { return; }
                     if(!event.target.value.match(/^\d+$/)) { return; }
-                    onAdd(event.target.value);
+                    props.onAdd(event.target.value);
                     event.target.value = '';
                 }}
             />
-            {users.map((user)=> {
-                return (<Chip className="user" key={user} onRequestDelete={() => { onDelete(user) }}> {user} </Chip>)
+            {props.users.map((user: number)=> {
+                return (<Chip className="user" key={user} onRequestDelete={() => { props.onDelete(user) }}> {user} </Chip>)
             })}
         </div>
     )

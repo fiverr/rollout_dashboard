@@ -9,7 +9,7 @@ module.exports = {
     context: __dirname+ '/..',
     progress: true,
     entry: [
-        "./src/index.js"
+        "./src/index"
     ],
     output: {
         path: distPath,
@@ -42,12 +42,14 @@ module.exports = {
                 }
             }),
     ],
+    resolve: {
+        extensions: ['','.ts', '.tsx', '.js'] 
+    },
     module: {
         loaders: [
-            {
-                test: /\.js$/,
-                loaders: ['babel-loader'],
-                include: path.join(__dirname, '../','src')
+            { 
+                  test: /\.tsx|\.ts?$/, loader: "ts-loader" ,
+                  include: path.join(__dirname, '../','src')   
             },
             {
                 test: /\.scss|\.css$/,

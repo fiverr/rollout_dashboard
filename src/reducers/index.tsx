@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import * as Immutable from 'immutable';
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = Immutable.Map()
@@ -29,7 +29,7 @@ const reducers = (state = initialState , action) => {
 
     case actionTypes.FEATURE_REMOVED:
       const featureName = action.featureName;
-      return state.update('features', (feature) => feature.filterNot(feature => feature.get('name') === featureName));
+      return state.update('features', (feature: any) => feature.filterNot(feature => feature.get('name') === featureName));
 
     case actionTypes.OPEN_EDIT_DIALOG:
       const feature = action.feature;
@@ -41,20 +41,23 @@ const reducers = (state = initialState , action) => {
       return state.delete('editDialog');
 
     case actionTypes.OPEN_CREATE_DIALOG:
-      return state.set('createDialog', true);
+      return state.set('createDialogVisible', true);
 
     case actionTypes.CLOSE_CREATE_DIALOG:
-      return state.delete('createDialog');
+      return state.delete('createDialogVisible');
 
     case actionTypes.CREATED_FEATURE:
-      return state.update('features', features => features.push(Immutable.fromJS(action.feature)));
+      return state.update('features', (features: any) => features.push(Immutable.fromJS(action.feature)));
 
-    case actionTypes.UPDATE_FEATURE:
+    case actionTypes.SAVE_UPDATED_FEATURE:
       const updatedFeature = action.feature;
-      return state.update('features', features => {
+      return state.update('features', (features: any) => {
         const featureIndex = features.findIndex((feature) => feature.get('name') === updatedFeature.name);
         return features.update(featureIndex, () => Immutable.fromJS(updatedFeature));
       });
+
+      case actionTypes.UPDATE_FEATURE:
+      return state.setIn(['editDialog','feature', action.field], action.value)
 
     case actionTypes.SEND_SNACK_MESSAGE:
       return state.set('snakeMessage', action.message);
@@ -69,7 +72,7 @@ const reducers = (state = initialState , action) => {
       }));
 
     default: {
-      return state
+      return state;
     }
   }
 };
