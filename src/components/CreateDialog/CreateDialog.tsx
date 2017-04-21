@@ -14,7 +14,7 @@ interface Error {
 
 interface CreateDialogProps {
     createFeature: (payload: any) => (dispatch: any, getState: any) => Promise<any>
-    closeCreateDialog: () => Action<any>;
+    closeCreateDialog: () => Action;
     isOpen: boolean;
 }
 

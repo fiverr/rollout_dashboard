@@ -1,19 +1,9 @@
 import * as actionTypes from './actionTypes';
-
+import {Action, ActionCreator} from 'redux'
 declare var ROLLOUT_SERVICE_HOST: string;
 declare var ROLLOUT_SERVICE_PORT: string;
 
 const ROLLOUT_SERVICE_URL = `${ROLLOUT_SERVICE_HOST}:${ROLLOUT_SERVICE_PORT}/api/v1`;
-
-interface Action<T> {
-  readonly type: string;
-  readonly payload?: T;
-}
-
-interface ActionCreator<T> {
-  readonly type: string;
-  (payload: T): Action<T>;
-}
 
 const getFeatures = () => {
     return (dispatch: any, getState: any) => {
@@ -139,7 +129,7 @@ const openCreateDialog = () => {
 };
 //
 const closeCreateDialog = () => {
-    const action: Action<any> = {
+    const action: Action = {
         type: actionTypes.CLOSE_CREATE_DIALOG
     }
 
