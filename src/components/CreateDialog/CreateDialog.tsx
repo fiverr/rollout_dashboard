@@ -1,16 +1,16 @@
-import * as React from 'react'
+import * as React from 'react';
 import Dialog from 'material-ui/Dialog';
-import FlatButton  from 'material-ui/FlatButton';
+import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as moment from 'moment';
 import PercentageSelect from '../Inputs/PercentageSelect';
-import Users from '../Inputs/Users/Users'
+import Users from '../Inputs/Users/Users';
 import './CreateDialog.scss';
-import {Action} from '../../actions/index'
+import { Action } from 'redux';
 
 interface Error {
     [key: string]: string;
-} 
+}
 
 interface CreateDialogProps {
     createFeature: (payload: any) => (dispatch: any, getState: any) => Promise<any>
@@ -23,7 +23,7 @@ interface StateInput {
 }
 
 interface CreateDialogState {
-    users?: Array<number>;
+    users?: number[];
     errors?: Error;
     inputs: StateInput;
 }
@@ -38,36 +38,14 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
       this.updateInput = this.updateInput.bind(this);
   }
 
-    private removeUser(userID : any) : void {
-        const users  = this.state.users.filter(user => user !== userID );
-        this.setState({users: users});
-    }
-
-    addUser(userID : any) {
-        const users  = this.state.users;
-        if(users.filter(user => user == userID ).length) { return; }
-        users.push(userID);
-        this.setState({users})
-    }
-
-    updateInput(inputName: string, inputValue : string) {   
-        const input = {}  
-        input[inputName] = inputValue
-
-        const inputs = Object.assign({}, this.state.inputs, input)
-        this.setState({
-            inputs
-        });
-    }
-
-    validate() {
-        const errors : Error = {}
+    public validate() {
+        const errors: Error = {};
 
         if(!this.state.inputs.description) {
             errors['description'] = 'This field is required';
         }
 
-        let featureName = this.state.inputs.name;
+        const featureName = this.state.inputs.name;
         if(!featureName) {
             errors['name'] = 'This field is required';
         } else if(!featureName.match(/^[a-z_]+$/)){
@@ -78,7 +56,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
         return !Object.keys(errors).length;
     }
 
-  render() {
+  public render() {
 
       const {
           createFeature,
@@ -149,6 +127,28 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
 
       </Dialog>)
   }
+
+    private removeUser(userID: any): void {
+        const users  = this.state.users.filter((user) => user !== userID );
+        this.setState({users});
+    }
+
+    private addUser(userID: any) {
+        const users  = this.state.users;
+        if (users.filter((user) => user === userID ).length) { return; }
+        users.push(userID);
+        this.setState({users})
+    }
+
+    private updateInput(inputName: string, inputValue: string) {
+        const input = {};
+        input[inputName] = inputValue;
+
+        const inputs = Object.assign({}, this.state.inputs, input);
+        this.setState({
+            inputs,
+        });
+    }
 
 }
 

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import Snackbar from 'material-ui/Snackbar';
 import DeleteDialog from '../../containers/DeleteDialog';
 import EditDialog from '../../containers/EditDialog';

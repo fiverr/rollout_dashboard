@@ -1,5 +1,7 @@
 import * as Immutable from 'immutable';
 import * as actionTypes from '../actions/actionTypes';
+import {Feature} from '../models/Feature';
+
 
 const initialState = Immutable.Map()
                               .set('fetching', false)
@@ -16,7 +18,7 @@ const reducers = (state = initialState , action) => {
     }
 
     case actionTypes.FETCHED_FEATURES: {
-      return state.set('features', Immutable.fromJS(action.features));
+      return state.set('features', action.features);
     }
 
     case actionTypes.OPEN_DELETE_DIALOG:
@@ -29,7 +31,8 @@ const reducers = (state = initialState , action) => {
 
     case actionTypes.FEATURE_REMOVED:
       const featureName = action.featureName;
-      return state.update('features', (feature: any) => feature.filterNot(feature => feature.get('name') === featureName));
+      let features = state.get('features') as Feature[];
+      return features.filter((feature) => feature.name !== featureName);
 
     case actionTypes.OPEN_EDIT_DIALOG:
       const feature = action.feature;
@@ -57,7 +60,7 @@ const reducers = (state = initialState , action) => {
       });
 
       case actionTypes.UPDATE_FEATURE:
-      return state.setIn(['editDialog','feature', action.field], action.value)
+      return state.setIn(['editDialog', 'feature', action.field], action.value)
 
     case actionTypes.SEND_SNACK_MESSAGE:
       return state.set('snakeMessage', action.message);
