@@ -45,13 +45,15 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
             openCreateDialog,
             openEditDialog,
             googleAuth,
+            features,
         } = this.props;
 
-        let features = this.sortedFeatures();
+        let sortedFeatures = this.sortFeatures(features);
+        const filter = this.state.filter;
 
-        // if(this.state.filter) {
-        //     features = this.filterFeatures(features);
-        // }
+        if (filter) {
+            sortedFeatures = this.filterFeatures(sortedFeatures, filter);
+        }
 
         return (
             <div>
@@ -75,14 +77,14 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                         floatingLabelFixed={true}
                         fullWidth={true}
                         onKeyDown={(event) => {
-                            if(event.keyCode !== 13) { return; }
-                            this.setState({filter: event.target.value})
+                            if (event.keyCode !== 13) { return; }
+                            this.setState({filter: event.target.value});
                         }} />
                 </div>
 
                 <div className="features">
                     <Table rowHeight={50}
-                            rowsCount={features.length}
+                            rowsCount={sortedFeatures.length}
                             width={window.innerWidth - 20}
                             height={window.innerHeight - 340}
                             overflowX={'auto'}
@@ -92,7 +94,7 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                                 width={200}
                                 header={<Cell className="standard-text">Name</Cell>}
                                 flexGrow={3}
-                                cell={({rowIndex}) => ( <Cell className="standard-text"> {features[rowIndex].name} </Cell> )} />
+                                cell={({rowIndex}) => ( <Cell className="standard-text"> {sortedFeatures[rowIndex].name} </Cell> )} />
 
                         <Column fixed={true}
                                 width={200}
@@ -100,7 +102,7 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                                 flexGrow={4}
                                 cell={({rowIndex}) => (
                                     <Cell className="description standard-text">
-                                        {features[rowIndex].description}
+                                        {sortedFeatures[rowIndex].description}
                                     </Cell>
                                 )}/>
 
@@ -110,9 +112,9 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                                 header={<Cell className="standard-text">Created By</Cell>}
                                 cell={({rowIndex}) => (
                                     <Cell className="standard-text">
-                                        {features[rowIndex].author}
+                                        {sortedFeatures[rowIndex].author}
                                         <br />
-                                        {features[rowIndex].authorMail}
+                                        {sortedFeatures[rowIndex].authorMail}
                                     </Cell>
                                 )}/>
 
@@ -126,9 +128,9 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                                             maxHeight={300}
                                             width={500}
                                             useLayerForClickAway={true}
-                                            iconButtonElement={<IconButton disabled={!features[rowIndex].history.length} iconStyle={{color: amber500}}> <FontIcon
+                                            iconButtonElement={<IconButton disabled={!sortedFeatures[rowIndex].history.length} iconStyle={{color: amber500}}> <FontIcon
                                             className="material-icons">history</FontIcon></IconButton>}>
-                                            { features[rowIndex].history.reverse().map((record) =>
+                                            { sortedFeatures[rowIndex].history.reverse().map((record) =>
                                                 <MenuItem key={record.updated_at} primaryText={
                                                     <div className="history">
                                                         <small>{record.author}</small>
@@ -150,12 +152,12 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                                             maxHeight={300}
                                             width={100}
                                             useLayerForClickAway={true}
-                                            iconButtonElement={<IconButton disabled={!features[rowIndex].users.length} iconStyle={{color: green500}}> <FontIcon
+                                            iconButtonElement={<IconButton disabled={!sortedFeatures[rowIndex].users.length} iconStyle={{color: green500}}> <FontIcon
                                                 className="material-icons">supervisor_account</FontIcon></IconButton>}>
                                             {
-                                                features[rowIndex].users.length ?
+                                                sortedFeatures[rowIndex].users.length ?
 
-                                                    features[rowIndex].users.map((user) => <MenuItem key={`${features[rowIndex].name}_${user}`} value={1}
+                                                    sortedFeatures[rowIndex].users.map((user) => <MenuItem key={`${sortedFeatures[rowIndex].name}_${user}`} value={1}
                                                                                                                 primaryText={user}/>) :
                                                     <MenuItem primaryText={"No users"}/>
                                             }
@@ -170,7 +172,7 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                                 cell={({rowIndex}) => (
                                     <Cell>
                                         <strong className="percentage standard-text">
-                                            {features[rowIndex].percentage + '%'}
+                                            {sortedFeatures[rowIndex].percentage + '%'}
                                         </strong>
                                     </Cell>
                                 )}/>
@@ -179,7 +181,7 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                                 width={200}
                                 header={<Cell className="standard-text">Updated At</Cell>}
                                 cell={({rowIndex}) => {
-                                    const updatedAt = features[rowIndex].getUpdatedAt();
+                                    const updatedAt = sortedFeatures[rowIndex].getUpdatedAt();
                                     if (!updatedAt) { return; }
 
                                     return (
@@ -193,7 +195,7 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                                 width={80}
                                 header={<Cell className="standard-text">Actions</Cell>}
                                 cell={({rowIndex}) => {
-                                    const featureName = features[rowIndex].name;
+                                    const featureName = sortedFeatures[rowIndex].name;
 
                                     return (<Cell>
                                         <IconMenu
@@ -204,11 +206,11 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
 
                                             <MenuItem primaryText="EDIT"
                                                         onClick={() => {
-                                                            openEditDialog(features[rowIndex]);
+                                                            openEditDialog(sortedFeatures[rowIndex]);
                                                         }}
                                                         onKeyDown={(event) => {
                                                             if (event.keyCode != 13) { return; }
-                                                            openEditDialog(features[rowIndex]);
+                                                            openEditDialog(sortedFeatures[rowIndex]);
                                                         }} />
 
                                             <MenuItem
@@ -232,36 +234,13 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
         }.bind(this), 0);
     }
 
-    private sortedFeatures() {
-        const features = this.props.features;
-
-        return features.sort((a, b) => {
-
-            const lastRecordA = a.getUpdatedAt();
-            const lastRecordB = b.getUpdatedAt();
-
-            if (!lastRecordA && !lastRecordB) {
-                return 0;
-            } else if (!lastRecordA) {
-                return 1;
-            } else if (!lastRecordB) {
-                return -1;
-            }
-
-            return  moment(lastRecordA).isBefore(lastRecordB) ? 1 : -1;
-        });
+    private filterFeatures(features: Feature[], pattern: string): Feature[] {
+        return Feature.searchByPattern(features, pattern);
     }
 
-    // private filterFeatures(features: any) {
-    //     return features.filter((f: any) => {
-    //         const regex = new RegExp(this.state.filter, 'gi');
-    //         return (f.get('name') || '').match(regex) ||
-    //             (f.get('description') || '').match(regex) ||
-    //             (f.get('author') || '').match(regex) ||
-    //             (f.get('author_mail') || '').match(regex) ||
-    //             (f.get('percentage') != undefined ? f.get('percentage') : '').toString().match(regex);
-    //     })
-    // }
+    private sortFeatures(features: Feature[]): Feature[] {
+        return features.sort(Feature.compareFeaturesByUpdatedAt);
+    }
 }
 
 export default Features;

@@ -1,17 +1,18 @@
 import * as moment from 'moment';
 
 export interface IFeature {
-    history: Array<{updated_at: string, author_mail: string, percentage: number, author: string}>;
     name: string;
-    users: number[];
-    description: string;
-    author: string;
-    authorMail: string;
-    createdAt: string;
-    percentage: number;
+    history?: Array<{updated_at: string, author_mail: string, percentage: number, author: string}>;
+    users?: number[];
+    description?: string;
+    author?: string;
+    authorMail?: string;
+    createdAt?: string;
+    percentage?: number;
 }
 
 export class Feature {
+
     public history: any[];
     public users: any[];
     public description: string;
@@ -33,10 +34,35 @@ export class Feature {
     }
 
     public getUpdatedAt(): moment.Moment {
-        if (this.history.length === 0) { return;}
+        if (this.history.length === 0) { return; }
 
         const lastRecord = (this.history[this.history.length - 1] as any);
         return moment(lastRecord.updated_at);
+    }
+
+    public static searchByPattern(features: Feature[], patten) {
+        const regex = new RegExp(patten, 'gi');
+        return features.filter((f) => {
+            return (f.name.match(regex) ||
+            f.description.match(regex) ||
+            f.author.match(regex) ||
+            f.authorMail.match(regex) ||
+            f.percentage.toString().match(regex));
+        });
+    }
+
+    public static compareFeaturesByUpdatedAt(a: Feature, b: Feature): (1 | 0 | -1) {
+        const lastRecordA = a.getUpdatedAt();
+        const lastRecordB = b.getUpdatedAt();
+
+        if (!lastRecordA && !lastRecordB) {
+            return 0;
+        } else if (!lastRecordA) {
+            return 1;
+        } else if (!lastRecordB) {
+            return -1;
+        }
+        return  moment(lastRecordA).isBefore(lastRecordB) ? 1 : -1;
     }
 }
 
