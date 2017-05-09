@@ -2,36 +2,37 @@ import * as React from 'react'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import Users from '../Inputs/Users/Users';
+import Users from '../Inputs/Users/index';
 import PercentageSelect from '../Inputs/PercentageSelect';
 import * as moment from 'moment';
 import './EditDialog.scss';
+import {IFeature} from "../../models/Feature";
 
 interface EditDialogProps {
-    updateFeature: any,
+    updateFeature: any;
     saveUpdatedFeature: any;
-    closeEditDialog :any,
-    feature :any,
-    open: any
+    closeEditDialog: any;
+    feature: IFeature;
+    errors: {
+        [key: string]: string;
+    };
+    open: boolean;
 }
 
 interface EditDialogState {
-    users: any,
-    description: string,
-    errors: any,
-    name: string,
-    author: string,
-    created_at: any,
-    percentage: any
+    feature: IFeature;
+    errors: {
+        [key: string]: string;
+    };
 }
 
-class EditDialog extends React.Component<EditDialogProps,EditDialogState> {
+class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
 
     constructor(props: any) {
         super(props);
         this.removeUser = this.removeUser.bind(this);
         this.addUser = this.addUser.bind(this);
-        this.updateInput = this.updateInput.bind(this);
+        this.updateFeature = this.updateFeature.bind(this);
     }
 
 
@@ -39,15 +40,15 @@ class EditDialog extends React.Component<EditDialogProps,EditDialogState> {
 
         const {
             closeEditDialog,
-            feature
+            errors,
+            feature,
         } = this .props;
 
-        if(!feature.count()) {
+        if (!feature) {
             return null;
         }
 
         const dialogActions = [
-
             <FlatButton
                 label="Cancel"
                 primary={true}
@@ -61,7 +62,7 @@ class EditDialog extends React.Component<EditDialogProps,EditDialogState> {
                 onTouchTap={() => {
                     const isValid = this.validate();
                     if(!isValid) { return; }
-                    if(!confirm(`Are you sure you want to update the feature ${feature.get('name')}?`)) { return; }
+                    if(!confirm(`Are you sure you want to update the feature ${feature.name}?`)) { return; }
                         this.props.saveUpdatedFeature();
                     }
                 }
@@ -74,12 +75,12 @@ class EditDialog extends React.Component<EditDialogProps,EditDialogState> {
                         onRequestClose={closeEditDialog}
                         autoScrollBodyContent={true}>
 
-            <p> Editing <span className="highlight">{feature.get('name')}</span>. </p>
+            <p> Editing <span className="highlight">{feature.name}</span>. </p>
 
             <div className="left box">
                 <TextField
                     className="field"
-                    value={feature.get('name')}
+                    value={feature.name}
                     name="name"
                     floatingLabelText="Feature Name:"
                     floatingLabelFixed={true}
@@ -87,66 +88,65 @@ class EditDialog extends React.Component<EditDialogProps,EditDialogState> {
 
                 <TextField
                     className="field"
-                    value={feature.get('author')}
+                    value={feature.author}
                     floatingLabelText="Author Name:"
-                    errorText={feature.getIn(['errors','author'])}
+                    errorText={errors.author}
                     floatingLabelFixed={true}
                     disabled={true}
                 />
 
                 <TextField
                     className="field"
-                    value={moment(feature.get('created_at') || Date.now()).format('YYYY-MM-DD')}
+                    value={moment(feature.createdAt || Date.now()).format('YYYY-MM-DD')}
                     floatingLabelText="Created At:"
                     floatingLabelFixed={true}
                     disabled={true}
                 />
             </div>
             <div className="right box">
-                <PercentageSelect currentValue={feature.get('percentage')}
-                                    onChange={ (_: any, value: any) => { this.updateInput('percentage', value) }} />
+                <PercentageSelect currentValue={feature.percentage}
+                                    onChange={ (_: any, value: any) => { this.updateFeature('percentage', value) }} />
 
                 <TextField
                     className="description"
-                    value={feature.get('description')}
+                    value={feature.description}
                     floatingLabelText="Feature Description:"
-                    errorText={feature.getIn(['errors','description'])}
+                    errorText={errors.description}
                     floatingLabelFixed={true}
                     fullWidth={true}
-                    onChange={ (_,value) => {
-                        this.updateInput('description', value)
+                    onChange={ (_, value) => {
+                        this.updateFeature('description', value);
                     }}
                 />
 
-                <Users users={feature.get('users') || []} onAdd={this.addUser} onDelete={this.removeUser} />
+                <Users users={feature.users} onAdd={this.addUser} onDelete={this.removeUser} />
             </div>
 
-        </Dialog>)
+        </Dialog>);
   }
-    
     private removeUser(userID: number) {
-        const users  = this.props.feature.get('users').filter((user: any) => user !== userID );
-        this.updateInput('users', users)
+        const users  = this.props.feature.users.filter((user) => user !== userID );
+        this.updateFeature('users', users);
     }
 
     private addUser(userID: number) {
-        const users  = this.props.feature.get('users');
-        if(users.filter((user: any) => user == userID ).length) { return; }
-        this.updateInput('users', users.push(userID))
+        const users  = this.props.feature.users;
+        if (users.filter((user) => user === userID ).length) { return; }
+        this.updateFeature('users', users.concat(userID));
     }
 
-    private updateInput(inputName: any, inputValue: any) {
+    private updateFeature(inputName: string, inputValue: string | number| number[]) {
         this.props.updateFeature(inputName, inputValue);
     }
 
     private validate() {
         const errors: any = {};
 
-        if(!this.props.feature.get('description')) {
+        if(!this.props.feature.description) {
             errors['description'] = 'This field is required';
         }
 
-        this.updateInput('errors', errors)
+        this.updateFeature('errors',errors);
         return !Object.keys(errors).length;
     }
 }

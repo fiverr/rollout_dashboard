@@ -1,7 +1,7 @@
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as actions from '../actions' 
-import Window from '../components/Window/Window'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actions from '../actions';
+import Window from '../components/Window/';
 
 const mapStateToProps = (state: any) => {
   return {
@@ -10,15 +10,15 @@ const mapStateToProps = (state: any) => {
       editDialog: state.get('editDialog'),
       createDialog: state.get('createDialog'),
       snakeMessage: state.get('snakeMessage'),
-      googleAuth: state.get('googleAuth')
-    }
+      googleAuth: state.get('googleAuth'),
+    };
 };
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => bindActionCreators((actions as any), dispatch);
 
 const WindowContainer = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )((Window as any));
 
 export default WindowContainer;
