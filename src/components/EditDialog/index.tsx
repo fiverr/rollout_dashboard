@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
@@ -6,7 +6,7 @@ import Users from '../Inputs/Users/index';
 import PercentageSelect from '../Inputs/PercentageSelect';
 import * as moment from 'moment';
 import './EditDialog.scss';
-import {IFeature} from "../../models/Feature";
+import {IFeature} from '../../models/Feature';
 
 interface EditDialogProps {
     updateFeature: any;
@@ -35,7 +35,6 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
         this.updateFeature = this.updateFeature.bind(this);
     }
 
-
     public render() {
 
         const {
@@ -61,8 +60,8 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
                 style={{color: 'green'}}
                 onTouchTap={() => {
                     const isValid = this.validate();
-                    if(!isValid) { return; }
-                    if(!confirm(`Are you sure you want to update the feature ${feature.name}?`)) { return; }
+                    if (!isValid) { return; }
+                    if (!confirm(`Are you sure you want to update the feature ${feature.name}?`)) { return; }
                         this.props.saveUpdatedFeature();
                     }
                 }
@@ -105,7 +104,7 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
             </div>
             <div className="right box">
                 <PercentageSelect currentValue={feature.percentage}
-                                    onChange={ (_: any, value: any) => { this.updateFeature('percentage', value) }} />
+                                    onChange={ (_: any, value: number) => { this.updateFeature('percentage', value) }} />
 
                 <TextField
                     className="description"
@@ -146,7 +145,7 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
             errors['description'] = 'This field is required';
         }
 
-        this.updateFeature('errors',errors);
+        this.updateFeature('errors', errors);
         return !Object.keys(errors).length;
     }
 }

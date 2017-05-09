@@ -4,7 +4,7 @@ import {Feature} from '../models/Feature';
 
 const initialState = Immutable.Map()
                               .set('fetching', false)
-                              .set('features', Immutable.List());
+                              .set('features', []);
 
 const reducers = (state = initialState , action) => {
   switch (action.type) {

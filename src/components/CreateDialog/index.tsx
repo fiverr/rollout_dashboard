@@ -120,8 +120,8 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                   floatingLabelText="Description:"
                   errorText={this.state.errors['description']}
                   floatingLabelFixed={true}
-                  onChange={ (_,value) => {
-                      this.updateInput('description', value)
+                  onChange={ (_,value: string) => {
+                      this.updateInput('description', value);
                   }}/>
 
               <PercentageSelect currentValue={this.state.inputs.percentage}

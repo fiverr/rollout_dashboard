@@ -65,4 +65,3 @@ export class Feature {
         return  moment(lastRecordA).isBefore(lastRecordB) ? 1 : -1;
     }
 }
-

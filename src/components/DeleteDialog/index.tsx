@@ -14,7 +14,6 @@ const DeleteDialog = (props: DeleteDialogProps) => {
     }
     
     const actions = [
-
         <FlatButton
             label="Cancel"
             primary={true}
