@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import Dialog from 'material-ui/Dialog';
 import './Auth-Dialog.scss';
 
@@ -25,14 +25,14 @@ class AuthDialog extends React.Component<AuthDialogProps, {}> {
                     <i className="google"> </i>
                     Continue with Google
                 </a>
-            </Dialog>)
+            </Dialog>);
     }
-    
+
     private initClient() {
          (window as any).gapi.client.init({
-            'apiKey': GOOGLE_AUTH_API_KEY,
-            'clientId': GOOGLE_AUTH_CLIENT_ID,
-            'scope': 'email profile'
+            apiKey: GOOGLE_AUTH_API_KEY,
+            clientId: GOOGLE_AUTH_CLIENT_ID,
+            scope: 'email profile',
         }).then(() => {
             this.GoogleAuth =  (window as any).gapi.auth2.getAuthInstance();
             this.GoogleAuth.isSignedIn.listen(this.statusChanged.bind(this));

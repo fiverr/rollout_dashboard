@@ -9,8 +9,8 @@ const mapStateToProps = (state: any) => {
       deleteDialog: state.get('deleteDialog'),
       editDialog: state.get('editDialog'),
       createDialog: state.get('createDialog'),
-      googleAuth: state.get('googleAuth')
-    }
+      googleAuth: state.get('googleAuth'),
+    };
 };
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => bindActionCreators((actions as any), dispatch);
