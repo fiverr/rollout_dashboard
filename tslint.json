@@ -3,10 +3,6 @@
 	"rules": {
 		"no-unused-expression": true,
 		"no-unused-variable": true,
-		"noUnusedLocals": true,
-		"interface-name": false,
-		"ordered-imports": false,
-		"object-literal-sort-keys": false,
-		"quotemark": [true, "single", "avoid-escape"]
+		"noUnusedLocals": true
 	}
 }

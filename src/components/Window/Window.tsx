@@ -1,9 +1,9 @@
-import * as React from 'react';
+import * as React from 'react'
 import Snackbar from 'material-ui/Snackbar';
 import DeleteDialog from '../../containers/DeleteDialog';
 import EditDialog from '../../containers/EditDialog';
 import CreateDialog from '../../containers/CreateDialog';
-import AuthDialog from '../AuthDialog/';
+import AuthDialog from '../AuthDialog/AuthDialog';
 import './Window.scss';
 import 'fixed-data-table/dist/fixed-data-table.css';
 import Features from '../../containers/Features';

@@ -1,53 +1,76 @@
-import * as React from 'react';
+import * as React from 'react'
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import FlatButton  from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as moment from 'moment';
 import PercentageSelect from '../Inputs/PercentageSelect';
-import Users from '../Inputs/Users/';
+import Users from '../Inputs/Users/Users'
 import './CreateDialog.scss';
-import { Action } from 'redux';
-import {Feature, IFeature} from '../../models/Feature';
+import {Action} from '../../actions/index'
+
+interface Error {
+    [key: string]: string;
+} 
 
 interface CreateDialogProps {
-    createFeature: (payload: Feature) => (dispatch: any, getState: any) => Promise<any>;
+    createFeature: (payload: any) => (dispatch: any, getState: any) => Promise<any>
     closeCreateDialog: () => Action;
     isOpen: boolean;
 }
 
+interface StateInput {
+    [key: string]: string;
+}
+
 interface CreateDialogState {
-    users?: number[];
-    errors?: {
-        [key: string]: string;
-    };
-    inputs: {
-        name: string;
-        description?: string;
-        percentage?: number;
-    };
+    users?: Array<number>;
+    errors?: Error;
+    inputs: StateInput;
 }
 
 class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState> {
 
-    constructor(props: any) {
+  constructor(props: any) {
       super(props);
-      this.state = { users: [], errors: {}, inputs: {name: ''} };
+      this.state = { users: [], errors: {}, inputs: {} };
       this.removeUser = this.removeUser.bind(this);
       this.addUser = this.addUser.bind(this);
       this.updateInput = this.updateInput.bind(this);
+  }
+
+    private removeUser(userID : any) : void {
+        const users  = this.state.users.filter(user => user !== userID );
+        this.setState({users: users});
     }
 
-    public validate() {
-        const errors = {};
+    addUser(userID : any) {
+        const users  = this.state.users;
+        if(users.filter(user => user == userID ).length) { return; }
+        users.push(userID);
+        this.setState({users})
+    }
 
-        if (!this.state.inputs.description) {
+    updateInput(inputName: string, inputValue : string) {   
+        const input = {}  
+        input[inputName] = inputValue
+
+        const inputs = Object.assign({}, this.state.inputs, input)
+        this.setState({
+            inputs
+        });
+    }
+
+    validate() {
+        const errors : Error = {}
+
+        if(!this.state.inputs.description) {
             errors['description'] = 'This field is required';
         }
 
-        const featureName = this.state.inputs.name;
+        let featureName = this.state.inputs.name;
         if(!featureName) {
             errors['name'] = 'This field is required';
-        } else if(!featureName.match(/^[a-z_]+$/)) {
+        } else if(!featureName.match(/^[a-z_]+$/)){
             errors['name'] = 'This name must follow this pattern "^[a-z_]+$"';
         }
 
@@ -55,20 +78,15 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
         return !Object.keys(errors).length;
     }
 
-    public createFeature(): Feature {
-        const options: IFeature = Object.assign({}, this.state.inputs, this.state.users);
-        return new Feature(options);
-    }
-
-  public render() {
+  render() {
 
       const {
           createFeature,
           closeCreateDialog,
-          isOpen,
+          isOpen
       } = this.props;
 
-      if (!isOpen) {
+      if(!isOpen) {
           return null;
       }
       
@@ -79,8 +97,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                       onTouchTap={() => {
                           const isValid = this.validate();
                           if (!isValid) { return; }
-                          createFeature(this.createFeature());
-                      }
+                          createFeature(this.state)}
               }/>,
       ];
 
@@ -101,8 +118,8 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                   floatingLabelText="Feature Name:"
                   errorText={this.state.errors['name']}
                   floatingLabelFixed={true}
-                  onChange={ (_, value) => {
-                      this.updateInput('name', value);
+                  onChange={ (_,value) => {
+                      this.updateInput('name', value)
                   }}/>
 
               <TextField
@@ -124,36 +141,14 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                       this.updateInput('description', value)
                   }}/>
 
-              <PercentageSelect currentValue={this.state.inputs.percentage}
-                                onChange={ (_ : any, value: number) => { this.updateInput('percentage', value) }} />
+              <PercentageSelect currentValue={parseInt(this.state.inputs.percentage)}
+                                onChange={ (_ : any, value : number) => { this.updateInput('percentage', value.toString()) }} />
           </div>
 
           <Users users={this.state.users} onAdd={this.addUser} onDelete={this.removeUser}  />
 
       </Dialog>)
   }
-
-    private removeUser(userID: any): void {
-        const users  = this.state.users.filter((user) => user !== userID );
-        this.setState({users});
-    }
-
-    private addUser(userID: any) {
-        const users  = this.state.users;
-        if (users.filter((user) => user === userID ).length) { return; }
-        users.push(userID);
-        this.setState({users});
-    }
-
-    private updateInput(inputName: string, inputValue: string|number) {
-        const input = {};
-        input[inputName] = inputValue;
-
-        const inputs = Object.assign({}, this.state.inputs, input);
-        this.setState({
-            inputs,
-        });
-    }
 
 }
 

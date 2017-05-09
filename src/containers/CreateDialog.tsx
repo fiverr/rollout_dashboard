@@ -1,12 +1,12 @@
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { closeCreateDialog, createFeature } from '../actions';
-import CreateDialog from '../components/CreateDialog/index';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { closeCreateDialog, createFeature } from '../actions' 
+import CreateDialog from '../components/CreateDialog/CreateDialog'
 
 const mapStateToProps = (state: any) => {
   return {
-      isOpen: state.get('createDialogVisible'),
-    };
+      isOpen: state.get('createDialogVisible')
+    }
 };
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => bindActionCreators({ closeCreateDialog, createFeature }, dispatch);

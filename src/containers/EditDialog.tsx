@@ -1,20 +1,21 @@
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as actions from '../actions' ;
-import EditDialog from '../components/EditDialog/index';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as actions from '../actions' 
+import * as Immutable from 'immutable'
+import EditDialog from '../components/EditDialog/EditDialog'
 
 const mapStateToProps = (state: any) => {
   return {
-      feature: state.get('editDialog') && state.get('editDialog').feature,
-      errors: {},
-    };
+      feature: state.getIn(['editDialog','feature']) || Immutable.Map(),
+    }
 };
+
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => bindActionCreators((actions as any), dispatch);
 
 const EditDialogContainer = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(EditDialog);
 
 export default EditDialogContainer;
