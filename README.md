@@ -16,6 +16,7 @@ It allows you to perform CRUD operations and send them to [Rollout-Service](http
     - The token gets validate on [Rollout-Service](https://github.com/fiverr/rollout_service)
     
 ## Technology stack:
+- Typescript
 - React for view layer
 - Redux for state management 
 - Webpack for bundling
@@ -27,14 +28,9 @@ Rollout-Dashboard communicates with [Rollout-Service](https://github.com/fiverr/
 
 On page load, we're fetching from [Rollout-Service](https://github.com/fiverr/rollout_service) all the features (~2 seconds for ~240 features).
 
-Then, we're saving the features to Redux store, only rendering the first 20. (sorted by last update value)
-
-To see all the features, just type in the search box `.*`.
-
 ## Preview: 
-![1](https://cloud.githubusercontent.com/assets/8016250/23580653/50d2e48c-010e-11e7-8532-68092b5df230.gif)
-
-![2](https://cloud.githubusercontent.com/assets/8016250/23580715/561b54c8-010f-11e7-8ae1-77bfdc692260.gif)
+![a](https://cloud.githubusercontent.com/assets/8016250/26057465/7a3c8844-3982-11e7-9791-24a65b18502f.gif)
+![2](https://cloud.githubusercontent.com/assets/8016250/26057516/a72cb7d4-3982-11e7-9268-1f03b32a239d.gif)
 
 
 # FAQ
