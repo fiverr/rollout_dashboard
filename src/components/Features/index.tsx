@@ -6,12 +6,10 @@ import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import TextField from 'material-ui/TextField';
 import {green500, amber500, blueGrey500 } from 'material-ui/styles/colors';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import Logo from '../Logo/';
 import * as moment from 'moment';
-import './Features.scss';
 import {Feature} from '../../models/Feature';
+import FeaturesHeader from '../FeaturesHeader/';
+import './Features.scss';
 
 interface FeaturesProps {
     createDialog: any;
@@ -57,11 +55,7 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
 
         return (
             <div>
-                <Logo />
-                <FloatingActionButton className="btn-add-feature" onClick={openCreateDialog}>
-                    <ContentAdd />
-                </FloatingActionButton>
-
+                <FeaturesHeader floatingButtonAction={openCreateDialog} />
                 <div className={`search-box ${this.state.markedSearchBox ? 'marked' : ''}`}>
                     <div className="standard-text">
                         Hello <strong>{googleAuth.get('username')}</strong>.
@@ -77,7 +71,6 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                         floatingLabelFixed={true}
                         fullWidth={true}
                         onKeyDown={(event) => {
-                            if (event.keyCode !== 13) { return; }
                             this.setState({filter: event.target.value});
                         }} />
                 </div>
@@ -157,7 +150,7 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                                             {
                                                 sortedFeatures[rowIndex].users.length ?
 
-                                                    sortedFeatures[rowIndex].users.map((user) => <MenuItem key={`${sortedFeatures[rowIndex].name}_${user}`} value={1}
+                                                sortedFeatures[rowIndex].users.map((user) => <MenuItem key={`${sortedFeatures[rowIndex].name}_${user}`} value={1}
                                                                                                                 primaryText={user}/>) :
                                                     <MenuItem primaryText={"No users"}/>
                                             }
