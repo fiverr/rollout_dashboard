@@ -45,7 +45,7 @@ const reducers = (state = initialState , action) => {
     case actionTypes.CREATED_FEATURE: {
       return state.update('features', (features: Feature[]) => {
         features.push(action.feature);
-        return features;
+        return [...features];
       });
     }
     case actionTypes.SAVE_UPDATED_FEATURE: {

@@ -56,7 +56,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
     }
 
     public createFeature(): Feature {
-        const options: IFeature = Object.assign({}, this.state.inputs, this.state.users);
+        const options: IFeature = Object.assign({}, this.state.inputs, {users: this.state.users});
         return new Feature(options);
     }
 
@@ -141,6 +141,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
     private addUser(userID: any) {
         const users  = this.state.users;
         if (users.filter((user) => user === userID ).length) { return; }
+
         users.push(userID);
         this.setState({users});
     }
