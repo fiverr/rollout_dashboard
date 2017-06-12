@@ -62,6 +62,6 @@ export class Feature {
         } else if (!lastRecordB) {
             return -1;
         }
-        return  moment(lastRecordA).isBefore(lastRecordB) ? 1 : -1;
+        return lastRecordA.isBefore(lastRecordB) ? 1 : -1;
     }
 }
