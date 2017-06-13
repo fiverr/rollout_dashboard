@@ -21,6 +21,7 @@ export class Feature {
     public name: string;
     public createdAt: string;
     public percentage: number;
+    public updatedAt: (moment.Moment | null);
 
     public constructor(payload: IFeature) {
         this.description = payload.description || '';
@@ -31,13 +32,14 @@ export class Feature {
         this.createdAt = payload.createdAt || '';
         this.name = payload.name || '';
         this.percentage = payload.percentage || 0;
+        this.setUpdatedAt();
     }
 
-    public getUpdatedAt(): moment.Moment {
+    private setUpdatedAt(): void {
         if (this.history.length === 0) { return; }
 
         const lastRecord = (this.history[this.history.length - 1] as any);
-        return moment(lastRecord.updated_at);
+        this.updatedAt = moment(lastRecord.updated_at);
     }
 
     public static searchByPattern(features: Feature[], patten) {
@@ -52,8 +54,8 @@ export class Feature {
     }
 
     public static compareFeaturesByUpdatedAt(a: Feature, b: Feature): (1 | 0 | -1) {
-        const lastRecordA = a.getUpdatedAt();
-        const lastRecordB = b.getUpdatedAt();
+        const lastRecordA = a.updatedAt;
+        const lastRecordB = b.updatedAt;
 
         if (!lastRecordA && !lastRecordB) {
             return 0;

@@ -174,7 +174,7 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                                 width={200}
                                 header={<Cell className="standard-text">Updated At</Cell>}
                                 cell={({rowIndex}) => {
-                                    const updatedAt = sortedFeatures[rowIndex].getUpdatedAt();
+                                    const updatedAt = sortedFeatures[rowIndex].updatedAt;
                                     if (!updatedAt) { return; }
 
                                     return (

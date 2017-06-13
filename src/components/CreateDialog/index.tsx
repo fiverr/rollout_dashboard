@@ -79,6 +79,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                       onTouchTap={() => {
                           const isValid = this.validate();
                           if (!isValid) { return; }
+
                           createFeature(this.createFeature());
                       }
               }/>,

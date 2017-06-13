@@ -21,6 +21,7 @@ const Users = (props: UsersProps) => {
                 onKeyDown={(event) => {
                     if (event.keyCode !== 13) { return; }
                     if (!event.target.value.match(/^\d+$/)) { return; }
+
                     props.onAdd(event.target.value);
                     event.target.value = '';
                 }}
