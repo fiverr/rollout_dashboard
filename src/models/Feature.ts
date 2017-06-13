@@ -25,20 +25,24 @@ export class Feature {
 
     public constructor(payload: IFeature) {
         this.description = payload.description || '';
-        this.history = payload.history || [];
         this.users = payload.users || [];
         this.authorMail = payload.authorMail || '';
         this.author = payload.author || '';
         this.createdAt = payload.createdAt || '';
         this.name = payload.name || '';
         this.percentage = payload.percentage || 0;
+        this.setHistory(payload.history || []);
         this.setUpdatedAt();
+    }
+
+    private setHistory(history: any[]): void {
+        this.history = history.reverse();
     }
 
     private setUpdatedAt(): void {
         if (this.history.length === 0) { return; }
 
-        const lastRecord = (this.history[this.history.length - 1] as any);
+        const lastRecord = (this.history[0] as any);
         this.updatedAt = moment(lastRecord.updated_at);
     }
 

@@ -123,7 +123,7 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                                             useLayerForClickAway={true}
                                             iconButtonElement={<IconButton disabled={!sortedFeatures[rowIndex].history.length} iconStyle={{color: amber500}}> <FontIcon
                                             className="material-icons">history</FontIcon></IconButton>}>
-                                            { sortedFeatures[rowIndex].history.reverse().map((record) =>
+                                            { sortedFeatures[rowIndex].history.map((record) =>
                                                 <MenuItem key={record.updated_at} primaryText={
                                                     <div className="history">
                                                         <small>{record.author}</small>
