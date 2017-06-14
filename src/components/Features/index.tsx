@@ -18,6 +18,7 @@ interface FeaturesProps {
     openCreateDialog: any;
     openEditDialog: any;
     googleAuth: any;
+    getFeatures: () => {};
 }
 
 interface FeaturesState {
@@ -222,6 +223,8 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
             </div> )
     }
     public componentDidMount() {
+        this.props.getFeatures();
+        
         setTimeout(function() {
             this.setState({markedSearchBox : false});
         }.bind(this), 0);

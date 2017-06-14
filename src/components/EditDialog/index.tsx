@@ -96,7 +96,7 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
 
                 <TextField
                     className="field"
-                    value={moment(feature.createdAt || Date.now()).format('YYYY-MM-DD')}
+                    value={moment(feature.created_at || Date.now()).format('YYYY-MM-DD')}
                     floatingLabelText="Created At:"
                     floatingLabelFixed={true}
                     disabled={true}

@@ -6,8 +6,8 @@ export interface IFeature {
     users?: number[];
     description?: string;
     author?: string;
-    authorMail?: string;
-    createdAt?: string;
+    author_mail?: string;
+    created_at?: string;
     percentage?: number;
 }
 
@@ -26,9 +26,9 @@ export class Feature {
     public constructor(payload: IFeature) {
         this.description = payload.description || '';
         this.users = payload.users || [];
-        this.authorMail = payload.authorMail || '';
+        this.authorMail = payload.author_mail || '';
         this.author = payload.author || '';
-        this.createdAt = payload.createdAt || '';
+        this.createdAt = payload.created_at || '';
         this.name = payload.name || '';
         this.percentage = payload.percentage || 0;
         this.setHistory(payload.history || []);

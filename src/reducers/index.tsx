@@ -74,6 +74,7 @@ const reducers = (state = initialState , action) => {
       return state.set('googleAuth', Immutable.fromJS({
         id_token: action.id_token,
         username: action.username,
+        mail: action.mail,
       }));
     }
     default: {

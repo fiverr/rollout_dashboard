@@ -3,7 +3,7 @@ import Dialog from 'material-ui/Dialog';
 import './Auth-Dialog.scss';
 
 interface AuthDialogProps {
-    saveAuthenticationData: (idToken: string, username: string) => void;
+    saveAuthenticationData: (idToken: string, username: string, mail: string) => void;
 }
 
 declare const GOOGLE_AUTH_CLIENT_ID: string;
@@ -50,7 +50,9 @@ class AuthDialog extends React.Component<AuthDialogProps, {}> {
   private statusChanged() {
       const user = this.GoogleAuth.currentUser.get();
       const authResponse = user.getAuthResponse();
-      this.props.saveAuthenticationData(authResponse.id_token, user.getBasicProfile().getName())
+      const basicProfile = user.getBasicProfile();
+
+      this.props.saveAuthenticationData(authResponse.id_token, basicProfile.getName(), basicProfile.getEmail());
   }
 }
 

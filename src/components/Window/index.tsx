@@ -8,33 +8,32 @@ import './Window.scss';
 import 'fixed-data-table/dist/fixed-data-table.css';
 import Features from '../../containers/Features';
 import GithubContribute from '../GithubContribute/';
+import Notifications from '../../lib/notifications';
 
 interface WindowProps {
     getFeatures: () => void;
     deleteDialog: any;
-    closeDeleteDialog: () => void,
-    deleteFeature: (featureName : string) => void,
+    closeDeleteDialog: () => void;
+    deleteFeature: (featureName: string) => void;
     snakeMessage: (message: string) => void,
-    clearSnakeMessage: () => void,
-    googleAuth: () => void,
-    googleAuthentication: () => void
+    clearSnakeMessage: () => void;
+    googleAuth: () => void;
+    googleAuthentication: () => void;
 }
 
 class Window extends React.Component<WindowProps, {}>{
 
-    public componentDidMount() {
-        this.props.getFeatures();
+    componentDidMount() {
+        Notifications.requestPermissions();
     }
-
     public render() {
 
         const {
                 snakeMessage,
                 clearSnakeMessage,
                 googleAuth,
-                googleAuthentication
+                googleAuthentication,
             } = this.props;
-        
 
         if (!googleAuth) {
             return (<AuthDialog saveAuthenticationData={googleAuthentication} />)
