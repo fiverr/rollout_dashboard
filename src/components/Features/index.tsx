@@ -161,6 +161,28 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
 
 
                         <Column fixed={true}
+                                width={80}
+                                header={<Cell className="standard-text">Groups</Cell>}
+                                cell={({rowIndex}) => (
+                                    <Cell>
+                                        {<IconMenu
+                                            maxHeight={300}
+                                            width={100}
+                                            useLayerForClickAway={true}
+                                            iconButtonElement={<IconButton disabled={!sortedFeatures[rowIndex].groups.length} iconStyle={{color: green500}}> <FontIcon
+                                                className="material-icons">supervisor_account</FontIcon></IconButton>}>
+                                            {
+                                                sortedFeatures[rowIndex].groups.length ?
+
+                                                sortedFeatures[rowIndex].groups.map((group) => <MenuItem key={`${sortedFeatures[rowIndex].name}_${group}`} value={1}
+                                                                                                                primaryText={group}/>) :
+                                                    <MenuItem primaryText={"No groups"}/>
+                                            }
+                                        </IconMenu>}
+                                    </Cell>
+                                )} />
+
+                        <Column fixed={true}
                                 width={100}
                                 header={<Cell className="standard-text">Percentage</Cell>}
                                 cell={({rowIndex}) => (

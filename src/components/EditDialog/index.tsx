@@ -3,6 +3,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Users from '../Inputs/Users/index';
+import Groups from '../Inputs/Groups/index';
 import PercentageSelect from '../Inputs/PercentageSelect';
 import * as moment from 'moment';
 import './EditDialog.scss';
@@ -32,6 +33,8 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
         super(props);
         this.removeUser = this.removeUser.bind(this);
         this.addUser = this.addUser.bind(this);
+        this.removeGroup = this.removeGroup.bind(this);
+        this.addGroup = this.addGroup.bind(this);
         this.updateFeature = this.updateFeature.bind(this);
     }
 
@@ -119,6 +122,7 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
                 />
 
                 <Users users={feature.users} onAdd={this.addUser} onDelete={this.removeUser} />
+                <Groups groups={feature.groups} onAdd={this.addGroup} onDelete={this.removeGroup} />
             </div>
 
         </Dialog>);
@@ -134,7 +138,18 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
         this.updateFeature('users', users.concat(userID));
     }
 
-    private updateFeature(inputName: string, inputValue: string | number| number[]) {
+    private removeGroup(name: string) {
+        const groups  = this.props.feature.groups.filter((group) => group !== name );
+        this.updateFeature('groups', groups);
+    }
+
+    private addGroup(name: string) {
+        const groups  = this.props.feature.groups;
+        if (groups.filter((group) => group === name ).length) { return; }
+        this.updateFeature('groups', groups.concat(name));
+    }
+
+    private updateFeature(inputName: string, inputValue: string | number | number[] | string[]) {
         this.props.updateFeature(inputName, inputValue);
     }
 
