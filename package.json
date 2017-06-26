@@ -10,7 +10,8 @@
     "start:prod": "npm run build:prod && npm run stop:prod && NODE_ENV=\"production\" pm2 start app.js --name rollout-dashboard",
     "build:prod": "NODE_ENV=\"production\" node_modules/.bin/webpack --config webpack/webpack.config.production.js",
     "stop:prod": "NODE_ENV=\"production\" pm2 kill --name rollout-dashboard",
-    "start": "npm run build:prod && npm run stop:prod && NODE_ENV=\"production\" pm2 start app.js --name rollout-dashboard -i max --attach"
+    "start": "npm run build:prod && npm run stop:prod && NODE_ENV=\"production\" pm2 start app.js --name rollout-dashboard -i max --attach",
+    "postinstall": "if [ \"$NODE_ENV\" = \"production\" ]; then npm rebuild node-sass; fi"
   },
   "license": "ISC",
   "dependencies": {
