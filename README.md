@@ -36,7 +36,9 @@ On page load, we're fetching from [Rollout-Service](https://github.com/fiverr/ro
 # FAQ
 
 ## How to run it?
-Start it by running `npm run start:dev`
+Start it by running `SERVICE_HOST="http://localhost" SERVICE_PORT=4000 PORT=1234 npm run start:dev`
+Here $SERVICE_HOST and $SERVICE_PORT vars point to [Rollout-Service](https://github.com/fiverr/rollout_service) service 
+instance, and $PORT specifies the dashboard UI listening port.
 
 ## What's the 'history' field?
 
