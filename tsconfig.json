@@ -14,7 +14,7 @@
     "include": [
         "./src/"
     ],
-    "typeAcquisition": {
+    "typ§eAcquisition": {
        "enable": true
     },
     "exclude": [
