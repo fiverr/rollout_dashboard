@@ -52,9 +52,17 @@ You can easily do that by editing the `config` file in [Rollout-Service](https:/
 
 You can generate the credentials at [google console](https://console.cloud.google.com/).
 
-You'll need to place `clientId` and  `apiKey` in the configuration file `config/app.js`.
+For production environment -  You'll need to place `clientId` and  `apiKey` in the configuration file `config/app.js`.
 
-For development environment, add the credentials in `.gauthrc` file in the root folder.
+For development environment - create a file named  `.gauthrc` in the root folder.
+
+Place your clientId and apiKey in a json format -
+```
+{
+"clientId": "",
+"apiKey": ""
+}
+```
 
 ## I want to use Rollout-Dashboard without google auth, is it supported?
 
