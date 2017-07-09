@@ -36,7 +36,8 @@ On page load, we're fetching from [Rollout-Service](https://github.com/fiverr/ro
 # FAQ
 
 ## How to run it?
-Start it by running `SERVICE_HOST="http://localhost" SERVICE_PORT=4000 PORT=1234 npm run start:dev`
+Run `cp .env.example .env` and then set right values there. You can also pass those values as env vars instead. 
+Start it by running `npm run start:dev`
 Here $SERVICE_HOST and $SERVICE_PORT vars point to [Rollout-Service](https://github.com/fiverr/rollout_service) service 
 instance, and $PORT specifies the dashboard UI listening port.
 
@@ -54,21 +55,8 @@ You can easily do that by editing the `config` file in [Rollout-Service](https:/
 
 You can generate the credentials at [google console](https://console.cloud.google.com/).
 
-For production environment -  You'll need to place `clientId` and  `apiKey` in the configuration file `config/app.js`.
-
-For development environment - create a file named  `.gauthrc` in the root folder.
-
-Place your clientId and apiKey in a json format -
-```
-{
-"clientId": "",
-"apiKey": ""
-}
-```
-
 ## I want to use Rollout-Dashboard without google auth, is it supported?
 
 Currently this feature is not supported. 
 
 Add an [issue](https://github.com/fiverr/rollout_dashboard/issues) on that and we'll refer that.
-
