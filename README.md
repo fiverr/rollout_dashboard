@@ -56,15 +56,14 @@ You can do that by specifying the ALLOWED_USERS_EMAILS env var in [Rollout-Servi
 
 You can generate the credentials at [google console](https://console.cloud.google.com/).
 
-For production environment -  You'll need to place `clientId` and  `apiKey` in the configuration file `config/app.js`.
+For production environment -  You'll need to place `clientId` in the configuration file `config/app.js`.
 
 For development environment - create a file named  `.gauthrc` in the root folder.
 
-Place your clientId and apiKey in a json format -
+Place your clientId in a json format -
 ```
 {
 "clientId": "",
-"apiKey": ""
 }
 ```
 
