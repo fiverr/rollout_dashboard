@@ -7,7 +7,6 @@ interface AuthDialogProps {
 }
 
 declare const GOOGLE_AUTH_CLIENT_ID: string;
-declare const GOOGLE_AUTH_API_KEY: string;
 
 class AuthDialog extends React.Component<AuthDialogProps, {}> {
 
@@ -30,7 +29,6 @@ class AuthDialog extends React.Component<AuthDialogProps, {}> {
 
     private initClient() {
          (window as any).gapi.client.init({
-            apiKey: GOOGLE_AUTH_API_KEY,
             clientId: GOOGLE_AUTH_CLIENT_ID,
             scope: 'email profile',
         }).then(() => {

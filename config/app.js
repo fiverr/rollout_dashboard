@@ -13,7 +13,6 @@ const config =  {
     rolloutServicePort: '{{ key "configurations/microservices/rollout/rollout-service-port" }}',
     port: '{{ key "configurations/microservices/rollout/rollout-dashboard-port" }}',
     googleAuth: {
-      apiKey: '{{ key "configurations/microservices/rollout/google-auth-api-key" }}',
       clientId: '{{ key "configurations/microservices/rollout/google-auth-client-id" }}'
     }
   }

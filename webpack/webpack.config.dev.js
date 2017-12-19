@@ -30,7 +30,6 @@ module.exports = {
             new webpack.DefinePlugin({
                 'ROLLOUT_SERVICE_HOST': JSON.stringify(config.rolloutServiceHost),
                 'ROLLOUT_SERVICE_PORT': JSON.stringify(config.rolloutServicePort),
-                'GOOGLE_AUTH_API_KEY': JSON.stringify(config.googleAuth.apiKey),
                 'GOOGLE_AUTH_CLIENT_ID': JSON.stringify(config.googleAuth.clientId)
             }),
     ],
