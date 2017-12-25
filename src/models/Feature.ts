@@ -4,6 +4,7 @@ export interface IFeature {
     name: string;
     history?: Array<{updated_at: string, author_mail: string, percentage: number, author: string}>;
     users?: number[];
+    groups?: string[];
     description?: string;
     author?: string;
     author_mail?: string;
@@ -15,6 +16,7 @@ export class Feature {
 
     public history: any[];
     public users: any[];
+    public groups: any[];
     public description: string;
     public author: string;
     public authorMail: string;
@@ -26,6 +28,7 @@ export class Feature {
     public constructor(payload: IFeature) {
         this.description = payload.description || '';
         this.users = payload.users || [];
+        this.groups = payload.groups || [];
         this.authorMail = payload.author_mail || '';
         this.author = payload.author || '';
         this.createdAt = payload.created_at || '';

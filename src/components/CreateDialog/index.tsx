@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import * as moment from 'moment';
 import PercentageSelect from '../Inputs/PercentageSelect';
 import Users from '../Inputs/Users/';
+import Groups from '../Inputs/Groups/';
 import './CreateDialog.scss';
 import { Action } from 'redux';
 import {Feature, IFeature} from '../../models/Feature';
@@ -17,6 +18,7 @@ interface CreateDialogProps {
 
 interface CreateDialogState {
     users?: number[];
+    groups?: string[];
     errors?: {
         [key: string]: string;
     };
@@ -31,9 +33,11 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
 
     constructor(props: any) {
       super(props);
-      this.state = { users: [], errors: {}, inputs: {name: ''} };
+      this.state = { users: [], groups: [], errors: {}, inputs: {name: ''} };
       this.removeUser = this.removeUser.bind(this);
       this.addUser = this.addUser.bind(this);
+      this.removeGroup = this.removeGroup.bind(this);
+      this.addGroup = this.addGroup.bind(this);
       this.updateInput = this.updateInput.bind(this);
     }
 
@@ -56,7 +60,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
     }
 
     public createFeature(): Feature {
-        const options: IFeature = Object.assign({}, this.state.inputs, {users: this.state.users});
+        const options: IFeature = Object.assign({}, this.state.inputs, {users: this.state.users, groups: this.state.groups});
         return new Feature(options);
     }
 
@@ -130,6 +134,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
           </div>
 
           <Users users={this.state.users} onAdd={this.addUser} onDelete={this.removeUser}  />
+          <Groups groups={this.state.groups} onAdd={this.addGroup} onDelete={this.removeGroup}  />
 
       </Dialog>)
   }
@@ -145,6 +150,19 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
 
         users.push(userID);
         this.setState({users});
+    }
+
+    private removeGroup(name: any): void {
+        const groups = this.state.groups.filter((group) => group !== name );
+        this.setState({groups});
+    }
+
+    private addGroup(name: any) {
+        const groups  = this.state.groups;
+        if (groups.filter((groups) => groups === name ).length) { return; }
+
+        groups.push(name);
+        this.setState({groups});
     }
 
     private updateInput(inputName: string, inputValue: string|number) {
