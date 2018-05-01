@@ -13,7 +13,7 @@ const getFeatures = () => {
     return (dispatch: Dispatch<any>, getState: any) => {
         dispatch({type: actionTypes.FETCHING_START_ACTION});
         const userEmail: string = getState().getIn(['googleAuth', 'mail']);
-        return fetch(`${ROLLOUT_SERVICE_URL}/features`)
+        return fetch(`${ROLLOUT_SERVICE_URL}/features`, {credentials: 'same-origin'})
             .then((response) => response.json())
             .then((json: any) => {
                 let features: any[] = json.data;
@@ -65,6 +65,7 @@ const deleteFeature = (featureName: string) => {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'same-origin',
             body: JSON.stringify({
                 id_token: getState().getIn(['googleAuth', 'id_token']),
             })})
@@ -114,6 +115,7 @@ const saveUpdatedFeature = () => {
             {
             method: 'PATCH',
             headers: {'Content-Type': 'application/json'},
+            credentials: 'same-origin',
             body: JSON.stringify(data),
         })
         .then((response) => response.json())
@@ -158,6 +160,7 @@ const createFeature = (feature: Feature) => {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'same-origin',
             body: JSON.stringify(data),
         })
             .then((response) => response.json())
