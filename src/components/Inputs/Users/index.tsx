@@ -26,9 +26,11 @@ const Users = (props: UsersProps) => {
                     event.target.value = '';
                 }}
             />
+            <div className="users">
             {props.users.map((user: number) => <Chip className="user"
                                                      key={user}
                                                      onRequestDelete={() => { props.onDelete(user); }}> {user} </Chip>)}
+            </div>
         </div>
     );
 };

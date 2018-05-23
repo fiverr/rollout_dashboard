@@ -1,8 +1,6 @@
 import * as actionTypes from './actionTypes';
 import {Dispatch} from 'redux';
-import Notifications from '../lib/notifications';
 import {Feature, IFeature} from '../models/Feature';
-import * as moment from 'moment';
 
 declare let ROLLOUT_SERVICE_HOST: string;
 declare let ROLLOUT_SERVICE_PORT: string;
@@ -12,36 +10,21 @@ const ROLLOUT_SERVICE_URL = `${ROLLOUT_SERVICE_HOST}:${ROLLOUT_SERVICE_PORT}/api
 const getFeatures = () => {
     return (dispatch: Dispatch<any>, getState: any) => {
         dispatch({type: actionTypes.FETCHING_START_ACTION});
-        const userEmail: string = getState().getIn(['googleAuth', 'mail']);
-        return fetch(`${ROLLOUT_SERVICE_URL}/features`, {credentials: 'same-origin'})
+        const idToken = getState().getIn(['googleAuth', 'id_token']);
+
+        return fetch(`${ROLLOUT_SERVICE_URL}/features?id_token=${idToken}`, {credentials: 'same-origin'})
             .then((response) => response.json())
             .then((json: any) => {
                 let features: any[] = json.data;
                 features = features.map((f: IFeature) => new Feature(f));
                 dispatch({type: actionTypes.FETCHING_END_ACTION});
                 dispatch({type: actionTypes.FETCHED_FEATURES, features});
-
-                sendNotifications(features, (feature: Feature) => {
-                    if (!feature.updatedAt) { return false; }
-                    if (feature.authorMail !== userEmail) {return false;}
-                    if (moment().add(-1, 'M').isBefore(feature.updatedAt)) {return false;}
-                    return true;
-                });
-
                 dispatch(sendSnakeMessage(`Fetched ${features.length} features.`));
             })
             .catch(e => {
                 dispatch(sendSnakeMessage(`An Error occurred. Please try again.`));
             });
     };
-};
-
-const sendNotifications = (features: Feature[], isSend: (feature: Feature) => boolean) => {
-    features.forEach(feature => {
-        if (!isSend(feature)) { return;}
-
-        setTimeout(Notifications.send(feature.name, `The rollout is older than a month, consider deleting it`), 1000);
-    })
 };
 
 const openDeleteDialog = (featureName: string) => {
