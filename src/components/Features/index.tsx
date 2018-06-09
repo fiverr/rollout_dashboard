@@ -125,7 +125,7 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                                             iconButtonElement={<IconButton disabled={!sortedFeatures[rowIndex].history.length} iconStyle={{color: amber500}}> <FontIcon
                                             className="material-icons">history</FontIcon></IconButton>}>
                                             { sortedFeatures[rowIndex].history.map((record) =>
-                                                <MenuItem key={record.updated_at} primaryText={
+                                                <MenuItem key={record.updated_at} title={record.updated_at} primaryText={
                                                     <div className="history">
                                                         <small>{record.author}</small>
                                                         <small>{record.percentage}%</small>
