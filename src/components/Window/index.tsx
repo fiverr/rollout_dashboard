@@ -8,7 +8,6 @@ import './Window.scss';
 import 'fixed-data-table/dist/fixed-data-table.css';
 import Features from '../../containers/Features';
 import GithubContribute from '../GithubContribute/';
-import Notifications from '../../lib/notifications';
 
 interface WindowProps {
     getFeatures: () => void;
@@ -23,9 +22,6 @@ interface WindowProps {
 
 class Window extends React.Component<WindowProps, {}>{
 
-    componentDidMount() {
-        Notifications.requestPermissions();
-    }
     public render() {
 
         const {

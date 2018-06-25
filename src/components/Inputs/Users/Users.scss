@@ -9,4 +9,10 @@
         float: left;
         margin-right: 5px !important;
     }
+
+    .users {
+        max-height: 170px;
+        clear: both;
+        overflow-y: scroll;
+    }
 }
