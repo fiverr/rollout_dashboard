@@ -1,0 +1,12 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.12.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:lodash:20180130':
+    - shipit-deploy > shipit-utils > lodash:
+        patched: '2018-07-02T23:21:13.990Z'
+    - shipit-shared > shipit-utils > lodash:
+        patched: '2018-07-02T23:21:13.990Z'
+    - shipit-shared > shipit-deploy > shipit-utils > lodash:
+        patched: '2018-07-02T23:21:13.990Z'
