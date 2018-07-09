@@ -51,6 +51,7 @@ const deleteFeature = (featureName: string) => {
             credentials: 'same-origin',
             body: JSON.stringify({
                 id_token: getState().getIn(['googleAuth', 'id_token']),
+                name: featureName
             })})
             .then(() => {
                 dispatch({type: actionTypes.FEATURE_REMOVED, featureName});
