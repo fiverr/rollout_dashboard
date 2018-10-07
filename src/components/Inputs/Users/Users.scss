@@ -8,6 +8,10 @@
     .add-users {
         float: left;
         margin-right: 5px !important;
+
+        &:invalid {
+            color: red;
+        }
     }
 
     .users {

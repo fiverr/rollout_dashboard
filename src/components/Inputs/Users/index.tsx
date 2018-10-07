@@ -18,9 +18,10 @@ const Users = (props: UsersProps) => {
                 floatingLabelText="Users:"
                 hintText="Enter user ID and press enter:"
                 floatingLabelFixed={true}
+                pattern="[\w-]+"
                 onKeyDown={(event) => {
                     if (event.keyCode !== 13) { return; }
-                    if (!event.target.value.match(/^\d+$/)) { return; }
+                    if (!event.target.value.match(/^[\w-]+$/)) { return; }
 
                     props.onAdd(event.target.value);
                     event.target.value = '';
