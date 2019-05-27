@@ -97,9 +97,9 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                       contentStyle={customContentStyle}
                       open={true}
                       onRequestClose={closeCreateDialog}
+                      title="New Feature Form"
+                      titleStyle={styles.dialogTitleStyle}
                       autoScrollBodyContent={true}>
-
-          <p> Creating a new feature </p>
 
           <div>
               <TextField
@@ -139,19 +139,6 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                   floatingLabelStyle={styles.floatingLabelStyle}
                   floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
                   disabled={true}/>
-
-              <TextField
-                    className="field"
-                    fullWidth={true}
-                    defaultValue={this.state.inputs[name]}
-                    errorText={this.state.errors[name]}
-                    floatingLabelText="Human Readable Description (beta)"
-                    floatingLabelStyle={styles.floatingLabelStyle}
-                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
-                    hintText="Describe this Rollout"
-                    onChange={ (_, value: string) => {
-                        this.updateInput(name, value);
-                    }}/>
 
               <Users users={this.state.users} onAdd={this.addUser} onDelete={this.removeUser}  />
           </div>

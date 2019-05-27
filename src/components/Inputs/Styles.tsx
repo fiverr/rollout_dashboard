@@ -13,6 +13,11 @@ const styles = {
   floatingLabelFocusStyle: {
     color: blue500,
   },
+  dialogTitleStyle: {
+    backgroundColor: blue500,
+    color: 'white',
+    textAlign: 'center',
+  },
 };
 
 export default styles
