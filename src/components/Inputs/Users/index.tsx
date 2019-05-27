@@ -2,6 +2,7 @@ import * as React from 'react';
 import './Users.scss';
 import TextField from 'material-ui/TextField';
 import Chip from 'material-ui/Chip';
+import styles from '../Styles';
 
 interface UsersProps {
     users: number[];
@@ -15,9 +16,10 @@ const Users = (props: UsersProps) => {
             <TextField
                 className="add-users"
                 fullWidth={true}
-                floatingLabelText="Users:"
-                hintText="Enter user ID and press enter:"
-                floatingLabelFixed={true}
+                floatingLabelText="Users"
+                hintText="Enter user ID and press enter"
+                floatingLabelStyle={styles.floatingLabelStyle}
+                floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
                 pattern="[\\w-]+"
                 onKeyDown={(event) => {
                     if (event.keyCode !== 13) { return; }

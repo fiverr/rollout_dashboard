@@ -1,22 +1,26 @@
 import * as React from 'react';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
+import Slider from 'material-ui/Slider';
 
 const PercentageSelect = (props: {currentValue: number, onChange: Function}) => {
 
-    const options = [];
-    for (let i = 0; i <= 100; i ++) {
-        options.push(<MenuItem key={i}  value={i} primaryText={`${i}%`} />);
-    }
-
     return(
-        <SelectField
-            value={props.currentValue || 0}
-            maxHeight={200}
-            floatingLabelText="Rollout Percentage:"
-            onChange={props.onChange}>
-            {options}
-        </SelectField>);
+        <div>
+            <p className='center-text'>
+              <span>{'Feature is '}</span>
+              <span><b>{props.currentValue || 0}</b></span>
+              <span>{'% open'}</span>
+            </p>
+            <Slider
+                min={0}
+                max={100}
+                step={1}
+                value={props.currentValue || 0}
+                maxHeight={200}
+                fullWidth={true}
+                floatingLabelText="Rollout Percentage:"
+                onChange={props.onChange}>
+            </Slider>
+        </div>);
 
 };
 

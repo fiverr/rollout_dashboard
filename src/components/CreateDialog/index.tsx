@@ -8,6 +8,12 @@ import Users from '../Inputs/Users/';
 import './CreateDialog.scss';
 import { Action } from 'redux';
 import {Feature, IFeature} from '../../models/Feature';
+import styles from '../Inputs/Styles';
+
+const customContentStyle = {
+  width: '40%',
+  maxWidth: 'none',
+};
 
 interface CreateDialogProps {
     createFeature: (payload: Feature) => (dispatch: any, getState: any) => Promise<any>;
@@ -88,48 +94,83 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
       return (<Dialog className="dialog-create"
                       actions={dialogActions}
                       modal={false}
+                      contentStyle={customContentStyle}
                       open={true}
                       onRequestClose={closeCreateDialog}
                       autoScrollBodyContent={true}>
 
           <p> Creating a new feature </p>
 
-          <div className="left box">
+          <div>
               <TextField
                   className="field"
+                  fullWidth={true}
                   value={this.state.inputs.name}
                   name="name"
-                  floatingLabelText="Feature Name:"
+                  floatingLabelText="Feature Name"
+                  floatingLabelStyle={styles.floatingLabelStyle}
+                  floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
                   errorText={this.state.errors['name']}
-                  floatingLabelFixed={true}
                   onChange={ (_, value) => {
                       this.updateInput('name', value);
                   }}/>
 
+              <PercentageSelect currentValue={this.state.inputs.percentage} 
+                  onChange={ (_ : any, value: number) => { this.updateInput('percentage', value) }} />
+
+              <TextField
+                    className="field"
+                    fullWidth={true}
+                    defaultValue={this.state.inputs[name]}
+                    errorText={this.state.errors[name]}
+                    floatingLabelText="Human Readable Description"
+                    hintText="So normal people can understand your shit"
+                    floatingLabelStyle={styles.floatingLabelStyle}
+                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                    onChange={ (_, value: string) => {
+                        this.updateInput(name, value);
+                    }}/>
+
               <TextField
                   className="field"
+                  fullWidth={true}
                   value={moment().format('YYYY-MM-DD')}
-                  floatingLabelText="Created At:"
-                  floatingLabelFixed={true}
+                  floatingLabelText="Created At"
+                  floatingLabelStyle={styles.floatingLabelStyle}
+                  floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
                   disabled={true}/>
-          </div>
 
-          <div className="right box">
               <TextField
-                  className="field"
-                  defaultValue={this.state.inputs.description}
-                  floatingLabelText="Description:"
-                  errorText={this.state.errors['description']}
-                  floatingLabelFixed={true}
-                  onChange={ (_, value: string) => {
-                      this.updateInput('description', value);
-                  }}/>
+                    className="field"
+                    fullWidth={true}
+                    defaultValue={this.state.inputs[name]}
+                    errorText={this.state.errors[name]}
+                    floatingLabelText="Human Readable Description (beta)"
+                    floatingLabelStyle={styles.floatingLabelStyle}
+                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                    hintText="Describe this Rollout"
+                    onChange={ (_, value: string) => {
+                        this.updateInput(name, value);
+                    }}/>
 
-              <PercentageSelect currentValue={this.state.inputs.percentage}
-                                onChange={ (_ : any, value: number) => { this.updateInput('percentage', value) }} />
+              <Users users={this.state.users} onAdd={this.addUser} onDelete={this.removeUser}  />
           </div>
 
-          <Users users={this.state.users} onAdd={this.addUser} onDelete={this.removeUser}  />
+          <div className="extended-attributes">
+            {
+              this.extendedAttributes().map(({name, ...rest}) => <TextField
+                    className="field"
+                    fullWidth={true}
+                    defaultValue={this.state.inputs[name]}
+                    errorText={this.state.errors[name]}
+                    floatingLabelStyle={styles.floatingLabelStyle}
+                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                    {...rest}
+                    onChange={ (_, value: string) => {
+                        this.updateInput(name, value);
+                    }}/>)
+            }
+          </div>
 
       </Dialog>)
   }
@@ -155,6 +196,12 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
         this.setState({
             inputs,
         });
+    }
+
+    private extendedAttributes() {
+      return [
+        {name: 'new-attribute', floatingLabelText: 'new-attribute', hintText: 'new-attribute'}
+      ];
     }
 
 }
