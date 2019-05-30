@@ -2,7 +2,7 @@ import * as React from 'react';
 import './Users.scss';
 import TextField from 'material-ui/TextField';
 import Chip from 'material-ui/Chip';
-import styles from '../Styles';
+import styles from '../../Styles/PredefinedStyles';
 
 interface UsersProps {
     users: number[];

@@ -15,9 +15,6 @@ const PercentageSelect = (props: {currentValue: number, onChange: Function}) => 
                 max={100}
                 step={1}
                 value={props.currentValue || 0}
-                maxHeight={200}
-                fullWidth={true}
-                floatingLabelText="Rollout Percentage:"
                 onChange={props.onChange}>
             </Slider>
         </div>);

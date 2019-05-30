@@ -9,6 +9,7 @@ export interface IFeature {
     author_mail?: string;
     created_at?: string;
     percentage?: number;
+    enriched_data?: Array<{}>;
 }
 
 export class Feature {
@@ -22,6 +23,7 @@ export class Feature {
     public createdAt: string;
     public percentage: number;
     public updatedAt: (moment.Moment | null);
+    public enriched_data: any[];
 
     public constructor(payload: IFeature) {
         this.description = payload.description || '';
@@ -33,6 +35,7 @@ export class Feature {
         this.percentage = payload.percentage || 0;
         this.setHistory(payload.history || []);
         this.setUpdatedAt();
+        this.enriched_data = [{}];
     }
 
     private setHistory(history: any[]): void {
