@@ -1,26 +1,5 @@
-.dialog-create {
-    .field{
-        display: block !important;
-        margin-bottom: 20px;
+.dialog-create.dialog-edit {
+    h3 {
+        background-color: #f9a825;
     }
-
-    .box {
-        width: 50%;
-        padding: 10px;
-        box-sizing: border-box;
-    }
-
-    .left {
-        float: left;
-    }
-    .right {
-        float: right;
-    }
-
-    .description {
-        clear:both;
-        margin-bottom: 15px;
-    }
-
-
 }

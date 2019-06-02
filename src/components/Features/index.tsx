@@ -5,6 +5,7 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
 import {green500, amber500, blueGrey500 } from 'material-ui/styles/colors';
 import * as moment from 'moment';
 import {Feature} from '../../models/Feature';
@@ -186,6 +187,17 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                         />
 
                         <Column fixed={true}
+                                width={150}
+                                header={<Cell className="standard-text">More Information</Cell>}
+                                cell={({rowIndex}) => {
+                                    return (
+                                        <Cell>
+                                            <FlatButton label="Enrich" fullWidth={true} primary={true} />
+                                        </Cell>
+                                    )}}
+                        />
+
+                        <Column fixed={true}
                                 width={80}
                                 header={<Cell className="standard-text">Actions</Cell>}
                                 cell={({rowIndex}) => {
@@ -218,6 +230,7 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                                                 }} />
                                         </IconMenu>
                                     </Cell>) }}/>
+
                     </Table>
                 </div>
             </div> )

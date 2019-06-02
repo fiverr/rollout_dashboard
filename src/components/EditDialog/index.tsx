@@ -4,9 +4,14 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Users from '../Inputs/Users/index';
 import PercentageSelect from '../Inputs/PercentageSelect';
-import * as moment from 'moment';
 import './EditDialog.scss';
 import {IFeature} from '../../models/Feature';
+import EnrichedData from '../Inputs/EnrichedData';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+
+const REASONS = EnrichedData.REASONS;
+const REQUIRED_FIELD = 'This field is required';
 
 interface EditDialogProps {
     updateFeature: any;
@@ -20,10 +25,10 @@ interface EditDialogProps {
 }
 
 interface EditDialogState {
-    feature: IFeature;
     errors: {
         [key: string]: string;
     };
+
 }
 
 class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
@@ -33,19 +38,23 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
         this.removeUser = this.removeUser.bind(this);
         this.addUser = this.addUser.bind(this);
         this.updateFeature = this.updateFeature.bind(this);
+        this.state = {
+            errors: {}
+        };
     }
 
     public render() {
 
         const {
             closeEditDialog,
-            errors,
             feature,
-        } = this .props;
+        } = this.props;
 
         if (!feature) {
             return null;
         }
+
+        const {errors} = this.state;
 
         const dialogActions = [
             <FlatButton
@@ -67,58 +76,49 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
                 }
             /> ];
 
-        return (<Dialog className="dialog-create"
+        return (<Dialog className="dialog-create dialog-edit"
                         actions={dialogActions}
                         modal={false}
                         open={true}
                         onRequestClose={closeEditDialog}
+                        title="Update Feature Form"
                         autoScrollBodyContent={true}>
 
             <p> Editing <span className="highlight">{feature.name}</span>. </p>
 
-            <div className="left box">
-                <TextField
-                    className="field"
-                    value={feature.name}
-                    name="name"
-                    floatingLabelText="Feature Name:"
-                    floatingLabelFixed={true}
-                    disabled={true}/>
-
-                <TextField
-                    className="field"
-                    value={feature.author}
-                    floatingLabelText="Author Name:"
-                    errorText={errors.author}
-                    floatingLabelFixed={true}
-                    disabled={true}
-                />
-
-                <TextField
-                    className="field"
-                    value={moment(feature.created_at || Date.now()).format('YYYY-MM-DD')}
-                    floatingLabelText="Created At:"
-                    floatingLabelFixed={true}
-                    disabled={true}
-                />
-            </div>
-            <div className="right box">
-                <PercentageSelect currentValue={feature.percentage}
-                                    onChange={ (_: any, value: number) => { this.updateFeature('percentage', value) }} />
+            <div>
 
                 <TextField
                     className="description"
                     value={feature.description}
-                    floatingLabelText="Feature Description:"
+                    floatingLabelText="Description"
                     errorText={errors.description}
                     floatingLabelFixed={true}
                     fullWidth={true}
                     onChange={ (_, value) => {
+                        console.log({value});
                         this.updateFeature('description', value);
                     }}
                 />
 
+                <SelectField value={feature.update_reason} 
+                             key="update_reason"
+                             floatingLabelText="Update Reason"
+                             errorText={errors.update_reason}
+                             autoWidth={false}
+                             onChange={(_, __, value: string) => { this.updateFeature('update_reason', value); }}>
+                    {Object.keys(REASONS).map((key) => 
+                        <MenuItem value={key} 
+                                  insetChildren={true} 
+                                  primaryText={REASONS[key]} 
+                                  key={key} /> )}
+                </SelectField>
+
+                <PercentageSelect currentValue={feature.percentage}
+                                    onChange={ (_: any, value: number) => { this.updateFeature('percentage', value) }} />
+
                 <Users users={feature.users} onAdd={this.addUser} onDelete={this.removeUser} />
+
             </div>
 
         </Dialog>);
@@ -141,11 +141,15 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
     private validate() {
         const errors: any = {};
 
-        if(!this.props.feature.description) {
-            errors['description'] = 'This field is required';
+        if (!this.props.feature.description) {
+            errors['description'] = REQUIRED_FIELD;
         }
 
-        this.updateFeature('errors', errors);
+        if (!this.props.feature.update_reason) {
+            errors['update_reason'] = REQUIRED_FIELD;
+        }
+        
+        this.setState({errors});
         return !Object.keys(errors).length;
     }
 }

@@ -9,7 +9,14 @@ export interface IFeature {
     author_mail?: string;
     created_at?: string;
     percentage?: number;
-    enriched_data?: Array<{}>;
+    domain?: string;
+    subdomain?: string;
+    target_audience_buyer?: string;
+    target_audience_seller?: string;
+    is_pro?: boolean;
+    platform?: string;
+    countries?: string[];
+    update_reason?: string;
 }
 
 export class Feature {
@@ -20,10 +27,17 @@ export class Feature {
     public author: string;
     public authorMail: string;
     public name: string;
+    public domain: string;
+    public subdomain: string;
+    public target_audience_buyer: string;
+    public target_audience_seller: string;
+    public is_pro: boolean;
+    public platform: string;
+    public countries: string[];
+    public update_reason: string;
     public createdAt: string;
     public percentage: number;
     public updatedAt: (moment.Moment | null);
-    public enriched_data: any[];
 
     public constructor(payload: IFeature) {
         this.description = payload.description || '';
@@ -32,10 +46,17 @@ export class Feature {
         this.author = payload.author || '';
         this.createdAt = payload.created_at || '';
         this.name = payload.name || '';
+        this.domain = payload.domain || '';
+        this.subdomain = payload.subdomain || '';
+        this.target_audience_buyer = payload.target_audience_buyer || '';
+        this.target_audience_seller = payload.target_audience_seller || '';
+        this.is_pro = payload.is_pro || false;
+        this.platform = payload.platform || '';
+        this.countries = payload.countries || [];
+        this.update_reason = '';
         this.percentage = payload.percentage || 0;
         this.setHistory(payload.history || []);
         this.setUpdatedAt();
-        this.enriched_data = [{}];
     }
 
     private setHistory(history: any[]): void {

@@ -12,125 +12,14 @@ import './CreateDialog.scss';
 import { Action } from 'redux';
 import {Feature, IFeature} from '../../models/Feature';
 import styles from '../Styles/PredefinedStyles';
+import EnrichedData from '../Inputs/EnrichedData';
 
-const customContentStyle = {
-  width: '40%',
-  maxWidth: 'none',
-};
-
-const DOMAINS = {
-    all: 'All',
-    payments: 'Payments',
-    homepage: 'Homepage',
-    algos: 'Algos',
-    gigs: 'Gigs',
-    buyers: 'Buyers',
-    sellers: 'Sellers',
-    communication: 'Communication',
-    marketing: 'Marketing',
-    customer_support: 'Customer Support',
-    performance: 'Performance',
-    platform: 'Platform',
-    quality: 'Quality',
-};
-
-const SUB_DOMAINS_MAPPING = {
-    payments: {
-        payment_page: 'Payment Page',
-        shopping_balance: 'Shopping Balance',
-        sales_balance: 'Sales Balance',
-        withdrawal: 'Withdrawal',
-        refunds: 'Refunds',
-    },
-    homepage: {
-        homepage: 'Homepage',
-        login: 'Login',
-        registration: 'Registration',
-    },
-    algos: {
-        search: 'Search',
-        subcategories: 'Subcategories',
-        recomendations: 'Recomendations',
-    },
-    gigs: {
-        gig_page: 'Gig Page',
-        packages: 'Packages',
-        gig_components: 'Gig Components',
-    },
-    buyers: {
-        checkout: 'Checkout',
-        order_page: 'Order Page',
-        buyer_request: 'Buyer Request',
-        pro: 'PRO',
-    },
-    sellers: {
-        user_page: 'User Page',
-        seller_dashboard: 'Seller Dashboard',
-        seller_onboarding: 'Seller Onboarding',
-        pro: 'PRO',
-    },
-    communication: {
-        inbox: 'Inbox',
-        order_page: 'Order Page',
-        custom_offer: 'Custom Offer',
-    },
-    all: {
-        all: 'All',
-    },
-    marketing: {
-        affiliate: 'Affiliate',
-        seo: 'SEO',
-        retention: 'Retention',
-        sem: 'SEM',
-        social: 'Social',
-        brand: 'Brand',
-    },
-    customer_support: {
-        customer_support: 'Customer Support',
-        customer_success: 'Customer Success',
-        education: 'Education',
-        editorial: 'Editorial',
-        mi: 'MI',
-        risk: 'Risk',
-        trust_and_safety: 'Trust & Safety',
-    },
-    performance: {
-        performance: 'Performance',
-    },
-    platform: {
-        platform: 'Platform',
-    },
-    quality: {
-        quality: 'Quality',
-    },
-};
-
-const TARGET_AUDIENCE = {
-  buyer: {
-    all: 'All',
-    none: 'None',
-    guest: 'Guest',
-    rnc: 'RNC',
-    ftb: 'FTB',
-    repeat_buyer: 'Repeat Buyer',
-  },
-  seller: {
-    all: 'All',
-    none: 'None',
-    guest: 'Guest',
-    fts: 'FTS',
-    repeat_seller: 'Repeat Seller',
-    gigger: 'Gigger',
-  }
-};
-
-const PLATFORM = {
-  all: 'All',
-  app: 'App',
-  web: 'Web',
-  mobile_web: 'Mobile Web',
-  web_and_mobile_web: 'Web & Mobile Web',
-};
+const REQUIRED_FIELD = 'This field is required';
+const DOMAINS = EnrichedData.DOMAINS;
+const SUB_DOMAINS_MAPPING = EnrichedData.SUB_DOMAINS_MAPPING;
+const TARGET_AUDIENCE = EnrichedData.TARGET_AUDIENCE;
+const PLATFORM = EnrichedData.PLATFORM;
+const COUNTRIES = EnrichedData.COUNTRIES;
 
 interface CreateDialogProps {
     createFeature: (payload: Feature) => (dispatch: any, getState: any) => Promise<any>;
@@ -153,6 +42,7 @@ interface CreateDialogState {
         target_audience_seller?: string;
         is_pro?: boolean;
         platform?: string;
+        countries?: string[];
     };
 }
 
@@ -165,12 +55,13 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
         errors: {},
         inputs: {
           name: '',
-          domain: 'all',
-          subdomain: 'all',
-          target_audience_buyer: 'all',
-          target_audience_seller: 'all',
+          domain: '',
+          subdomain: '',
+          target_audience_buyer: '',
+          target_audience_seller: '',
           is_pro: false,
-          platform: 'all',
+          platform: '',
+          countries: ['all'],
         }
       };
 
@@ -183,14 +74,34 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
         const errors = {};
 
         if (!this.state.inputs.description) {
-            errors['description'] = 'This field is required';
+            errors['description'] = REQUIRED_FIELD;
         }
 
         const featureName = this.state.inputs.name;
         if(!featureName) {
-            errors['name'] = 'This field is required';
+            errors['name'] = REQUIRED_FIELD;
         } else if(!featureName.match(/^[a-z_]+$/)) {
             errors['name'] = 'This name must follow this pattern "^[a-z_]+$"';
+        }
+
+        if (!this.state.inputs.domain) {
+            errors['domain'] = REQUIRED_FIELD;
+        }
+
+        if (!this.state.inputs.subdomain) {
+            errors['subdomain'] = REQUIRED_FIELD;
+        }
+
+        if (!this.state.inputs.target_audience_buyer) {
+            errors['target_audience_buyer'] = REQUIRED_FIELD;
+        }
+
+        if (!this.state.inputs.target_audience_seller) {
+            errors['target_audience_seller'] = REQUIRED_FIELD;
+        }
+
+        if (!this.state.inputs.platform) {
+            errors['platform'] = REQUIRED_FIELD;
         }
 
         this.setState({errors});
@@ -225,9 +136,10 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
           description,
           percentage,
           platform,
+          countries,
       } = inputs;
 
-      const subdomains = SUB_DOMAINS_MAPPING[domain];
+      const subdomains = SUB_DOMAINS_MAPPING[domain] || [];
       const target_audience_buyer_list = TARGET_AUDIENCE.buyer;
       const target_audience_list_seller = TARGET_AUDIENCE.seller;
 
@@ -251,14 +163,13 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
       return (<Dialog className="dialog-create"
                       actions={dialogActions}
                       modal={false}
-                      contentStyle={customContentStyle}
                       open={true}
                       onRequestClose={closeCreateDialog}
                       title="New Feature Form"
-                      titleStyle={styles.dialogTitleStyle}
                       autoScrollBodyContent={true}>
 
           <div>
+
               <TextField
                   className="field"
                   fullWidth={true}
@@ -312,6 +223,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                              floatingLabelText="Select a Domain"
                              style={(styles.customWidth)}
                              autoWidth={false}
+                             errorText={errors['domain']}
                              onChange={(_, __, value: string) => { this.updateInputDomain('domain', value); }}>
                     {Object.keys(DOMAINS).map((key) => 
                         <MenuItem value={key} 
@@ -325,6 +237,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                              floatingLabelText="Select a Subdomain"
                              style={(styles.customWidth)}
                              autoWidth={false}
+                             errorText={errors['subdomain']}
                              onChange={(_, __, value: string) => { this.updateInput('subdomain', value); }}>
                      {Object.keys(subdomains).map(key => 
                          <MenuItem value={key}
@@ -341,6 +254,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                              floatingLabelText="Select the Buyer Targeted Audience"
                              style={(styles.customWidth)}
                              autoWidth={false}
+                             errorText={errors['target_audience_buyer']}
                              onChange={(_, __, value: string) => { this.updateInput('target_audience_buyer', value); }}>
                     {Object.keys(target_audience_buyer_list).map((key) => 
                         <MenuItem value={key} 
@@ -354,6 +268,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                              floatingLabelText="Select the Seller Targeted Audience"
                              style={(styles.customWidth)}
                              autoWidth={false}
+                             errorText={errors['target_audience_seller']}
                              onChange={(_, __, value: string) => { this.updateInput('target_audience_seller', value); }}>
                     {Object.keys(target_audience_list_seller).map((key) => 
                         <MenuItem value={key} 
@@ -369,11 +284,26 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                              floatingLabelText="Select Platform"
                              style={(styles.customWidth)}
                              autoWidth={false}
+                             errorText={errors['platform']}
                              onChange={(_, __, value: string) => { this.updateInput('platform', value); }}>
                     {Object.keys(PLATFORM).map((key) => 
                         <MenuItem value={key} 
                                   insetChildren={true} 
                                   primaryText={PLATFORM[key]} 
+                                  key={key} /> )}
+                </SelectField>
+
+                <SelectField value={countries} 
+                             key="countries"
+                             multiple={true}
+                             floatingLabelText="Select a list of countries"
+                             style={(styles.customWidth)}
+                             autoWidth={false}
+                             onChange={(_, __, value: string) => { this.updateInput('countries', value); }}>
+                    {Object.keys(COUNTRIES).map((key) => 
+                        <MenuItem value={key} 
+                                  insetChildren={true} 
+                                  primaryText={COUNTRIES[key]} 
                                   key={key} /> )}
                 </SelectField>
               </div>
