@@ -332,7 +332,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
 
     private updateInput(inputName: string, inputValue: string|number|boolean) {
         const input = {};
-        input[inputName] = inputValue;
+        input[inputName] = typeof(inputValue) === 'string' ? inputValue.trim() : inputValue;
 
         const inputs = Object.assign({}, this.state.inputs, input);
         this.setState({
