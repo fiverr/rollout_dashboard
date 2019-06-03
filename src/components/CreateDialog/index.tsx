@@ -42,7 +42,7 @@ interface CreateDialogState {
         target_audience_seller?: string;
         is_pro?: boolean;
         platform?: string;
-        countries?: string[];
+        country?: string;
     };
 }
 
@@ -61,7 +61,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
           target_audience_seller: '',
           is_pro: false,
           platform: '',
-          countries: ['all'],
+          country: '',
         }
       };
 
@@ -104,6 +104,10 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
             errors['platform'] = REQUIRED_FIELD;
         }
 
+        if (!this.state.inputs.country) {
+            errors['country'] = REQUIRED_FIELD;
+        }
+
         this.setState({errors});
         return !Object.keys(errors).length;
     }
@@ -136,7 +140,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
           description,
           percentage,
           platform,
-          countries,
+          country,
       } = inputs;
 
       const subdomains = SUB_DOMAINS_MAPPING[domain] || [];
@@ -224,7 +228,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                              style={(styles.customWidth)}
                              autoWidth={false}
                              errorText={errors['domain']}
-                             onChange={(_, __, value: string) => { this.updateInputDomain('domain', value); }}>
+                             onChange={(_, __, value: string) => { this.updateInput('domain', value); }}>
                     {Object.keys(DOMAINS).map((key) => 
                         <MenuItem value={key} 
                                   insetChildren={true} 
@@ -293,13 +297,13 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                                   key={key} /> )}
                 </SelectField>
 
-                <SelectField value={countries} 
-                             key="countries"
-                             multiple={true}
-                             floatingLabelText="Select a list of countries"
+                <SelectField value={country} 
+                             key="country"
+                             floatingLabelText="Select a country"
                              style={(styles.customWidth)}
                              autoWidth={false}
-                             onChange={(_, __, value: string) => { this.updateInput('countries', value); }}>
+                             errorText={errors['country']}
+                             onChange={(_, __, value: string) => { this.updateInput('country', value); }}>
                     {Object.keys(COUNTRIES).map((key) => 
                         <MenuItem value={key} 
                                   insetChildren={true} 
@@ -329,17 +333,6 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
     private updateInput(inputName: string, inputValue: string|number|boolean) {
         const input = {};
         input[inputName] = inputValue;
-
-        const inputs = Object.assign({}, this.state.inputs, input);
-        this.setState({
-            inputs,
-        });
-    }
-
-    private updateInputDomain(inputName: string, inputValue: string|number) {
-        const input = {};
-        input[inputName] = inputValue;
-        input['subdomain'] = Object.keys(SUB_DOMAINS_MAPPING[inputValue])[0];
 
         const inputs = Object.assign({}, this.state.inputs, input);
         this.setState({

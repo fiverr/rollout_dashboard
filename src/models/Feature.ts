@@ -15,7 +15,7 @@ export interface IFeature {
     target_audience_seller?: string;
     is_pro?: boolean;
     platform?: string;
-    countries?: string[];
+    country?: string;
     update_reason?: string;
 }
 
@@ -33,7 +33,7 @@ export class Feature {
     public target_audience_seller: string;
     public is_pro: boolean;
     public platform: string;
-    public countries: string[];
+    public country: string;
     public update_reason: string;
     public createdAt: string;
     public percentage: number;
@@ -52,8 +52,8 @@ export class Feature {
         this.target_audience_seller = payload.target_audience_seller || '';
         this.is_pro = payload.is_pro || false;
         this.platform = payload.platform || '';
-        this.countries = payload.countries || [];
-        this.update_reason = '';
+        this.country = payload.country || '';
+        this.update_reason = payload.update_reason || 'created';
         this.percentage = payload.percentage || 0;
         this.setHistory(payload.history || []);
         this.setUpdatedAt();
