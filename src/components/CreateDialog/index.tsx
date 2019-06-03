@@ -141,6 +141,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
           percentage,
           platform,
           country,
+          is_pro,
       } = inputs;
 
       const subdomains = SUB_DOMAINS_MAPPING[domain] || [];
@@ -218,6 +219,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
               <Toggle label="Is PRO"
                       labelPosition="right"
                       defaultToggled={false}
+                      toggled={is_pro}
                       style={styles.toggle}
                       onToggle={(_, value) => this.updateInput('is_pro', value) } />
 
