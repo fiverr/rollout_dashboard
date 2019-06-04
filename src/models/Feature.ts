@@ -53,7 +53,7 @@ export class Feature {
         this.is_pro = payload.is_pro || false;
         this.platform = payload.platform || '';
         this.country = payload.country || '';
-        this.update_reason = payload.update_reason || 'created';
+        this.update_reason = payload.update_reason || '';
         this.percentage = payload.percentage || 0;
         this.setHistory(payload.history || []);
         this.setUpdatedAt();
