@@ -96,7 +96,6 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
                     floatingLabelFixed={true}
                     fullWidth={true}
                     onChange={ (_, value) => {
-                        console.log({value});
                         this.updateFeature('description', value);
                     }}
                 />
