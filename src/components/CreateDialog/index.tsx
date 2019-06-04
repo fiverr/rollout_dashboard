@@ -84,29 +84,19 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
             errors['name'] = 'This name must follow this pattern "^[a-z_]+$"';
         }
 
-        if (!this.state.inputs.domain) {
-            errors['domain'] = REQUIRED_FIELD;
-        }
-
-        if (!this.state.inputs.subdomain) {
-            errors['subdomain'] = REQUIRED_FIELD;
-        }
-
-        if (!this.state.inputs.target_audience_buyer) {
-            errors['target_audience_buyer'] = REQUIRED_FIELD;
-        }
-
-        if (!this.state.inputs.target_audience_seller) {
-            errors['target_audience_seller'] = REQUIRED_FIELD;
-        }
-
-        if (!this.state.inputs.platform) {
-            errors['platform'] = REQUIRED_FIELD;
-        }
-
-        if (!this.state.inputs.country) {
-            errors['country'] = REQUIRED_FIELD;
-        }
+        Object.assign(
+          errors,
+          ...[
+            'domain',
+            'subdomain',
+            'target_audience_buyer',
+            'target_audience_seller',
+            'platform',
+            'country',
+          ]
+          .filter(key => !this.state.inputs[key])
+          .map(key => ({[key]: REQUIRED_FIELD}))
+        );
 
         this.setState({errors});
         return !Object.keys(errors).length;
