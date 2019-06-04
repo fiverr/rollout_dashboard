@@ -5,7 +5,6 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import TextField from 'material-ui/TextField';
-import FlatButton from 'material-ui/FlatButton';
 import {green500, amber500, blueGrey500 } from 'material-ui/styles/colors';
 import * as moment from 'moment';
 import {Feature} from '../../models/Feature';
@@ -17,9 +16,11 @@ interface FeaturesProps {
     features: Feature[];
     openDeleteDialog: any;
     openCreateDialog: any;
+    openEnrichedDialog: any;
     openEditDialog: any;
     googleAuth: any;
     getFeatures: () => {};
+    getEnrichedData: (featureName) => Promise<any>;    
 }
 
 interface FeaturesState {
@@ -36,6 +37,13 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
             search: null,
             markedSearchBox: true,
         };
+
+        this.onOpenEnrichedDialog = this.onOpenEnrichedDialog.bind(this);
+    }
+
+    onOpenEnrichedDialog(featureName: string) {
+        this.props.getEnrichedData(featureName)
+            .then(this.props.openEnrichedDialog);
     }
 
     public render() {
@@ -187,28 +195,28 @@ class Features extends React.Component<FeaturesProps, FeaturesState> {
                         />
 
                         <Column fixed={true}
-                                width={150}
-                                header={<Cell className="standard-text">More Information</Cell>}
-                                cell={({rowIndex}) => {
-                                    return (
-                                        <Cell>
-                                            <FlatButton label="Enrich" fullWidth={true} primary={true} />
-                                        </Cell>
-                                    )}}
-                        />
-
-                        <Column fixed={true}
                                 width={80}
                                 header={<Cell className="standard-text">Actions</Cell>}
                                 cell={({rowIndex}) => {
                                     const featureName = sortedFeatures[rowIndex].name;
 
                                     return (<Cell>
+
                                         <IconMenu
                                             maxHeight={300}
                                             width={100}
                                             useLayerForClickAway={true}
                                             iconButtonElement={<IconButton iconStyle={{color: blueGrey500}}> <FontIcon className="material-icons">settings</FontIcon></IconButton>}>
+
+                                            <MenuItem
+                                                primaryText="INFO"
+                                                onKeyDown={(event) => {
+                                                    if(event.keyCode != 13) { return; }
+                                                    this.onOpenEnrichedDialog(sortedFeatures[rowIndex].name)
+                                                }}
+                                                onClick={() => {
+                                                    this.onOpenEnrichedDialog(sortedFeatures[rowIndex].name)
+                                                }} />
 
                                             <MenuItem primaryText="EDIT"
                                                         onClick={() => {

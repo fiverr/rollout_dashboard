@@ -27,6 +27,26 @@ const getFeatures = () => {
     };
 };
 
+const getEnrichedData = (featureName: string) => (dispatch: Dispatch<any>, getState: any): Promise<any> => {
+    dispatch({ type: actionTypes.FETCHING_ENRICHED_DATA_START });
+
+    const idToken = getState().getIn(['googleAuth', 'id_token']);
+
+    return fetch(`${ROLLOUT_SERVICE_URL}/enrich/${featureName}?id_token=${idToken}`, {
+        headers: {'Content-Type': 'application/json',},
+        credentials: 'same-origin'
+    })
+        .then((response) => response.json())
+        .then((json: any) => {
+            let enriched_data: any[] = json.data;
+            dispatch({type: actionTypes.FETCHING_ENRICHED_DATA_END});
+            dispatch({type: actionTypes.FETCHED_ENRICHED_DATA, enriched_data});
+        })
+        .catch(e => {
+            dispatch(sendSnakeMessage(`An Error occurred. Please try again.`));
+        });
+};
+
 const openDeleteDialog = (featureName: string) => {
     return {
         type: actionTypes.OPEN_DELETE_DIALOG,
@@ -130,6 +150,18 @@ const closeCreateDialog = () => {
     };
 };
 
+const openEnrichedDialog = () => {
+    return {
+        type: actionTypes.OPEN_ENRICHED_DIALOG,
+    };
+};
+
+const closeEnrichedDialog = () => {
+    return {
+        type: actionTypes.CLOSE_ENRICHED_DIALOG,
+    };
+};
+
 const createFeature = (feature: Feature) => {
     return (dispatch: any, getState: any) => {
 
@@ -199,6 +231,9 @@ export {
     sendSnakeMessage,
     clearSnakeMessage,
     googleAuthentication,
+    getEnrichedData,
+    openEnrichedDialog,
+    closeEnrichedDialog
 }
 
 

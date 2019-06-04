@@ -6,9 +6,11 @@ import Component from '../components/Features/'
 const mapStateToProps = (state: any) => {
   return {
       features: state.get('features'),
+      enriched_data: state.get('enriched_data'),
       deleteDialog: state.get('deleteDialog'),
       editDialog: state.get('editDialog'),
       createDialog: state.get('createDialog'),
+      enrichedDialog: state.get('enrichedDialog'),
       googleAuth: state.get('googleAuth'),
     };
 };

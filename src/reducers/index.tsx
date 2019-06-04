@@ -17,6 +17,15 @@ const reducers = (state = initialState , action) => {
     case actionTypes.FETCHED_FEATURES: {
       return state.set('features', action.features);
     }
+    case actionTypes.FETCHING_ENRICHED_DATA_START: {
+      return state.set('fetching_enriched_data', true);
+    }
+    case actionTypes.FETCHING_ENRICHED_DATA_END: {
+      return state.set('fetching_enriched_data', false);
+    }
+    case actionTypes.FETCHED_ENRICHED_DATA: {
+      return state.set('enriched_data', action.enriched_data);
+    }
     case actionTypes.OPEN_DELETE_DIALOG: {
       return state.set('deleteDialog', {featureName: action.featureName});
     }
@@ -41,6 +50,12 @@ const reducers = (state = initialState , action) => {
     }
     case actionTypes.CLOSE_CREATE_DIALOG: {
       return state.delete('createDialogVisible');
+    }
+    case actionTypes.OPEN_ENRICHED_DIALOG: {
+      return state.set('createEnrichedDialogVisible', true);
+    }
+    case actionTypes.CLOSE_ENRICHED_DIALOG: {
+      return state.delete('createEnrichedDialogVisible');
     }
     case actionTypes.CREATED_FEATURE: {
       return state.update('features', (features: Feature[]) => {
