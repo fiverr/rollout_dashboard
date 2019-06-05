@@ -54,7 +54,7 @@ class EnrichedDialog extends React.Component<EnrichedDialogProps> {
                       actions={dialogActions}
                       open={true}
                       onRequestClose={closeEnrichedDialog}
-                      title="Enriched Preveiw"
+                      title="Enriched Preview"
                       autoScrollBodyContent={true}>
 
           <br/>
