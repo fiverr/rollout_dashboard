@@ -57,11 +57,12 @@ class EnrichedDialog extends React.Component<EnrichedDialogProps> {
                       title="Enriched Preveiw"
                       autoScrollBodyContent={true}>
 
+          <br/>
           <table className="enriched-data">
             <tr><th>Enriched Field</th><th>Value</th></tr>
               {
                 entries.map(
-                  ([label, value]) => <tr><td>{label}</td><td>{value}</td></tr>
+                  ([label, value]) => <tr><td>{label}</td><td title={value}><div>{value}</div></td></tr>
                 )
               }
           </table>

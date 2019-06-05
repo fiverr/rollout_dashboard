@@ -1,7 +1,7 @@
 .dialog-enriched {
 
     > div > div {
-        max-width: 419px !important;
+        width: 512px !important;
     }
 
     .field {
@@ -25,11 +25,12 @@
 }
 
 table.enriched-data {
-    margin: 1em 0 0;
     color: #333;
     border: 0;
     width: 100%;
+    max-width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 
     tr:nth-child(odd) {
         background: lighten(#673AB7, 50%);
@@ -43,8 +44,16 @@ table.enriched-data {
     }
     td, th {
         padding: .5em;
-    }
-    td:first-child {
-        font-weight: bold;
+        
+        &:first-child {
+            font-weight: bold;
+            width: 33%;
+        }
+
+        div {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 }
