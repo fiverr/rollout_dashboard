@@ -38,7 +38,7 @@ const getEnrichedData = (featureName: string) => (dispatch: Dispatch<any>, getSt
     })
         .then((response) => response.json())
         .then((json: any) => {
-            let enriched_data: any[] = json.data;
+            const enriched_data: any[] = json.data;
             dispatch({type: actionTypes.FETCHING_ENRICHED_DATA_END});
             dispatch({type: actionTypes.FETCHED_ENRICHED_DATA, enriched_data});
         })
