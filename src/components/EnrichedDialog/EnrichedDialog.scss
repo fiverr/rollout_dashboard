@@ -1,0 +1,50 @@
+.dialog-enriched {
+
+    > div > div {
+        max-width: 419px !important;
+    }
+
+    .field {
+        display: block !important;
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        background-color: #673AB7;
+        color: white !important;
+        text-align: center;
+    }
+
+    .center-text {
+        text-align: center;
+    }
+
+    .extended-attributes {
+        clear: both;
+    }
+}
+
+table.enriched-data {
+    margin: 1em 0 0;
+    color: #333;
+    border: 0;
+    width: 100%;
+    border-collapse: collapse;
+
+    tr:nth-child(odd) {
+        background: lighten(#673AB7, 50%);
+    }
+    tr:first-child {
+        background: lighten(#673AB7, 25%);
+        color: white;
+    }
+    th {
+        text-align: left;
+    }
+    td, th {
+        padding: .5em;
+    }
+    td:first-child {
+        font-weight: bold;
+    }
+}
