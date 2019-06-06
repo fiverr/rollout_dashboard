@@ -6,11 +6,7 @@ import Users from '../Inputs/Users/index';
 import PercentageSelect from '../Inputs/PercentageSelect';
 import './EditDialog.scss';
 import {IFeature} from '../../models/Feature';
-import EnrichedData from '../Inputs/EnrichedData';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
 
-const REASONS = EnrichedData.REASONS;
 const REQUIRED_FIELD = 'This field is required';
 
 interface EditDialogProps {
@@ -100,19 +96,6 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
                     }}
                 />
 
-                <SelectField value={feature.update_reason} 
-                             key="update_reason"
-                             floatingLabelText="Update Reason"
-                             errorText={errors.update_reason}
-                             autoWidth={false}
-                             onChange={(_, __, value: string) => { this.updateFeature('update_reason', value); }}>
-                    {Object.keys(REASONS).map((key) => 
-                        <MenuItem value={key} 
-                                  insetChildren={true} 
-                                  primaryText={REASONS[key]} 
-                                  key={key} /> )}
-                </SelectField>
-
                 <PercentageSelect currentValue={feature.percentage}
                                     onChange={ (_: any, value: number) => { this.updateFeature('percentage', value) }} />
 
@@ -142,10 +125,6 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
 
         if (!this.props.feature.description) {
             errors['description'] = REQUIRED_FIELD;
-        }
-
-        if (!this.props.feature.update_reason) {
-            errors['update_reason'] = REQUIRED_FIELD;
         }
         
         this.setState({errors});

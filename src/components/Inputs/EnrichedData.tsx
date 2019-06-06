@@ -366,12 +366,6 @@ const EnrichedData = {
       web_and_mobile_web: 'Web & Mobile Web',
     },
     COUNTRIES,
-    REASONS: {
-        bug: 'Bug',
-        test_won: 'Test Succeeded',
-        test_lost: 'Test Failed',
-        other: 'Other',
-    },
 };
 
 export default EnrichedData
