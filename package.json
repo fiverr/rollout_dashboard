@@ -9,7 +9,9 @@
     "build": "node_modules/.bin/webpack --config webpack/webpack.config.dev.js --watch",
     "start:prod": "npm run build:prod && npm run stop:prod && NODE_ENV=\"production\" pm2 start app.js --name rollout-dashboard",
     "build:prod": "NODE_ENV=\"production\" node_modules/.bin/webpack --config webpack/webpack.config.production.js",
-    "stop:prod": "NODE_ENV=\"production\" pm2 kill --name rollout-dashboard"
+    "stop:prod": "NODE_ENV=\"production\" pm2 kill --name rollout-dashboard",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "license": "ISC",
   "dependencies": {
@@ -37,7 +39,8 @@
     "ts-loader": "^2.0.3",
     "typescript": "^2.2.2",
     "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^1.16.2",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",
@@ -51,5 +54,6 @@
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2",
     "webpack-hot-middleware": "^2.18.0"
-  }
+  },
+  "snyk": true
 }
