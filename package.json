@@ -33,7 +33,7 @@
     "redux-thunk": "^2.1.0",
     "shipit-deploy": "2.2",
     "shipit-shared": "4.4.1",
-    "style-loader": "^0.13.1",
+    "style-loader": "^0.23.1",
     "ts-loader": "^2.0.3",
     "typescript": "^2.2.2",
     "webpack": "^1.14.0",
