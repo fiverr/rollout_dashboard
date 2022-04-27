@@ -128,10 +128,10 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
         this.updateFeature('users', users);
     }
 
-    private addUser(userID: number) {
-        const users  = this.props.feature.users;
-        if (users.filter((user) => user === userID ).length) { return; }
-        this.updateFeature('users', users.concat(userID));
+    private addUser(userIDs: number[]) {
+        const users = this.props.feature.users;
+        const newUsers = userIDs.filter((userId) => users.indexOf(userId) === -1);
+        this.updateFeature('users', users.concat(newUsers));
     }
 
     private updateFeature(inputName: string, inputValue: string | number| number[]) {

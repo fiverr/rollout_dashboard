@@ -5,7 +5,7 @@ import Chip from 'material-ui/Chip';
 
 interface UsersProps {
     users: number[];
-    onAdd: (userID: number) => void;
+    onAdd: (userIDs: number[]) => void;
     onDelete: (userID: number) => void;
 }
 
@@ -21,9 +21,10 @@ const Users = (props: UsersProps) => {
                 pattern="[\\w-]+"
                 onKeyDown={(event) => {
                     if (event.keyCode !== 13) { return; }
-                    if (!event.target.value.match(/^[\w-]+$/)) { return; }
+                    const match = event.target.value.match(/^[0-9,]+$/);
+                    if (!match) { return; }
 
-                    props.onAdd(event.target.value);
+                    props.onAdd(match.input.split(','));
                     event.target.value = '';
                 }}
             />
