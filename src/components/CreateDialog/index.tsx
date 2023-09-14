@@ -33,7 +33,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
       super(props);
       this.state = { users: [], errors: {}, inputs: {name: ''} };
       this.removeUser = this.removeUser.bind(this);
-      this.addUser = this.addUser.bind(this);
+      this.addUsers = this.addUsers.bind(this);
       this.updateInput = this.updateInput.bind(this);
     }
 
@@ -129,7 +129,7 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
                                 onChange={ (_ : any, value: number) => { this.updateInput('percentage', value) }} />
           </div>
 
-          <Users users={this.state.users} onAdd={this.addUser} onDelete={this.removeUser}  />
+          <Users users={this.state.users} onAdd={this.addUsers} onDelete={this.removeUser}  />
 
       </Dialog>)
   }
@@ -139,12 +139,12 @@ class CreateDialog extends React.Component<CreateDialogProps, CreateDialogState>
         this.setState({users});
     }
 
-    private addUser(userID: any) {
-        const users  = this.state.users;
-        if (users.filter((user) => user === userID ).length) { return; }
+    private addUsers(userIDs: any) {
+        const newUsers = userIDs.filter((userID) => !this.state.users.includes(userID));
 
-        users.push(userID);
-        this.setState({users});
+        if (!newUsers.length) { return; }
+
+        this.setState({users: this.state.users.concat(newUsers)});
     }
 
     private updateInput(inputName: string, inputValue: string|number) {

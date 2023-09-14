@@ -31,7 +31,7 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
     constructor(props: any) {
         super(props);
         this.removeUser = this.removeUser.bind(this);
-        this.addUser = this.addUser.bind(this);
+        this.addUsers = this.addUsers.bind(this);
         this.updateFeature = this.updateFeature.bind(this);
     }
 
@@ -118,7 +118,7 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
                     }}
                 />
 
-                <Users users={feature.users} onAdd={this.addUser} onDelete={this.removeUser} />
+                <Users users={feature.users} onAdd={this.addUsers} onDelete={this.removeUser} />
             </div>
 
         </Dialog>);
@@ -128,10 +128,12 @@ class EditDialog extends React.Component<EditDialogProps, EditDialogState> {
         this.updateFeature('users', users);
     }
 
-    private addUser(userID: number) {
-        const users  = this.props.feature.users;
-        if (users.filter((user) => user === userID ).length) { return; }
-        this.updateFeature('users', users.concat(userID));
+    private addUsers(userIDs: number[]) {
+        const newUsers = userIDs.filter((userID) => !this.props.feature.users.includes(userID));
+
+        if (!newUsers.length) { return; }
+
+        this.updateFeature('users', this.props.feature.users.concat(newUsers));
     }
 
     private updateFeature(inputName: string, inputValue: string | number| number[]) {
